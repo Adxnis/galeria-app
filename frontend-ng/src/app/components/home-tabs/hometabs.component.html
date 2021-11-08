@@ -1,0 +1,18 @@
+<div class="nav-bar" style="padding: 10px 10px 0;">
+  <nav>
+    <ul>
+      <li [ngClass]="{'active': isActive === tabs.albums}">
+        <ion-button strong="true" (click)="goTo('albums')" style="border-right: 1px solid black;" size='small' fill='clear' >
+          Albums</ion-button>
+      </li>
+      <li [ngClass]="{'active': isActive === tabs.photos}">
+        <ion-button strong="true" (click)="goTo('photos')" size='small' fill='clear' >Photos</ion-button>
+      </li>
+      <li [ngClass]="{'active': isActive === tabs.shared}">
+        <ion-button strong="true" (click)="goTo('shared')" style="border-left: 1px solid black;" size='small' fill='clear' >Shared
+        </ion-button>
+      </li>
+    </ul>
+  </nav>
+</div>
+

@@ -1,0 +1,29 @@
+<div class="header w3-card" style="background-color: rgb(9, 58, 114);">
+  <header>
+    <h2>{{title}}</h2>
+  </header>
+  <ion-icon routerLink="/login" (click)="logout()" style="font-size: 25px; cursor:pointer; align-self:flex-end" name="menu-sharp"></ion-icon>
+</div>
+
+<div class="main-bar">
+  <!-- Albums | Photos | Shared -->
+
+  <div style="align-self: flex-end;">
+    <app-hometabs (buttonSetActive)="setActiveTab($event)"></app-hometabs>
+  </div>
+
+  <!-- Search bar with search icon -->
+  <div class="search" style="border-radius: 20px; border:˚ 1px solid rgb(9, 58, 114);margin-bottom:-2px;">
+    <ion-searchbar style="--border-radius: 20px;--box-shadow:0; --icon-color: rgb(9, 58, 114)" animated></ion-searchbar>
+  </div>
+
+  <!-- Sort & View -->
+  <div class="options">
+    <label>Sort</label>
+    <ion-icon (click)="presentSortMenu($event)"class="options-icons"  name='funnel'></ion-icon>
+
+    <label style="padding-left: 10px;padding-bottom:15px">View</label>
+    <ion-icon (click)="presentViewMenu($event)" class="options-icons"  name="grid"></ion-icon>
+  </div>
+
+</div>

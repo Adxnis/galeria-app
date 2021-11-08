@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+
+
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  }
+  },
+  {
+    path: '',
+    loadChildren: () => import('./public/public.module').then( m => m.PublicPageModule)
+  },
+
+
+
 ];
 @NgModule({
   imports: [

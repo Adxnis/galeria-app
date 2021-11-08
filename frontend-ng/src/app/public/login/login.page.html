@@ -1,0 +1,21 @@
+<div id="container">
+    <form [formGroup]="form" (click)="submit()">
+        <div class="con">
+            <h3 style="width:100%">Galeria</h3>
+            <div class="field-set">
+                <input formControlName="username" class="form-input" id="txt-input" type="text" placeholder="Username"
+                    name="username" required>
+                <br>
+                <input formControlName="password" class="form-input" type="password" placeholder="Password" id="pwd"
+                    name="password" required>
+                <br>
+                <button class="log-in"> Log In </button>
+            </div>
+            <div class="other">
+                <button class="btn submits frgt-pass">Forgot Password</button>
+                <button routerLink="/register" class="btn submits sign-up">Sign Up
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

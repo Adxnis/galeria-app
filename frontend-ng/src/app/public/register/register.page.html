@@ -1,0 +1,27 @@
+<div id="container" >
+	<form >
+		<div class="con">
+			<h3 style="width:100%">Galeria</h3>
+			<div class="field-set">
+				<input class="form-input" id="txt-input"   [(ngModel)]="username" name="username" type="text" placeholder="username" required>
+				<br>
+				<input [(ngModel)]="firstName" class="form-input" type="text" placeholder="first name" id="pwd" name="first_name"required>
+				<br>
+				<input [(ngModel)]="lastName" class="form-input" type="text" placeholder="last name" id="pwd" name="last_name" required>
+				<br>
+				<input [(ngModel)]="email" class="form-input" type="email" placeholder="email" id="pwd" name="email" required>
+				<br>
+				<input [(ngModel)]="password" class="form-input" type="text" placeholder="password" id="pwd" name="password" required>
+				<br>
+				<input [(ngModel)]="passwordConfirm" class="form-input" type="text" placeholder="password confirmation" id="pwd" name="password_confirm" required>
+				<br>
+				<button (click)="submit()" class="log-in"> Create </button>
+			</div>
+			<div class="other">
+				<button class="btn submits frgt-pass">Forgot Password</button>
+				<button routerLink="/login" class="btn submits sign-up">Sign Up
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
