@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { SortPopoverComponent } from 'src/app/modals/sort-popover/sort-popover.component';
 import { AuthService } from 'src/app/services/auth.service';
-import {ViewPopoverComponent} from '../../modals/view-popover/view-popover.component';
+import {ViewPopoverComponent} from '../../../modals/view-popover/view-popover.component';
 
 @Component({
   selector: 'app-header',

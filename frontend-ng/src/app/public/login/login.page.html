@@ -1,6 +1,6 @@
 <div id="body">
     <div id="container">
-        <form [formGroup]="form" (click)="submit()">
+        <form [formGroup]="form" >
             <div class="con">
                 <h3 style="width:100%; padding-bottom:20px">Galeria</h3>
                 <div class="field-set">
@@ -9,7 +9,7 @@
                     <br>
                     <ion-input formControlName="password" type="password" placeholder="Password" id="pwd" name="password" required></ion-input>
                     <br>
-                    <ion-button size="small" class="log-in"> Log In </ion-button>
+                    <ion-button (click)="submit()" size="small" class="log-in"> Log In </ion-button>
                 </div>
     
                 <div class="other" style="padding-top: 20px;" >

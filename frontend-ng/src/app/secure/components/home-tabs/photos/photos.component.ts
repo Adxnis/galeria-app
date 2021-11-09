@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { UploadPhotoComponent } from '../../../modals/upload-photo/upload-photo.component';
+import { UploadPhotoComponent } from '../../../../modals/upload-photo/upload-photo.component';
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',

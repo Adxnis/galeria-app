@@ -1,11 +1,12 @@
 <div style="display:flex;flex-direction:column;justify-content:space-between; height: 400px;padding:10px;">
+  <form [formGroup]="form">
   <div>
     <ion-item style="--highlight-color-focused: green">
-      <ion-input placeholder="Album Name"></ion-input>
+      <ion-input formControlName="photoName" name="name" placeholder="Add photo name"></ion-input>
     </ion-item>
   </div>
 
-  <div>
+  <!-- <div>
     <ion-item style="--highlight-color-focused: green">
       <ion-input placeholder="Tags"></ion-input>
     </ion-item>
@@ -19,14 +20,18 @@
   <div>
     <label>Sharing Options</label><br>
     <label>Allow photo to be in Discover</label>
-  </div>
+  </div> -->
 
   <div>
 
   </div>
-  
   <div style="align-self: center;">
-    <ion-button>Select</ion-button>
-    <ion-button>Upload</ion-button>
+    <app-upload></app-upload>
   </div>
+
+  <div style="align-self: center;">
+    <ion-button>add</ion-button>
+  </div>
+</form>
+
 </div>

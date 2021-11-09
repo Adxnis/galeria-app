@@ -1,6 +1,6 @@
 <div id="body">
 	<div id="container" >
-		<form >
+		<form  (ngSubmit)="submit()">
 			<div class="con">
 				<h3 style="width:100%">Galeria</h3>
 				<div class="field-set">
@@ -18,7 +18,7 @@
 					<br>
 					<ion-input [(ngModel)]="passwordConfirm" class="form-input" type="text" placeholder="password confirmation" id="pwd" name="passwo	rd_confirm" required></ion-input>
 					<br>
-					<ion-button (click)="submit()" class="log-in">Create</ion-button>
+					<ion-button  class="log-in">Create</ion-button>
 				</div>
                 <div class="other" style="padding-top: 20px;" >
                     <ion-button  mode="ios"  fill="outline" size="small" class="btn submits frgt-pass">Forgot Password</ion-button>
