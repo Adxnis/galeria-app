@@ -17,8 +17,9 @@ class CreatePhotoTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
-            $table->decimal('size');
-            $table->dateTime('date_last_modified');
+            $table->string('file_name');
+            $table->string('size');
+            // $table->dateTime('date_last_modified');
             $table->string('file_type', 5);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('user');

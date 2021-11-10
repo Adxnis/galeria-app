@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { dismiss } from '@ionic/core/dist/types/utils/overlays';
+import { PhotoService } from 'src/app/services/photo.service';
 import { environment } from 'src/environments/environment';
 import { AddToAlbumComponent } from '../add-to-album/add-to-album.component';
 @Component({
@@ -13,16 +15,17 @@ export class UploadPhotoComponent implements OnInit {
   form: FormGroup;
 
   constructor(private modalController: ModalController, private http: HttpClient,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder, private photoService: PhotoService, ) { }
 
 
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      photoName: '',
-      fileName: '',
-      fileType: '',
-      dateLastModified: ''
+      name: '',
+      file_name: '',
+      file_type: '',
+      date_last_modified: '',
+      size: '',
     })
   }
 
@@ -33,6 +36,27 @@ export class UploadPhotoComponent implements OnInit {
     });
     return await modal.present();
   }
+
+  public addToForm(photoInfo){
+    console.log(photoInfo);
+    this.form.patchValue({
+      'file_name': photoInfo[0],
+      'file_type': photoInfo[1],
+      'size': photoInfo[2],
+    });
+  }
+
+  
+  submit() {
+    this.photoService.addPhoto(this.form.getRawValue()).subscribe();
+    this.closeModal();
+  }
+
+  async closeModal(): Promise<void> {
+    await this.modalController.dismiss();
+  }
+
+  
 
 
 

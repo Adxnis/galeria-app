@@ -16,9 +16,10 @@ class PhotoFactory extends Factory
     {
         return [ 
             'name' => $this->faker->name(),
-            'size' => $this->faker->numberBetween(1,1000),
+            'file_name' => $this->faker->title(),
+            'size' => $this->faker->text(),
             'file_type' => $this->faker->text(5),
-            'date_last_modified' => $this->faker->dateTime()
+            // 'date_last_modified' => $this->faker->dateTime()
         ];
     }
 }

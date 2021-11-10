@@ -1,8 +1,8 @@
 <div style="display:flex;flex-direction:column;justify-content:space-between; height: 400px;padding:10px;">
-  <form [formGroup]="form">
+  <form [formGroup]="form" >
   <div>
     <ion-item style="--highlight-color-focused: green">
-      <ion-input formControlName="photoName" name="name" placeholder="Add photo name"></ion-input>
+      <ion-input formControlName="name" name="name" placeholder="Add photo name"></ion-input>
     </ion-item>
   </div>
 
@@ -26,11 +26,11 @@
 
   </div>
   <div style="align-self: center;">
-    <app-upload></app-upload>
+    <app-upload (uploaded)=addToForm($event)></app-upload>
   </div>
 
   <div style="align-self: center;">
-    <ion-button>add</ion-button>
+    <ion-button (click)="submit()">add</ion-button>
   </div>
 </form>
 

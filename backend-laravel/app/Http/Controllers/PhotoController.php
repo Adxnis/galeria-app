@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PhotoController extends Controller
 {
@@ -11,9 +13,12 @@ class PhotoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Photo::all();
+
+        // return Auth::user()->id;
+
     }
 
     /**
@@ -24,7 +29,14 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $photo = Photo::create([
+            'user_id' => Auth::user()->id,
+            'name' => $request->input('name'),
+            'file_name' => $request->input('file_name'),
+            'size' => $request->input('size'),
+            // 'date_last_modified' => $request->input('date_last_modified'),
+            'file_type'=> $request->input('file_type'),
+        ]);
     }
 
     /**
@@ -59,5 +71,11 @@ class PhotoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getUserPhotos(Request $request) {
+
+        $user_id = Auth::user()->id;
+        return Photo::where('user_id', "=" ,$user_id)->get();
     }
 }

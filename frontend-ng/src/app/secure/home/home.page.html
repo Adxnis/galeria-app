@@ -1,13 +1,13 @@
 <div>
-  <app-header (displayActiveTab)="display($event)"></app-header>
+    <app-header (displayActiveTab)="display($event)"></app-header>
 
-  <div *ngIf="activeTab === 'albums'">
-      <app-albums></app-albums>
-  </div>
-  <div *ngIf="activeTab === 'photos'">
-      <app-photos></app-photos>
-  </div>
-  <div *ngIf="activeTab === 'shared'">
-      <app-shared></app-shared>
-  </div>
+    <div *ngIf="activeTab === 'albums'">
+        <app-albums></app-albums>
+    </div>
+    <div *ngIf="activeTab === 'photos'">
+        <app-photos></app-photos>
+    </div>
+    <div *ngIf="activeTab === 'shared'">
+        <app-shared></app-shared>
+    </div>
 </div>
