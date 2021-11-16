@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { CreateNewAlbumComponent } from 'src/app/modals/create-new-album/create-new-album.component';
+import { CreateNewAlbumComponent } from 'src/app/secure/modals/create-new-album/create-new-album.component';
 
 @Component({
   selector: 'app-albums',

@@ -8,11 +8,11 @@ import { HometabsComponent } from './secure/components/home-tabs/hometabs.compon
 import { AlbumsComponent } from './secure/components/home-tabs/albums/albums.component';
 import { PhotosComponent } from './secure/components/home-tabs/photos/photos.component';
 import { SharedComponent } from './secure/components/home-tabs/shared/shared.component';
-import { CreateNewAlbumComponent } from './modals/create-new-album/create-new-album.component';
-import { ViewPopoverComponent } from './modals/view-popover/view-popover.component';
-import { SortPopoverComponent } from './modals/sort-popover/sort-popover.component';
-import { UploadPhotoComponent } from './modals/upload-photo/upload-photo.component';
-import { AddToAlbumComponent } from './modals/add-to-album/add-to-album.component';
+import { CreateNewAlbumComponent } from './secure/modals/create-new-album/create-new-album.component';
+import { ViewPopoverComponent } from './secure/modals/view-popover/view-popover.component';
+import { SortPopoverComponent } from './secure/modals/sort-popover/sort-popover.component';
+import { UploadPhotoComponent } from './secure/modals/upload-photo/upload-photo.component';
+import { AddToAlbumComponent } from './secure/modals/add-to-album/add-to-album.component';
 import {UploadComponent} from './secure/components/upload/upload.component';
 
 import { CredentialsInterceptor } from './interceptors/credentials.interceptor';

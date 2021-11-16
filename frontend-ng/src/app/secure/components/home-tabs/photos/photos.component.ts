@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
 import { PhotoService } from 'src/app/services/photo.service';
 import { environment } from 'src/environments/environment';
-import { UploadPhotoComponent } from '../../../../modals/upload-photo/upload-photo.component';
+import { UploadPhotoComponent } from '../../../../secure/modals/upload-photo/upload-photo.component';
 import { map, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-photos',
@@ -41,7 +41,7 @@ export class PhotosComponent implements OnInit {
     await modal.present();
     modal.onDidDismiss().then(() => {
       this.getPhotos();
-  });
+    });
 
   }
 

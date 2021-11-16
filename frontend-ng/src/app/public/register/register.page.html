@@ -1,30 +1,46 @@
 <div id="body">
-	<div id="container" >
-		<form  (ngSubmit)="submit()">
+	<div id="container">
+		<form (ngSubmit)="submit()">
 			<div class="con">
 				<h3 style="width:100%">Galeria</h3>
 				<div class="field-set">
-					<ion-input class="form-input" id="txt-input"   [(ngModel)]="username" name="username" type="text" placeholder="username" required> </ion-input>
+
+					<ion-input class="form-input" id="txt-input" [(ngModel)]="username" name="username" type="text"
+						placeholder="username" required> </ion-input>
 					<br>
+
 					<!-- <div style="display: flex; flex-direction: row;"> -->
-						<ion-input [(ngModel)]="firstName" class="form-input" type="text" placeholder="first name" id="pwd" name="first_name"required></ion-input>
-						<br>
-						<ion-input [(ngModel)]="lastName" class="form-input" type="text" placeholder="last name" id="pwd" name="last_name" required></ion-input>
+					<ion-input [(ngModel)]="firstName" class="form-input" type="text" placeholder="first name" id="pwd"
+						name="first_name" required></ion-input>
+					<br>
+
+					<ion-input [(ngModel)]="lastName" class="form-input" type="text" placeholder="last name" id="pwd"
+						name="last_name" required></ion-input>
 					<!-- </div> -->
 					<br>
-					<ion-input [(ngModel)]="email" class="form-input" type="email" placeholder="email" id="pwd" name="email" required></ion-input>
+
+					<ion-input [(ngModel)]="email" class="form-input" type="email" placeholder="email" id="pwd"
+						name="email" required></ion-input>
 					<br>
-					<ion-input [(ngModel)]="password" class="form-input" type="text" placeholder="password" id="pwd" name="password" required></ion-input>
+
+					<ion-input [(ngModel)]="password" class="form-input" type="text" placeholder="password" id="pwd"
+						name="password" required></ion-input>
 					<br>
-					<ion-input [(ngModel)]="passwordConfirm" class="form-input" type="text" placeholder="password confirmation" id="pwd" name="passwo	rd_confirm" required></ion-input>
+
+					<ion-input [(ngModel)]="passwordConfirm" class="form-input" type="text"
+						placeholder="password confirmation" id="pwd" name="passwo	rd_confirm" required></ion-input>
 					<br>
-					<ion-button  class="log-in">Create</ion-button>
+
+					<ion-button class="log-in">Create</ion-button>
 				</div>
-                <div class="other" style="padding-top: 20px;" >
-                    <ion-button  mode="ios"  fill="outline" size="small" class="btn submits frgt-pass">Forgot Password</ion-button>
-                    <ion-button  mode="ios"  fill="outline" size="small" routerLink="/login" class="btn submits sign-up">Log in
-                    </ion-button>
-                </div> 
+				
+				<div class="other" style="padding-top: 20px;">
+					<ion-button mode="ios" fill="outline" size="small" class="btn submits frgt-pass">Forgot Password
+					</ion-button>
+					<ion-button mode="ios" fill="outline" size="small" routerLink="/login" class="btn submits sign-up">
+						Log in
+					</ion-button>
+				</div>
 			</div>
 		</form>
 	</div>

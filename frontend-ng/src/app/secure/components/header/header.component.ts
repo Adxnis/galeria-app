@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
-import { SortPopoverComponent } from 'src/app/modals/sort-popover/sort-popover.component';
+import { SortPopoverComponent } from 'src/app/secure/modals/sort-popover/sort-popover.component';
 import { AuthService } from 'src/app/services/auth.service';
-import {ViewPopoverComponent} from '../../../modals/view-popover/view-popover.component';
+import {ViewPopoverComponent} from '../../../secure/modals/view-popover/view-popover.component';
 
 @Component({
   selector: 'app-header',
@@ -54,6 +54,9 @@ export class HeaderComponent implements OnInit {
         // mode: 'ios'
     });
     await popover.present();
+    await popover.onDidDismiss().then((res) => {
+      console.log(res)
+  });
   }
 
   logout(): void {
