@@ -16,6 +16,6 @@ export class PhotoService {
   }
 
   addPhoto(data: any): Observable<any> {
-    return this.http.post(`${environment.api}/photos`, data)
+    return this.http.post(`${environment.api}/photo`, data)
   }
 }

@@ -48,6 +48,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Photo[] $photos
+ * @property-read int|null $photos_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Album[] $albums
+ * @property-read int|null $albums_count
  */
 class User extends Authenticatable
 {
@@ -56,6 +60,22 @@ class User extends Authenticatable
     protected $table = 'user';
 
     protected $guarded = [];
+
+    public function photos() {
+        return $this->hasMany(Photo::class);
+    }
+
+    public function albums() {
+        return $this->hasMany(Album::class);
+    }
+
+    public function getTotalAlbumsAttribute() {
+        return $this->albums->count();
+    }
+
+    public function getTotalPhotosAttribute() {
+        return $this->photos->count();
+    }
 
     // protected $hidden = ['password'];
 
@@ -75,10 +95,10 @@ class User extends Authenticatable
     //  *
     //  * @var array
     //  */
-    // protected $hidden = [
-    //     'password',
-    //     'remember_token',
-    // ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
      * The attributes that should be cast.

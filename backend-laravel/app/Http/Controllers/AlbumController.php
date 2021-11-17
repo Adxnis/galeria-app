@@ -1,27 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Photo;
+use App\Models\Album;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Resources\PhotoResource;
-
-class PhotoController extends Controller
+use App\Http\Resources\AlbumResource;
+class AlbumController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-
-        return PhotoResource::collection(Photo::all()); 
-
-        // return Auth::user()->id;
-
+        return AlbumResource::collection(Album::all());
     }
 
     /**
@@ -32,17 +26,16 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        $photo = Photo::create([
+
+        $album = Album::create([
             'user_id' => Auth::user()->id,
-            'name' => $request->input('name'),
-            'file_name' => $request->input('file_name'),
-            'size' => $request->input('size'),
-            // 'date_last_modified' => $request->input('date_last_modified'),
-            'file_type'=> $request->input('file_type'),
+            'album_name' => $request->input('album_name'),
+            'isFavourited' => $request->input('isFavourited'),
+            'isShared' => $request->input('isShared')
         ]);
-        $photo->albums()->attach($request->input('albums'));
-        $photo->albums()->attach($request->input('tags'));
-        return \response(new PhotoResource($photo), Response::HTTP_CREATED);
+
+        $album->photos()->attach($request->input('photos'));
+        return \response(new AlbumResource($album), Response::HTTP_CREATED);
     }
 
     /**
@@ -53,8 +46,7 @@ class PhotoController extends Controller
      */
     public function show($id)
     {
-        //
-        return Photo::find($id)->load('albums', 'tags', 'likes', 'comments');
+        return new AlbumResource(Album::find($id));
     }
 
     /**
@@ -66,9 +58,10 @@ class PhotoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $photo = Photo::find($id);
-        $photo ->update($request->only('name'));
+        $album = Album::find($id);
+        $album->update($request->only('album_name'));
+        $album->photos()->sync($request->input('photos'));
+        return \response(new AlbumResource($album), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -79,14 +72,13 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
-        Photo::destroy($id);
+        Album::destroy($id);
         return \response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function getUserPhotos(Request $request) {
+    // public function addToAlbum($id) {
+    //     $album = Album::find($id);
 
-        $user_id = Auth::user()->id;
-        return Photo::where('user_id', "=" ,$user_id)->get();
-    }
+
+    // }
 }

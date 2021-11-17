@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Photo;
 use Illuminate\Http\Request;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Resources\PhotoResource;
-
-class PhotoController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-
-        return PhotoResource::collection(Photo::all()); 
-
-        // return Auth::user()->id;
-
+        return Comment::all();
     }
 
     /**
@@ -32,17 +26,13 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        $photo = Photo::create([
+        $comment = Comment::create([
             'user_id' => Auth::user()->id,
-            'name' => $request->input('name'),
-            'file_name' => $request->input('file_name'),
-            'size' => $request->input('size'),
-            // 'date_last_modified' => $request->input('date_last_modified'),
-            'file_type'=> $request->input('file_type'),
+            'photo_id' => $request->input('photo_id'),
+            'body' => $request->input('body')
         ]);
-        $photo->albums()->attach($request->input('albums'));
-        $photo->albums()->attach($request->input('tags'));
-        return \response(new PhotoResource($photo), Response::HTTP_CREATED);
+
+        return \response($comment, Response::HTTP_CREATED);
     }
 
     /**
@@ -53,8 +43,7 @@ class PhotoController extends Controller
      */
     public function show($id)
     {
-        //
-        return Photo::find($id)->load('albums', 'tags', 'likes', 'comments');
+        return Comment::find($id)->load('photos');
     }
 
     /**
@@ -66,9 +55,9 @@ class PhotoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $photo = Photo::find($id);
-        $photo ->update($request->only('name'));
+        $comment = Comment::find($id);
+        $comment->update($request->only('body'));
+        return \response($comment, Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -79,14 +68,7 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
-        Photo::destroy($id);
+        Comment::destroy($id);
         return \response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function getUserPhotos(Request $request) {
-
-        $user_id = Auth::user()->id;
-        return Photo::where('user_id', "=" ,$user_id)->get();
     }
 }
