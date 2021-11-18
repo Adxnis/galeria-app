@@ -36,7 +36,8 @@ export class PhotosComponent implements OnInit {
   public async presentUploadModal() {
     const modal = await this.modalController.create({
       component: UploadPhotoComponent,
-      cssClass: 'create-album'
+      cssClass: 'upload-photo auto-height', 
+      backdropDismiss: false
     });
     await modal.present();
     modal.onDidDismiss().then(() => {

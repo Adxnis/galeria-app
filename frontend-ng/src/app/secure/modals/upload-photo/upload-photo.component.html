@@ -1,37 +1,38 @@
-<div style="display:flex;flex-direction:column;justify-content:space-between; height: 400px;padding:10px;">
-  <form [formGroup]="form" >
-  <div>
-    <ion-item style="--highlight-color-focused: green">
-      <ion-input formControlName="name" name="name" placeholder="Add photo name"></ion-input>
-    </ion-item>
+<form [formGroup]="form">
+
+  <div style="display: flex; align-items: flex-end; justify-content: flex-end; margin:5px 10px 0 0;">
+    <ion-icon (click)="closeModal()" color="danger" style="font-size: 24px; cursor: pointer;" name="close-sharp"></ion-icon>
   </div>
 
-  <!-- <div>
-    <ion-item style="--highlight-color-focused: green">
-      <ion-input placeholder="Tags"></ion-input>
-    </ion-item>
-  </div>
+  <div class="container">
+    <label>Add a title</label>
+    <ion-input formControlName="name" name="name" placeholder="Title"></ion-input>
+    <br>
 
-  <div>
+    <label>Tags</label>
+    <ion-input  name="tag" placeholder="Seperate tags with a space" (keyup)="clear($event)" (keydown)="tagFormat($event)"></ion-input>
+    <div style="display: inline-block; display: flex; flex-wrap: wrap;">
+      <p id="tags" *ngFor="let tag of tags" style="margin-right: 5px;"><span style="color:rgb(53, 161, 26)">#</span>{{tag}}</p>
+    </div>
+    <br>
+
     <label>Add to Albums (optional)</label>
-    <button (click)="presentAddToAlbumModal()">Select Album</button>
-  </div>
+    <ion-button shape="round" size="small" mode="ios">Select Album</ion-button>
+    <br>
 
-  <div>
-    <label>Sharing Options</label><br>
-    <label>Allow photo to be in Discover</label>
-  </div> -->
+    <label style="padding-bottom: 5px;">Sharing options:</label>
+    <div style="display: inline-block">
+      <ion-checkbox style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
+      <label> Allow photo to be in Discover</label>
+    </div>
+    <br>
 
-  <div>
-
-  </div>
-  <div style="align-self: center;">
+    <label>Add Photo:</label>
     <app-upload (uploaded)=addToForm($event)></app-upload>
+    <div *ngIf="this.image" style="display:flex; flex-direction: column">
+      <img id="photo-to-upload" src={{this.image}} alt="image-to-upload">
+      <ion-button (click)="submit()" style="width: 60%;" shape="round" size="small" mode="ios">Upload</ion-button>
+    </div>
   </div>
-
-  <div style="align-self: center;">
-    <ion-button (click)="submit()">add</ion-button>
-  </div>
+  
 </form>
-
-</div>

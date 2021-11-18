@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { IonInput, ModalController } from '@ionic/angular';
 import { dismiss } from '@ionic/core/dist/types/utils/overlays';
 import { PhotoService } from 'src/app/services/photo.service';
 import { environment } from 'src/environments/environment';
@@ -15,9 +15,11 @@ export class UploadPhotoComponent implements OnInit {
   form: FormGroup;
 
   constructor(private modalController: ModalController, private http: HttpClient,
-    private formBuilder: FormBuilder, private photoService: PhotoService, ) { }
+    private formBuilder: FormBuilder, private photoService: PhotoService,) { }
 
 
+  image: any;
+  tags: string[] = [];
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -37,8 +39,10 @@ export class UploadPhotoComponent implements OnInit {
     return await modal.present();
   }
 
-  public addToForm(photoInfo){
+  public addToForm(photoInfo) {
+    console.log("PHOTOINFO")
     console.log(photoInfo);
+    this.image = photoInfo[0];
     this.form.patchValue({
       'file_name': photoInfo[0],
       'file_type': photoInfo[1],
@@ -46,8 +50,32 @@ export class UploadPhotoComponent implements OnInit {
     });
   }
 
-  
-  submit() {
+  tagFormat(event: any) {
+
+    // console.log(event.target.value.length)
+    if (event.target.value.length == 0 || event.target.value == '') {
+      event.target.value = '#'
+    }
+
+    if (event.keyCode == 32) {
+      console.log("im a space")
+      // ADD TAG
+      let string = event.target.value.substring(1).trim();
+      if(string != ""){
+        this.tags.push(string);
+      }
+      console.log(this.tags);
+    }
+    // event.target.value = ''
+  }
+
+  clear(event: any) {
+    if (event.keyCode == 32 && event.target.value.length > 2) {
+      event.target.value = '';
+    }
+  }
+
+  submit() {  
     this.photoService.addPhoto(this.form.getRawValue()).subscribe();
     this.closeModal();
   }
@@ -55,10 +83,5 @@ export class UploadPhotoComponent implements OnInit {
   async closeModal(): Promise<void> {
     await this.modalController.dismiss();
   }
-
-  
-
-
-
 
 }

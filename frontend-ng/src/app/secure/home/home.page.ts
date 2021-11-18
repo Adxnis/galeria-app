@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  activeTab = "photos";
+  activeTab = "albums";
   constructor() { }
 
   ngOnInit() {

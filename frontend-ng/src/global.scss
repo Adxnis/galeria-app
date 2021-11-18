@@ -29,7 +29,7 @@
 
 
 
-
+$primaryColor: rgb(9, 58, 114);
 
 * {
     font-family: 'Ubuntu', sans-serif;
@@ -45,9 +45,34 @@
     height: 400px;
 }
 
+.upload-photo .modal-wrapper {
+    width: 500px;
+    background-color: rgb(227, 231, 238)
+}
+
 .view-menu {
     // width: 200px;
     ion-backdrop {
         // background: blue;
+    }
+}
+
+ion-modal.auto-height {
+    &.bottom {
+        align-items: flex-end;
+    }
+
+    --height: auto;
+
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 10px;
+        }
     }
 }
