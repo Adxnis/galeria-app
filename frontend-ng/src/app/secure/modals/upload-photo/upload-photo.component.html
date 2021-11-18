@@ -1,12 +1,20 @@
 <form [formGroup]="form">
 
-  <div style="display: flex; align-items: flex-end; justify-content: flex-end; margin:5px 10px 0 0;">
-    <ion-icon (click)="closeModal()" color="danger" style="font-size: 24px; cursor: pointer;" name="close-sharp"></ion-icon>
-  </div>
+   <!-- <div style="display: flex; align-items: flex-end; justify-content: flex-end; margin:5px 10px 0 0;">
+    <ion-icon (click)="cancel()" color="danger" style="font-size: 24px; cursor: pointer;" name="close-sharp"></ion-icon>
+  </div>-->
+  <ion-header class="modal-header" style="margin-bottom: 25px;">
+    <ion-toolbar>
+      <ion-title>
+        Upload Photo
+        <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right" name="close-sharp"></ion-icon>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
 
   <div class="container">
     <label>Add a title</label>
-    <ion-input formControlName="name" name="name" placeholder="Title"></ion-input>
+    <ion-input id="title" formControlName="name" name="name" placeholder="Title"></ion-input>
     <br>
 
     <label>Tags</label>
@@ -17,12 +25,12 @@
     <br>
 
     <label>Add to Albums (optional)</label>
-    <ion-button shape="round" size="small" mode="ios">Select Album</ion-button>
+    <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
     <br>
 
     <label style="padding-bottom: 5px;">Sharing options:</label>
     <div style="display: inline-block">
-      <ion-checkbox style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
+      <ion-checkbox (ionChange)="isPublic($event)" checked="false" valueformControlName="isPublic" id="public" style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
       <label> Allow photo to be in Discover</label>
     </div>
     <br>

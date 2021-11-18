@@ -49,6 +49,11 @@ $primaryColor: rgb(9, 58, 114);
     width: 500px;
     background-color: rgb(227, 231, 238)
 }
+.add-to-album .modal-wrapper {
+    width: 500px;
+    min-height: 404px;
+    background-color: rgb(227, 231, 238)
+}
 
 .view-menu {
     // width: 200px;
@@ -75,4 +80,13 @@ ion-modal.auto-height {
             padding: 10px;
         }
     }
+}
+
+ion-modal-view.modal {
+    top: 50%;
+    right: 0% !important;
+    bottom: 0% !important;
+    left: 0% !important;
+    // min-height: 240px !important;
+    width: 100% !important;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-to-album',
@@ -7,8 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddToAlbumComponent implements OnInit {
 
-  constructor() { }
+  public albums = [];
+  public sharedAlbums = [];
+  constructor(private modalController: ModalController, private alertCtrl: AlertController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("IM IN HERE");
+  }
 
+  async cancel() {
+      const alert = await this.alertCtrl.create({
+        header: 'Warning',
+        message: '<div>Are you sure you want to exit?</div>',
+        backdropDismiss: false,
+        animated: false,
+        buttons: [
+          {
+            text: 'Yes',
+            handler: () => {
+              this.modalController.dismiss();
+            }
+          },
+          { text: 'No' }
+        ]
+      });
+      await alert.present();
+    }
 }

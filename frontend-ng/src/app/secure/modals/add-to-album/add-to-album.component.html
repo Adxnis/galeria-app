@@ -1,19 +1,32 @@
-<div style="display:flex;flex-direction:column;justify-content:space-between; height: 400px;">
-  <div>
-    <h3>Add</h3>
-  </div>
-  <div>
-    <ul>
-      <li>Personal Album</li>
-      <li>Shared Album</li>
+<!-- <div style="display: flex; align-items: flex-end; justify-content: flex-end; margin:5px 10px 0 0;">
+  <ion-icon (click)="cancel()" color="danger" style="font-size: 24px; cursor: pointer;" name="close-sharp"></ion-icon>
+</div> -->
+<ion-header class="modal-header" style="margin-bottom: 25px;">
+  <ion-toolbar>
+    <ion-title>
+      Add To Album
+      <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right" name="close-sharp"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<div class="container">
+  <h5>Create new</h5>
+  <ul>
+    <li><ion-icon name="add-sharp"></ion-icon> Personal Album</li>
+    <li><ion-icon name="add-sharp"></ion-icon> Shared Album</li>
+  </ul>
+
+
+
+    <h4>Personal Albums</h4>
+    <ul id="personal">
+      <li style="padding-left:10px;">
+        <img src="http://localhost:8000/images/M8HZ6aG7ZP.jpg">
+        <label>Test</label>
+      </li>
     </ul>
-  </div>
 
-  <div>
-    <h4>Personal Albuma</h4>
-  </div>
 
-  <div>
     <h4>Shared Albums</h4>
-  </div>
+
 </div>

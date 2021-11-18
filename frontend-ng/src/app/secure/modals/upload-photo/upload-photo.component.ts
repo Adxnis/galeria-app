@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonInput, ModalController } from '@ionic/angular';
+import { AlertController, IonInput, ModalController } from '@ionic/angular';
 import { dismiss } from '@ionic/core/dist/types/utils/overlays';
+import { switchMap } from 'rxjs/operators';
+import { Tag } from 'src/app/interfaces/tag';
 import { PhotoService } from 'src/app/services/photo.service';
+import { TagService } from 'src/app/services/tag.service';
 import { environment } from 'src/environments/environment';
 import { AddToAlbumComponent } from '../add-to-album/add-to-album.component';
 @Component({
@@ -14,12 +17,12 @@ import { AddToAlbumComponent } from '../add-to-album/add-to-album.component';
 export class UploadPhotoComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private modalController: ModalController, private http: HttpClient,
-    private formBuilder: FormBuilder, private photoService: PhotoService,) { }
+  constructor(private modalController: ModalController,
+    private formBuilder: FormBuilder, private photoService: PhotoService, private alertCtrl: AlertController) { }
 
 
-  image: any;
-  tags: string[] = [];
+  image: string;
+  tags: Tag[] = [];
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -28,15 +31,8 @@ export class UploadPhotoComponent implements OnInit {
       file_type: '',
       date_last_modified: '',
       size: '',
+      isPublic: ''
     })
-  }
-
-  async presentAddToAlbumModal() {
-    const modal = await this.modalController.create({
-      component: AddToAlbumComponent,
-      cssClass: 'create-album'
-    });
-    return await modal.present();
   }
 
   public addToForm(photoInfo) {
@@ -66,7 +62,12 @@ export class UploadPhotoComponent implements OnInit {
       }
       console.log(this.tags);
     }
-    // event.target.value = ''
+  }
+
+  isPublic(event: any): void {
+    const isPublic = event.target.checked;
+
+    console.log(isPublic);
   }
 
   clear(event: any) {
@@ -75,13 +76,50 @@ export class UploadPhotoComponent implements OnInit {
     }
   }
 
-  submit() {  
-    this.photoService.addPhoto(this.form.getRawValue()).subscribe();
-    this.closeModal();
+  async presentAddToAlbumModal() {
+    const modal = await this.modalController.create({
+      component: AddToAlbumComponent,
+      cssClass: 'add-to-album auto-height modal'
+    });
+    await this.modalController.dismiss();
+    return await modal.present();
   }
 
-  async closeModal(): Promise<void> {
-    await this.modalController.dismiss();
+  submit() {  
+    this.photoService.create(this.form.getRawValue()).subscribe((res) => {
+      this.closeModal(this.tags, res.id);
+    })
   }
+
+  async closeModal(tags?: Tag[], photo_id?: number): Promise<void> {
+    await this.modalController.dismiss({tags: tags, photo_id: photo_id});
+  }
+
+    // Create an alert box to warn and exit with no update to the patient enrollment form
+    async cancel() {
+      let title: any = document.getElementById('title');
+      if(title.value.length > 0) {
+        const alert = await this.alertCtrl.create({
+          header: 'Warning',
+          message: '<div>Change will not be saved. Are you sure you want to exit?</div>',
+          backdropDismiss: false,
+          animated: false,
+          buttons: [
+            {
+              text: 'Yes',
+              handler: () => {
+                this.modalController.dismiss();
+              }
+            },
+            { text: 'No' }
+          ]
+        });
+        await alert.present();
+      }
+      else {
+        this.modalController.dismiss();
+      }
+      
+    }
 
 }
