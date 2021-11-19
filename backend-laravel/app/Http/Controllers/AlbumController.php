@@ -76,9 +76,9 @@ class AlbumController extends Controller
         return \response(null, Response::HTTP_NO_CONTENT);
     }
 
-    // public function addToAlbum($id) {
-    //     $album = Album::find($id);
 
-
-    // }
+    public function getUserAlbums() {
+        $user_id = Auth::user()->id;
+        return Album::where('user_id', "=" ,$user_id)->get();
+    }
 }

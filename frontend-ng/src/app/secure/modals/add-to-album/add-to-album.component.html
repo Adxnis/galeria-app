@@ -12,19 +12,24 @@
 <div class="container">
   <h5>Create new</h5>
   <ul>
-    <li><ion-icon name="add-sharp"></ion-icon> Personal Album</li>
+    <li><ion-icon (click)="presentCreateModal()" name="add-sharp"></ion-icon> Personal Album</li>
     <li><ion-icon name="add-sharp"></ion-icon> Shared Album</li>
   </ul>
 
 
 
     <h4>Personal Albums</h4>
-    <ul id="personal">
-      <li style="padding-left:10px;">
-        <img src="http://localhost:8000/images/M8HZ6aG7ZP.jpg">
-        <label>Test</label>
-      </li>
-    </ul>
+
+    <div style="overflow:scroll; height: 30vh; display:flex; width: 100%;" class="w3-border-red w3-border" >
+      <ul id="personal">
+        <li *ngFor="let album of this.albums" style="padding-left:10px;">
+          <ion-icon style="margin-bottom: -10%;" size="large" name="albums-sharp"></ion-icon>
+          <label style="margin-left: 7px;">{{album.album_name}}</label>
+          <br>
+        </li>
+      </ul>
+    </div>
+
 
 
     <h4>Shared Albums</h4>

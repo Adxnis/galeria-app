@@ -1,16 +1,31 @@
-<div style="display:flex;flex-direction:column;justify-content:space-between; height: 400px;">
-  <div>
-    <ion-item style="--highlight-color-focused: green">
-      <ion-input placeholder="Album Name"></ion-input>
-    </ion-item>
-  </div>
+<ion-header class="modal-header" style="margin-bottom: 25px;">
+  <ion-toolbar>
+    <ion-title>
+      Create New Album
+      <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right"
+        name="close-sharp"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<form [formGroup]="form">
+  <div class="container">
 
-  <div>
+    <label>Add an album name</label>
+    <ion-input formControlName="album_name"></ion-input>
+    <br>
 
+    <div *ngIf="this.image">
+      <label>Photo to be added</label>
+      <br>
+      <img src={{this.image}}>
+      <br>
+    </div>
+    <div *ngIf="!this.image" style>
+      <label>Add a photo (optional)</label>
+      <br>
+      <ion-button size="small" style="justify-content: center;" (click)="uploadPhoto()">Upload</ion-button>
+    </div>
+    <br>
+    <ion-button (click)="createAlbum()" style="align-self: center;">Create</ion-button>
   </div>
-  
-  <div style="align-self: center;">
-    <ion-button>Upload</ion-button>
-    <ion-button>Create</ion-button>
-  </div>
-</div>
+</form>

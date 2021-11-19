@@ -11,8 +11,13 @@ export class AlbumService {
 
   constructor(protected http: HttpClient) { }
 
+  
   all(): Observable<Album[]> {
     return this.http.get<Album[]>(`${environment.api}/album`)
+  }
+
+  albums(): Observable<Album[]> {
+    return this.http.get<Album[]>(`${environment.api}/userAlbums`)
   }
 
   create(data: any): Observable<any> {

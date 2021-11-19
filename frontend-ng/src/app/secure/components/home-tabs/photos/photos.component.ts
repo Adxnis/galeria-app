@@ -31,19 +31,21 @@ export class PhotosComponent implements OnInit {
     const modal = await this.modalController.create({
       component: UploadPhotoComponent,
       cssClass: 'upload-photo auto-height', 
-      backdropDismiss: false
+      backdropDismiss: false,
+      
     });
     await modal.present();
     modal.onDidDismiss().then((res) => {
       this.getPhotos();
 
+      console.log(res);
       if (res.data != undefined) {      
         console.log(res);
         console.log(res.data.tags);
         let tagName: string[] = res.data.tags;
         console.log(tagName.length);
         for(let i=0; i < tagName.length; i++) {
-          this.tagService.create({title: tagName[i], photos: [res.data.photo_id]}).subscribe(res => {console.log(res)});
+          this.tagService.create({title: tagName[i], photos: [res.data.photo.id]}).subscribe(res => {console.log(res)});
         }
       }      
     });

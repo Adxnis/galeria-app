@@ -26,6 +26,7 @@ class PhotoResource extends JsonResource
             'total_likes' => $this->totalLikes,
             'total_comments' => $this->totalComments,
             'total_tags' => $this->totalTags,
+            'isPublic' => $this->isPublic,
             'albums' => $this->albums,
             'likes' => $this->likes,
             'comments' => $this->comments,

@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="submit()">
 
    <!-- <div style="display: flex; align-items: flex-end; justify-content: flex-end; margin:5px 10px 0 0;">
     <ion-icon (click)="cancel()" color="danger" style="font-size: 24px; cursor: pointer;" name="close-sharp"></ion-icon>
@@ -24,23 +24,30 @@
     </div>
     <br>
 
-    <label>Add to Albums (optional)</label>
-    <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
-    <br>
-
-    <label style="padding-bottom: 5px;">Sharing options:</label>
-    <div style="display: inline-block">
-      <ion-checkbox (ionChange)="isPublic($event)" checked="false" valueformControlName="isPublic" id="public" style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
-      <label> Allow photo to be in Discover</label>
-    </div>
-    <br>
-
     <label>Add Photo:</label>
     <app-upload (uploaded)=addToForm($event)></app-upload>
     <div *ngIf="this.image" style="display:flex; flex-direction: column">
       <img id="photo-to-upload" src={{this.image}} alt="image-to-upload">
-      <ion-button (click)="submit()" style="width: 60%;" shape="round" size="small" mode="ios">Upload</ion-button>
+      <!-- <ion-button (click)="submit()" style="width: 60%;" shape="round" size="small" mode="ios">Upload</ion-button> -->
     </div>
+    <br>
+
+    <label style="padding-bottom: 5px;">Sharing options:</label>
+    <div style="display: inline-block">
+      <ion-checkbox (ionChange)="isPublic($event)" checked="false" formControlName="isPublic" id="public" style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
+      <label> Allow photo to be in Discover</label>
+    </div>
+    <br>
+
+    <div *ngIf="this.image" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
+      <label>Add to Albums (optional)</label>
+      <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
+      <br>
+  
+      <ion-button (click)="submit()" style="align-self: center;">Upload</ion-button>
+    </div>
+
+    
   </div>
   
 </form>

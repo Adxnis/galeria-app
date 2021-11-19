@@ -17,8 +17,8 @@ class CreateAlbumTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('album_name');
-            $table->boolean('isFavourited')->default(0);
-            $table->boolean('isShared')->default(0);
+            $table->boolean('isFavourited')->nullable()->default(0);
+            $table->boolean('isShared')->nullable()->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
         });

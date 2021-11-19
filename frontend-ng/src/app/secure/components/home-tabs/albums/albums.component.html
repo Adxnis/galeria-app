@@ -1,5 +1,13 @@
-<div class="albums">
-  <ion-button (click)="presentCreateModal()" fill="clear" size="small" color="primary">Create new album</ion-button>
-
-  <label style="padding: 0 30px 0 0; align-self:center">Total Albums: </label>
+<div class="photos">
+  <div style="height: 5vh;">
+  <ion-button (click)="presentCreateModal()" fill="clear" size="small" color="primary">Upload Album</ion-button>
 </div>
+
+  <div style="height:80vh; border: 1px solid red; overflow:scroll;">
+    <section class="grid-image-gallery">
+      <span *ngFor="let album of albums">
+
+      </span>
+    </section>
+  </div>
+</div>  

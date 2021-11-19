@@ -32,6 +32,10 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
+        $isPublic = $request->input('isPublic');
+        if(!$isPublic) {
+            $isPublic = 0;
+        }
         $photo = Photo::create([
             'user_id' => Auth::user()->id,
             'name' => $request->input('name'),
@@ -39,6 +43,7 @@ class PhotoController extends Controller
             'size' => $request->input('size'),
             // 'date_last_modified' => $request->input('date_last_modified'),
             'file_type'=> $request->input('file_type'),
+            'isPublic' => $isPublic,
         ]);
         $photo->albums()->attach($request->input('albums'));
         $photo->albums()->attach($request->input('tags'));

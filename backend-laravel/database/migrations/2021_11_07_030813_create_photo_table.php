@@ -21,6 +21,7 @@ class CreatePhotoTable extends Migration
             $table->string('size');
             // $table->dateTime('date_last_modified');
             $table->string('file_type', 5);
+            $table->boolean('isPublic')->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('user');
         });

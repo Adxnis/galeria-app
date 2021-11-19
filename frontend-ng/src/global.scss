@@ -42,7 +42,14 @@ $primaryColor: rgb(9, 58, 114);
 //     font-family: 'Ubuntu', sans-serif;
 // }
 .create-album .modal-wrapper {
-    height: 400px;
+    width: 500px;
+    min-height: 679px;
+    background-color: rgb(227, 231, 238)
+}
+
+.create-album-2 .modal-wrapper {
+    width: 500px;
+    background-color: rgb(227, 231, 238)
 }
 
 .upload-photo .modal-wrapper {
@@ -51,7 +58,7 @@ $primaryColor: rgb(9, 58, 114);
 }
 .add-to-album .modal-wrapper {
     width: 500px;
-    min-height: 404px;
+    min-height: 679px;
     background-color: rgb(227, 231, 238)
 }
 

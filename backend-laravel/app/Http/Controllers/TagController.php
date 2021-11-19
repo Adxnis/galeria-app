@@ -5,6 +5,7 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
+use App\Http\Resources\TagResource;
 
 class TagController extends Controller
 {
@@ -15,7 +16,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return Tag::all();
+        return TagResource::collection(Tag::all());
     }
 
     /**
@@ -32,7 +33,7 @@ class TagController extends Controller
 
         $tag->photos()->attach($request->input('photos'));
 
-        return \response($tag, Response::HTTP_CREATED);
+        return \response(new TagResource($tag), Response::HTTP_CREATED);
     }
 
     /**
@@ -58,7 +59,7 @@ class TagController extends Controller
         $tag = Tag::find($id);
         $tag->update($request->only('title'));
         $tag->photos()->sync($request->input('photos'));
-        return \response($tag, Response::HTTP_ACCEPTED);
+        return \response(new TagResource($tag), Response::HTTP_ACCEPTED);
     }
 
     /**

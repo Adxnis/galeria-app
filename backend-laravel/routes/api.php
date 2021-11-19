@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('like', LikeController::class);
     Route::apiResource('tag', TagController::class);
     Route::get('userPhotos', [PhotoController::class, 'getUserPhotos']);
+    Route::get('userAlbums', [AlbumController::class, 'getUserAlbums']);
     Route::post('upload', [ImageController::class, 'upload']);
 
 });

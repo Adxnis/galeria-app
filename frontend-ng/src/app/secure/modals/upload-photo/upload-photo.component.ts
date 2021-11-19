@@ -1,13 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AlertController, IonInput, ModalController } from '@ionic/angular';
-import { dismiss } from '@ionic/core/dist/types/utils/overlays';
-import { switchMap } from 'rxjs/operators';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Tag } from 'src/app/interfaces/tag';
 import { PhotoService } from 'src/app/services/photo.service';
-import { TagService } from 'src/app/services/tag.service';
-import { environment } from 'src/environments/environment';
 import { AddToAlbumComponent } from '../add-to-album/add-to-album.component';
 @Component({
   selector: 'app-upload-photo',
@@ -32,7 +28,7 @@ export class UploadPhotoComponent implements OnInit {
       date_last_modified: '',
       size: '',
       isPublic: ''
-    })
+    });
   }
 
   public addToForm(photoInfo) {
@@ -47,8 +43,6 @@ export class UploadPhotoComponent implements OnInit {
   }
 
   tagFormat(event: any) {
-
-    // console.log(event.target.value.length)
     if (event.target.value.length == 0 || event.target.value == '') {
       event.target.value = '#'
     }
@@ -66,7 +60,6 @@ export class UploadPhotoComponent implements OnInit {
 
   isPublic(event: any): void {
     const isPublic = event.target.checked;
-
     console.log(isPublic);
   }
 
@@ -79,20 +72,22 @@ export class UploadPhotoComponent implements OnInit {
   async presentAddToAlbumModal() {
     const modal = await this.modalController.create({
       component: AddToAlbumComponent,
-      cssClass: 'add-to-album auto-height modal'
+      cssClass: 'add-to-album auto-height modal',
+      componentProps: {image: this.image},
+      id: 'add-to-album'
     });
     await this.modalController.dismiss();
     return await modal.present();
   }
 
   submit() {  
-    this.photoService.create(this.form.getRawValue()).subscribe((res) => {
-      this.closeModal(this.tags, res.id);
+    this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
+      this.closeModal(this.tags, res);
     })
   }
 
-  async closeModal(tags?: Tag[], photo_id?: number): Promise<void> {
-    await this.modalController.dismiss({tags: tags, photo_id: photo_id});
+  async closeModal(tags?: Tag[], photo?: any): Promise<void> {
+    await this.modalController.dismiss({tags: tags, photo: photo});
   }
 
     // Create an alert box to warn and exit with no update to the patient enrollment form
