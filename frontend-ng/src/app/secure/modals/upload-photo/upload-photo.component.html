@@ -1,13 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-
-   <!-- <div style="display: flex; align-items: flex-end; justify-content: flex-end; margin:5px 10px 0 0;">
-    <ion-icon (click)="cancel()" color="danger" style="font-size: 24px; cursor: pointer;" name="close-sharp"></ion-icon>
-  </div>-->
   <ion-header class="modal-header" style="margin-bottom: 25px;">
     <ion-toolbar>
       <ion-title>
         Upload Photo
-        <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right" name="close-sharp"></ion-icon>
+        <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right"
+          name="close-sharp"></ion-icon>
       </ion-title>
     </ion-toolbar>
   </ion-header>
@@ -18,9 +15,13 @@
     <br>
 
     <label>Tags</label>
-    <ion-input  name="tag" placeholder="Seperate tags with a space" (keyup)="clear($event)" (keydown)="tagFormat($event)"></ion-input>
+    <ion-input name="tag" placeholder="Seperate tags with a space" (keyup)="clear($event)"
+      (keydown)="tagFormat($event)"></ion-input>
     <div style="display: inline-block; display: flex; flex-wrap: wrap;">
-      <p id="tags" *ngFor="let tag of tags" style="margin-right: 5px;"><span style="color:rgb(53, 161, 26)">#</span>{{tag}}</p>
+      <p *ngFor="let tag of tags" class="tags" style="margin-right: 5px;"><span
+          style="color:rgb(53, 161, 26)">#</span>{{tag}}<ion-icon (click)="deleteTag(tag)" color="danger" class="delete-tag"
+          style="margin-bottom: -5%;" name="close-circle-outline"></ion-icon>
+      </p>
     </div>
     <br>
 
@@ -33,7 +34,8 @@
 
     <label style="padding-bottom: 5px;">Sharing options:</label>
     <div style="display: inline-block">
-      <ion-checkbox (ionChange)="isPublic($event)" checked="false" formControlName="isPublic" id="public" style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
+      <ion-checkbox (ionChange)="isPublic($event)" checked="false" formControlName="isPublic" id="public"
+        style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
       <label> Allow photo to be in Discover</label>
     </div>
     <br>
@@ -44,7 +46,7 @@
         <label>Add to Albums (optional)</label>
         <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
         <br>
-    
+
         <ion-button (click)="submit()" style="align-self: center;">Upload</ion-button>
       </div>
     </div>
@@ -55,7 +57,7 @@
       </div>
     </div>
 
-    
+
   </div>
-  
+
 </form>

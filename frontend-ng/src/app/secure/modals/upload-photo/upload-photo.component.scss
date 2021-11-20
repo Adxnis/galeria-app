@@ -34,7 +34,25 @@ ion-button {
     color: rgb(9, 58, 114);
 }
 
-#tags {
+.tags {
     padding: 0;
     margin-top: 0;
+    // position: relative;
+    display: inline-block;
+}
+
+.delete-tag {
+
+	// position: absolute;
+
+	display: none;
+}
+
+.tags:hover .delete-tag {
+    padding-left: 2px;
+    display: inline-block;
+}
+
+ion-icon {
+    cursor: pointer;
 }

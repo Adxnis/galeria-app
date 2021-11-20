@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -17,7 +18,7 @@ export class PhotosComponent implements OnInit {
   
   constructor(
     private modalController: ModalController,
-    private photoService: PhotoService, private tagService: TagService) { }
+    private photoService: PhotoService, private tagService: TagService, private router: Router) { }
 
   ngOnInit() { 
     this.getPhotos();
@@ -49,7 +50,11 @@ export class PhotosComponent implements OnInit {
         }
       }      
     });
+  }
 
+  goToSingelePhotoView(photo_id: number) {
+    console.log("testing")
+    this.router.navigate(['/home/photos', photo_id]);
   }
 
 }

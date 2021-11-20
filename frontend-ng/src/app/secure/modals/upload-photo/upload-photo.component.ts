@@ -57,6 +57,9 @@ export class UploadPhotoComponent implements OnInit {
       console.log(this.tags);
     }
   }
+  deleteTag(tag: any) {
+    this.tags = this.tags.filter(e => e != tag)
+  }
 
   isPublic(event: any): void {
     const isPublic = event.target.checked;
