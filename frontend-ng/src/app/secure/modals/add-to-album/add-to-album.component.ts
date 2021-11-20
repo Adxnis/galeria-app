@@ -24,7 +24,6 @@ export class AddToAlbumComponent implements OnInit {
   public async getAlbums() {
     this.albumService.albums().subscribe((albums) => 
     {
-
       this.albums = albums;
       console.log(this.albums);
     });
@@ -44,7 +43,6 @@ export class AddToAlbumComponent implements OnInit {
       this.getAlbums();
       this.modalController.dismiss(
         '','','create-album')
-
     });
 
   }

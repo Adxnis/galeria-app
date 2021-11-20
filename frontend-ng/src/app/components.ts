@@ -14,7 +14,8 @@ import { SortPopoverComponent } from './secure/modals/sort-popover/sort-popover.
 import { UploadPhotoComponent } from './secure/modals/upload-photo/upload-photo.component';
 import { AddToAlbumComponent } from './secure/modals/add-to-album/add-to-album.component';
 import {UploadComponent} from './secure/components/upload/upload.component';
-
+import { EditAlbumPopoverComponent } from './secure/modals/edit-album-popover/edit-album-popover.component';
+import { RenameAlbumComponent } from './secure/modals/rename-album/rename-album.component';
 import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -38,7 +39,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
         SortPopoverComponent,
         UploadPhotoComponent,
         UploadComponent,
-        AddToAlbumComponent
+        AddToAlbumComponent,
+        EditAlbumPopoverComponent,
+        RenameAlbumComponent
 
     ],
     exports: [
@@ -52,6 +55,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
         SortPopoverComponent,
         UploadPhotoComponent,
         AddToAlbumComponent,
+        EditAlbumPopoverComponent,
+        RenameAlbumComponent
     ],
     entryComponents: [
     ],
