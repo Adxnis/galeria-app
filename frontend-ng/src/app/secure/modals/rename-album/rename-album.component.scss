@@ -1,0 +1,29 @@
+*{
+    color: rgb(9, 58, 114);
+}
+
+.container {
+    display:flex;
+    flex-direction:column; 
+    margin: 0 10px 10px;
+    padding: 0 10px 10px;
+}
+
+ion-input {
+    padding: 0;
+    border: 1px solid black;
+    max-height: 25px;border-radius: 5px 5px 5px 5px;
+    width: 100%;
+    // margin: 0 auto;
+}
+
+.class {
+    text-transform: capitalize;
+    --background: rgb(9, 58, 114);
+    --color: white;
+    color: white;
+}
+
+ion-button{
+    align-self: flex-end;
+}

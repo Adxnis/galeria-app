@@ -1,0 +1,12 @@
+<div class="container">
+  <form [formGroup]="form">
+    <h3>Rename Album</h3>
+    <ion-input formControlName="album_name" clearInput="true" id="album_name" name="album_name"></ion-input>
+
+
+    <div style="display: flex; flex-direction: row-reverse; padding-top:5px;">
+      <ion-button (click)="submit()" class="done">Done</ion-button>
+      <ion-button (click)="closeModal()" fill="clear">Cancel</ion-button>
+    </div>
+  </form>
+</div>
