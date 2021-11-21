@@ -1,13 +1,13 @@
 <div class="photos">
   <div style="height: 5vh;">
-  <ion-button (click)="presentUploadModal()" fill="clear" size="small" color="primary">Upload Photo</ion-button>
-</div>
+    <ion-button (click)="presentUploadModal()" fill="clear" size="small" color="primary">Upload Photo</ion-button>
+  </div>
 
   <div style="height:80vh; border: 1px solid red; overflow:scroll;">
     <section class="grid-image-gallery">
       <span *ngFor="let item of photos">
-        <img style="cursor: pointer;" (click)="goToSingelePhotoView(item.id);" src="{{item.file_name}}">
+        <img style="cursor: pointer;" (click)="goToSinglePhotoView(item.id);" src="{{item.file_name}}">
       </span>
     </section>
   </div>
-</div>  
+</div>

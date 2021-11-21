@@ -31,9 +31,6 @@ export class HeaderComponent implements OnInit {
       translucent: true,
       showBackdrop: false,
       animated: false,
-      // backdropDismiss: true,
-      // keyboardClose: true,
-      // mode: 'ios'
     });
     await popover.present();
 

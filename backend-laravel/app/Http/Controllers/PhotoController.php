@@ -59,7 +59,7 @@ class PhotoController extends Controller
     public function show($id)
     {
         //
-        return Photo::find($id)->load('albums', 'tags', 'likes', 'comments');
+        return new PhotoResource(Photo::find($id)->load('albums', 'tags', 'likes', 'comments'));
     }
 
     /**

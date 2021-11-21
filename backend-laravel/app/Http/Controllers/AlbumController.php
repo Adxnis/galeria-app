@@ -79,6 +79,7 @@ class AlbumController extends Controller
 
     public function getUserAlbums() {
         $user_id = Auth::user()->id;
-        return Album::where('user_id', "=" ,$user_id)->get();
+        $albums = Album::where('user_id', "=" ,$user_id)->get();
+        return AlbumResource::collection($albums);
     }
 }

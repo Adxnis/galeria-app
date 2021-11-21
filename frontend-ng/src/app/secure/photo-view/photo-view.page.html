@@ -1,0 +1,50 @@
+<div *ngIf="photo" style="height: 100vh;">
+
+  <div style="padding: 5px 0;" (click)="goBack()">
+    <ion-icon class="back" name="chevron-back-outline"></ion-icon>
+    <ion-label style="margin-bottom: 5px; color: rgb(9, 58, 114); cursor: pointer">
+      Back
+    </ion-label>
+  </div>
+
+  <div style="display:flex; flex-direction: row; height: 88vh;" class="w3-border-red w3-border" >
+
+    <button>
+      <ion-icon (click)="goPrevious()" style="align-self: center; width: 10%;" name="arrow-back-circle-outline"></ion-icon>
+    </button>
+
+    <!-- Image Component -->
+    <!-- <app-image-view></app-image-view> -->
+    <div class="w3-border w3-border-green box" style=" width: 80%; margin: 5 20px; overflow:scroll">
+      <div style="display: flex; margin-bottom: 2px;">
+        <ion-input value="{{this.photo.name}}"></ion-input>
+      </div>
+      <img src={{this.photo.file_name}}>
+
+      <div style="display: flex; justify-content: space-around; align-items: flex-end; margin-top: 20px">
+        <div *ngIf="user">
+          {{this.index}}/{{user.photos.length}} Photos
+        </div>    
+
+        <div>
+          <label>Tags:</label>
+          <label *ngFor="let tag of this.photo.tags" style="color: rgb(9, 58, 114)">
+          #{{tag.title}}
+          </label>
+        </div>
+
+        <div>
+          <ion-icon style="font-size: 16px; margin-bottom: -5%;" name="heart-outline"></ion-icon>
+          <label>{{this.photo.total_likes}}</label>
+
+          <ion-icon style="font-size: 16px; margin-bottom: -5%;" name="chatbox-ellipses-outline"></ion-icon>
+          <label>{{this.photo.total_comments}}</label>
+        </div>
+      </div>
+    </div>
+
+    <button>
+      <ion-icon id="next" (click)="goNext()" style="align-self: center;width: 10%;" name="arrow-forward-circle-outline"></ion-icon>
+    </button>
+  </div>
+</div>

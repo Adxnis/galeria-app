@@ -12,9 +12,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./public/public.module').then( m => m.PublicPageModule)
   },
-
-
-
 ];
 @NgModule({
   imports: [

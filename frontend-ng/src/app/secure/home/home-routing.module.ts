@@ -9,10 +9,10 @@ const routes: Routes = [
     path: '',
     component: HomePage,
   },
-  {
-    path: 'photos/:id', 
-    component: SinglePhotoViewComponent
-  }
+  // {
+  //   path: 'photos/:id', 
+  //   component: SinglePhotoViewComponent
+  // }
 ];
 
 @NgModule({

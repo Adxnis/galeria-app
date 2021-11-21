@@ -1,10 +1,48 @@
-<div>
-  <p>
-    you selected photo_id with id = {{photo_id}}
-  </p>
-  
-  <a (click)="goPrevious()">Previous</a>
-  <a (click)="goNext()">Next</a>
-  
-  
+<div *ngIf="user != undefined" style="height: 100vh;">
+
+  <div style="padding: 5px 0;" (click)="goBack()">
+    <ion-icon class="back" name="chevron-back-outline"></ion-icon>
+    <ion-label style="margin-bottom: 5px; color: rgb(9, 58, 114); cursor: pointer">
+      Back
+    </ion-label>
+  </div>
+
+  <div style="display:flex; flex-direction: row; height: 88vh;">
+
+      <ion-icon [ngClass]="{'disabled': index === 0}" (click)="goPrevious()" style="align-self: center; width: 10%;" name="arrow-back-circle-outline"></ion-icon>
+
+    <div class="box" style=" width: 80%; margin: 5px 20px; overflow:scroll">
+      <div style="display: flex; margin-bottom: 2px;">
+        <ion-input value="{{this.user.photos[index].name}}"></ion-input>
+        <ion-icon (click)="deletePhoto()" style="font-size: 20px; margin-top: 6px"name="trash-outline"></ion-icon>
+        <ion-icon style="font-size: 20px; margin-top: 6px" name="move-outline"></ion-icon>
+        <ion-icon style="font-size: 20px; margin-top: 6px" name="ellipsis-vertical-outline"></ion-icon>
+      </div>
+
+      <img src={{this.user.photos[index].file_name}}>
+
+      <div style="display: flex; justify-content: space-around; align-items: flex-end; margin-top: 20px">
+        <div *ngIf="user">
+          {{this.index+1}}/{{this.user.photos.length}} Photos
+        </div>    
+
+        <div>x
+          <ion-icon style="font-size: 16px; margin-bottom: -5%;" name="heart-outline"></ion-icon>
+          <label>{{(this.user.photos[index].total_likes) ? this.user.photos[index].total_likes : '0'}}</label>
+
+          <ion-icon style="font-size: 16px; margin-bottom: -5%;" name="chatbox-ellipses-outline"></ion-icon>
+          <label>{{(this.user.photos[index].total_comments) ? this.user.photos[index].total_comments : '0'}}</label>
+        </div>
+
+        <div>
+          <label>Tags:</label>
+          <label *ngFor="let tag of this.user.photos[index].tags" style="color: rgb(9, 58, 114)">
+          #{{tag.title}}
+          </label>
+        </div>
+      </div> 
+    </div>
+
+      <ion-icon [ngClass]="{'disabled': index === this.user.photos.length - 1}" id="next" (click)="goNext()" style="align-self: center;width: 10%;" name="arrow-forward-circle-outline"></ion-icon>
+  </div>
 </div>

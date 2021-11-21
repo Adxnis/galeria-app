@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +11,15 @@ export class HomePage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    console.log("hey")
   }
 
   display(tab: string) {
     this.activeTab = tab;
+  }
+
+  ngOnChanges(changes: SimpleChanges){
+    console.log("JSNS");
   }
 
 }

@@ -14,7 +14,6 @@ class CreateLikePhotoTable extends Migration
     public function up()
     {
         Schema::create('like_photo', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('photo_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

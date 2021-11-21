@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError} from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -15,19 +15,47 @@ export class PhotosComponent implements OnInit {
 
 
   public photos: Photo[] = [];
-  
+  currentRoute: string;
   constructor(
     private modalController: ModalController,
-    private photoService: PhotoService, private tagService: TagService, private router: Router) { }
+    private photoService: PhotoService, private tagService: TagService, private router: Router) {
+      this.currentRoute = "";
+    this.router.events.subscribe((event: Event) => {
+        if (event instanceof NavigationStart) {
+            this.getPhotos();
+            console.log('Route change detected');
+        }
+
+        if (event instanceof NavigationEnd) {
+            // Hide progress spinner or progress bar
+            this.currentRoute = event.url;          
+            console.log(event);
+        }
+
+        if (event instanceof NavigationError) {
+             // Hide progress spinner or progress bar
+
+            // Present error to user
+            console.log(event.error);
+        }
+     })
+  }
 
   ngOnInit() { 
+    console.log("hey")
     this.getPhotos();
   }
 
+  ngonChanges(changes: SimpleChanges){
+    console.log("JSNS")
+  }
+
+  // Populate photos
   public async getPhotos() {
     this.photoService.getUserPhotos().subscribe(photos => this.photos = photos);
   }
 
+  // Show upload photo dialog
   public async presentUploadModal() {
     const modal = await this.modalController.create({
       component: UploadPhotoComponent,
@@ -37,24 +65,30 @@ export class PhotosComponent implements OnInit {
     });
     await modal.present();
     modal.onDidDismiss().then((res) => {
+      // Reload all photos
       this.getPhotos();
 
       console.log(res);
       if (res.data != undefined) {      
-        console.log(res);
-        console.log(res.data.tags);
         let tagName: string[] = res.data.tags;
-        console.log(tagName.length);
         for(let i=0; i < tagName.length; i++) {
-          this.tagService.create({title: tagName[i], photos: [res.data.photo.id]}).subscribe(res => {console.log(res)});
+          // Add tags to photo
+          this.tagService.create({title: tagName[i], photos: [res.data.photo.id]}).subscribe((res) => 
+            {
+              console.log("Created tags");
+              console.log(res)
+            });
         }
       }      
     });
   }
 
-  goToSingelePhotoView(photo_id: number) {
+  // Single view
+  goToSinglePhotoView(photo_id: number) {
     console.log("testing")
-    this.router.navigate(['/home/photos', photo_id]);
+    this.router.navigate(['/photos', photo_id]);
   }
+
+  
 
 }

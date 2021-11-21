@@ -24,7 +24,7 @@ export class AlbumsComponent implements OnInit {
     console.log("AFTER")
   }
 
-  public async getAlbums() {
+  public getAlbums() {
     this.albumService.albums().subscribe((albums) => {
       console.log(albums);
       this.albums = albums
@@ -41,6 +41,7 @@ export class AlbumsComponent implements OnInit {
     await modal.present();
     modal.onDidDismiss().then((res) => {
 
+      this.getAlbums();
       if (res.data != undefined) {
         this.albumService.update(res.data.album_id, { photos: [res.data.photo.id] }).subscribe((res) => console.log(res));
       }

@@ -2,7 +2,10 @@
   <header>
     <h2>{{title}}</h2>
   </header>
-  <ion-icon routerLink="/login" (click)="logout()" style="font-size: 25px; cursor:pointer; align-self:flex-end" name="menu-sharp"></ion-icon>
+  <div>
+    <label style="padding-right:7px;align-self:flex-end;">Log out</label>
+    <ion-icon routerLink="/login" (click)="logout()" color="danger"style="font-size: 20px; cursor:pointer; align-self:flex-end; margin-bottom: -6%;" name="log-out-outline"></ion-icon>
+  </div>
 </div>
 
 <div class="main-bar">
