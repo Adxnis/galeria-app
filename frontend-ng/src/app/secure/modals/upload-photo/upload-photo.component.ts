@@ -11,15 +11,19 @@ import { AddToAlbumComponent } from '../add-to-album/add-to-album.component';
   styleUrls: ['./upload-photo.component.scss'],
 })
 export class UploadPhotoComponent implements OnInit {
-  form: FormGroup;
+  public form: FormGroup;
+  public image: string;
+  public tags: Tag[] = [];
+  // get album from parent component
   @Input() albumPage: boolean;
-  constructor(private modalController: ModalController,
-    private formBuilder: FormBuilder, private photoService: PhotoService, private alertCtrl: AlertController) { }
 
+  constructor(
+    private modalController: ModalController,
+    private formBuilder: FormBuilder, 
+    private photoService: PhotoService, 
+    private alertCtrl: AlertController) { }
 
-  image: string;
-  tags: Tag[] = [];
-
+  // Initialize form 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: '',
@@ -27,10 +31,12 @@ export class UploadPhotoComponent implements OnInit {
       file_type: '',
       date_last_modified: '',
       size: '',
-      isPublic: ''
+      isPublic: false
     });
   }
 
+  // Receieve photo information from upload
+  // Add data to form
   public addToForm(photoInfo) {
     console.log("PHOTOINFO")
     console.log(photoInfo);
@@ -42,11 +48,14 @@ export class UploadPhotoComponent implements OnInit {
     });
   }
 
+  // Insert a # on input
+  // Add to tags[] after space 
   tagFormat(event: any) {
     if (event.target.value.length == 0 || event.target.value == '') {
       event.target.value = '#'
     }
 
+    // keycode 32 = space
     if (event.keyCode == 32) {
       console.log("im a space")
       // ADD TAG
@@ -57,21 +66,25 @@ export class UploadPhotoComponent implements OnInit {
       console.log(this.tags);
     }
   }
+
+  // delete tag
   deleteTag(tag: any) {
     this.tags = this.tags.filter(e => e != tag)
   }
 
   isPublic(event: any): void {
-    const isPublic = event.target.checked;
-    console.log(isPublic);
+    // const isPublic = event.target.checked;
+    // console.log(isPublic);
   }
 
+  // Clear input 
   clear(event: any) {
     if (event.keyCode == 32 && event.target.value.length > 2) {
       event.target.value = '';
     }
   }
 
+  // open add to album dialog
   async presentAddToAlbumModal() {
     const modal = await this.modalController.create({
       component: AddToAlbumComponent,
@@ -83,12 +96,14 @@ export class UploadPhotoComponent implements OnInit {
     return await modal.present();
   }
 
+  // Create photo
   submit() {
     this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
       this.closeModal(this.tags, res);
     })
   }
 
+  // After close send tag and photo data to photo component
   async closeModal(tags?: Tag[], photo?: any): Promise<void> {
     await this.modalController.dismiss({ tags: tags, photo: photo });
   }
@@ -117,7 +132,5 @@ export class UploadPhotoComponent implements OnInit {
     else {
       this.modalController.dismiss();
     }
-
   }
-
 }

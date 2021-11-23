@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form">
   <ion-header class="modal-header" style="margin-bottom: 25px;">
     <ion-toolbar>
       <ion-title>
@@ -34,7 +34,7 @@
 
     <label style="padding-bottom: 5px;">Sharing options:</label>
     <div style="display: inline-block">
-      <ion-checkbox (ionChange)="isPublic($event)" checked="false" formControlName="isPublic" id="public"
+      <ion-checkbox (ionChange)="isPublic($event)" formControlName="isPublic" id="public"
         style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
       <label> Allow photo to be in Discover</label>
     </div>

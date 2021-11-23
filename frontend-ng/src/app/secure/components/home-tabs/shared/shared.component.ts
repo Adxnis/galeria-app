@@ -11,4 +11,8 @@ export class SharedComponent implements OnInit {
 
   ngOnInit() {}
 
+  public presentUploadSharedAlbumModal() {
+    
+  }
+
 }

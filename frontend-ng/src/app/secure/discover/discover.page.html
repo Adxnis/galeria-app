@@ -1,9 +1,9 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>discover</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<div class="header w3-card" style="background-color: rgb(9, 58, 114);">
+  <header>
+    <h2>{{title}}</h2>
+  </header>
+  <div>
+    <label style="padding-right:7px;align-self:flex-end;">Log out</label>
+    <ion-icon routerLink="/login" (click)="logout()" color="danger"style="font-size: 20px; cursor:pointer; align-self:flex-end; margin-bottom: -6%;" name="log-out-outline"></ion-icon>
+  </div>
+</div>
