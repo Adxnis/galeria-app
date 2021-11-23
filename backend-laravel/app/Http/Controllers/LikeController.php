@@ -27,7 +27,7 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        $like = Like::create([
+        $like = Like::firstOrCreate([
             'photo_id' => $request->input('photo_id'),
             'user_id' => Auth::user()->id
         ]);
@@ -64,7 +64,8 @@ class LikeController extends Controller
      */
     public function destroy($id)
     {
-        Like::destroy($id);
+        $user_id = $id;
+        Like::where('user_id', $user_id)->delete();
         return \response(null, Response::HTTP_NO_CONTENT);
     }
 }

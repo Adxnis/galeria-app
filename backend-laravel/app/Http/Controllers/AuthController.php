@@ -54,7 +54,7 @@ class AuthController extends Controller
 
     public function user(Request $request) {
         $user = $request->user();
-        return new UserResource($user);
+        return new UserResource(($user)->load('photos', 'albums'));
     }
 
 

@@ -74,6 +74,7 @@ class PhotoController extends Controller
         //
         $photo = Photo::find($id);
         $photo ->update($request->only('name'));
+        return \response(new PhotoResource($photo), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -92,6 +93,7 @@ class PhotoController extends Controller
     public function getUserPhotos(Request $request) {
 
         $user_id = Auth::user()->id;
-        return Photo::where('user_id', "=" ,$user_id)->get();
+        $photos = Photo::where('user_id', "=" ,$user_id)->get();
+        return PhotoResource::collection($photos);
     }
 }

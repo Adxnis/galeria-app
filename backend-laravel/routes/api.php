@@ -9,6 +9,8 @@ use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DiscoveryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +34,17 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('userPhotos', [PhotoController::class, 'getUserPhotos']);
     Route::get('userAlbums', [AlbumController::class, 'getUserAlbums']);
     Route::post('upload', [ImageController::class, 'upload']);
+    Route::get('getUsers', [UserController::class, 'getUsers']);
+    Route::get('getUser', [UserController::class, 'getUser']);
+    Route::get('getCommentsFromPhoto/{id}', [CommentController::class, 'getCommentsFromPhoto']);
+    Route::get('getPublicPhotos', [DiscoveryController::class, 'index']);
+
 
 });
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
+
 
 

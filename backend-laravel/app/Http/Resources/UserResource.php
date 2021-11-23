@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\PhotoResource;
 class UserResource extends JsonResource
 {
     /**
@@ -30,8 +30,8 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
             'total_photos' => $this->totalPhotos,
             'total_albums' => $this->totalAlbums,
-            'photos' => $this->photos,
-            'albums' => $this->albums,
+            'photos' => PhotoResource::collection($this->whenLoaded('photos')),
+            'albums' => AlbumResource::collection($this->whenLoaded('albums')),
         ];
     }
 }

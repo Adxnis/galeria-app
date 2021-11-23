@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Photo;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 class CommentController extends Controller
@@ -29,6 +30,7 @@ class CommentController extends Controller
         $comment = Comment::create([
             'user_id' => Auth::user()->id,
             'photo_id' => $request->input('photo_id'),
+            'username' => $request->input('username'),
             'body' => $request->input('body')
         ]);
 
@@ -43,7 +45,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        return Comment::find($id)->load('photos');
+        return Comment::find($id)->load('photo');
     }
 
     /**
@@ -70,5 +72,10 @@ class CommentController extends Controller
     {
         Comment::destroy($id);
         return \response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function getCommentsFromPhoto($id) {
+        $photo_id = Photo::find($id)->id;
+        return Comment::where('photo_id', '=', $photo_id)->get();
     }
 }

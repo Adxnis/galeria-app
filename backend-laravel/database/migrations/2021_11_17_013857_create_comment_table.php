@@ -9,7 +9,7 @@ class CreateCommentTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return void 
      */
     public function up()
     {
@@ -17,9 +17,9 @@ class CreateCommentTable extends Migration
             $table->id();
             $table->unsignedBigInteger('photo_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('username');
             $table->timestamps();
             $table->text('body');
-        
             $table->foreign('photo_id')->references('id')->on('photo')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
         });
