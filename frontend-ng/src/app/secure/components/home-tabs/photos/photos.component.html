@@ -1,13 +1,34 @@
 <div class="photos">
   <div style="height: 5vh;">
     <ion-button (click)="presentUploadModal()" fill="clear" size="small" color="primary">Upload Photo</ion-button>
+    <ion-button style="float: right;" fill="clear" size="small" color="dark">Total Number of Photos:
+      {{this.photos?.length}}</ion-button>
   </div>
 
-  <div style="height:80vh; border: 1px solid red; overflow:scroll;">
+  <div *ngIf="this.view==='full'" style="height:100vh;overflow:scroll;padding: 0 20px 500px;">
     <section class="grid-image-gallery">
       <span *ngFor="let item of photos">
         <img style="cursor: pointer;" (click)="goToSinglePhotoView(item.id);" src="{{item.file_name}}">
       </span>
     </section>
+  </div>
+
+  <div *ngIf="this.view==='compact'" style="height:90vh; overflow:scroll; padding: 0 20px 100px;">
+    <div *ngFor="let photo of photos" class="responsive">
+      <div class="gallery">
+        <img class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400">
+        <ion-icon class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
+
+        <div class="desc">
+          <p>{{photo.name}}</p>
+          <div style="display: flex; justify-content: space-between">
+            <p id="details">@{{photo.user.username}}</p>
+            <p id="details" style="max-width: 120px; overflow: auto; white-space: nowrap">
+              <span *ngFor="let tag of photo.tags">#{{tag.title}} </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

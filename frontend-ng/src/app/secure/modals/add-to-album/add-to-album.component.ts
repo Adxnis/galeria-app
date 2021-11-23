@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { AlbumService } from 'src/app/services/album.service';
 import { CreateNewAlbumComponent } from '../create-new-album/create-new-album.component';
+import { Album } from 'src/app/interfaces/album';
 @Component({
   selector: 'app-add-to-album',
   templateUrl: './add-to-album.component.html',
@@ -9,13 +10,13 @@ import { CreateNewAlbumComponent } from '../create-new-album/create-new-album.co
 })
 export class AddToAlbumComponent implements OnInit {
 
-  public albums = [];
+  public albums: Album[];
   public sharedAlbums = [];
   public image: string;
+  public selectedAlbumId: number
   constructor(private modalController: ModalController, private alertCtrl: AlertController, private albumService: AlbumService, private navParams: NavParams) { }
 
   ngOnInit() {
-    console.log("IM IN HERE");
     this.getAlbums();
     this.image = this.navParams.data.image;
     console.log(this.image);
@@ -64,5 +65,9 @@ export class AddToAlbumComponent implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  getSelectedAlbum(album: Album) {
+    this.modalController.dismiss(album);
   }
 }

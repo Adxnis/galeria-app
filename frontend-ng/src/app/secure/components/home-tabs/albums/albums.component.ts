@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { Album } from 'src/app/interfaces/album';
 import { AlbumService } from 'src/app/services/album.service';
@@ -12,6 +12,7 @@ import { EditAlbumPopoverComponent } from 'src/app/secure/modals/edit-album-popo
 })
 export class AlbumsComponent implements OnInit {
 
+  @Input() view: string;
   public albums: Album[] = [];
   constructor(private modalController: ModalController, private albumService: AlbumService, private popoverController: PopoverController) { }
 
@@ -40,12 +41,16 @@ export class AlbumsComponent implements OnInit {
     });
     await modal.present();
     modal.onDidDismiss().then((res) => {
-
-      this.getAlbums();
+      
+      // this.getAlbums();
       if (res.data != undefined) {
-        this.albumService.update(res.data.album_id, { photos: [res.data.photo.id] }).subscribe((res) => console.log(res));
+        this.albumService.update(res.data.album_id, { photos: [res.data.photo.id] }).subscribe((res) =>
+         {
+           console.log(res);
+           this.getAlbums();
+         });
       }
-      this.getAlbums();
+    
     });
 
   }

@@ -31,6 +31,7 @@ class PhotoResource extends JsonResource
             'likes' => $this->likes,
             'comments' => $this->comments,
             'tags' => $this->tags,
+            'user' => $this->user
         ];
     }
 }

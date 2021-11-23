@@ -1,9 +1,18 @@
 <div class="albums">
   <div style="height: 5vh;">
     <ion-button (click)="presentCreateModal()" fill="clear" size="small" color="primary">Create New Album</ion-button>
+    <ion-button style="float: right;" fill="clear" size="small" color="dark">Total Number of Albums: {{this.albums.length}}</ion-button>
   </div>
 
-  <div style="height:80vh; overflow:scroll; padding: 0 50px">
+  <div *ngIf="this.view==='full'" style="height:100vh;overflow:scroll;">
+    <section class="grid-image-gallery">
+      <span *ngFor="let album of albums">
+        <img *ngIf="album.photos.length > 0" style="cursor: pointer;" src="{{album.photos[0].file_name}}">
+        <img *ngIf="album.photos.length == 0" style="cursor: pointer;" src="http://localhost:8000/resources/empty_album.png">
+      </span>
+    </section>
+  </div>
+  <div *ngIf="this.view === 'compact'" style="height:90vh; overflow:scroll; padding: 0 20px 100px;">
     <div *ngFor="let album of albums " class="responsive">
       <div class="gallery" >
 

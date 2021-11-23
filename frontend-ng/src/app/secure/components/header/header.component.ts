@@ -12,7 +12,11 @@ import { ViewPopoverComponent } from '../../../secure/modals/view-popover/view-p
 })
 export class HeaderComponent implements OnInit {
   @Output() displayActiveTab = new EventEmitter<string>();
+  @Output() displayView = new EventEmitter<string>();
   public title = 'Galeria';
+  currentView: string = "compact";
+  public fullView: boolean;
+  public compactView: boolean = true;
 
   constructor(public popoverController: PopoverController, private authService: AuthService, private router: Router) { }
 
@@ -22,6 +26,9 @@ export class HeaderComponent implements OnInit {
     this.displayActiveTab.emit(tab);
   }
 
+  changeView(view: string) {
+    this.displayView.emit(view)
+  }
   async presentViewMenu(ev?: any) {
     console.log('IM IN HERE');
     const popover = await this.popoverController.create({
@@ -31,11 +38,18 @@ export class HeaderComponent implements OnInit {
       translucent: true,
       showBackdrop: false,
       animated: false,
+      componentProps: {currentView: this.currentView}
     });
     await popover.present();
 
-    const { role } = await popover.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+    await popover.onDidDismiss().then((res) => {
+      if(res.data != undefined) {
+        console.log(res.data.value);
+        let view = res.data.value;
+        this.currentView = view;
+        this.changeView(view);
+      }
+    })
   }
 
   async presentSortMenu(ev: any) {

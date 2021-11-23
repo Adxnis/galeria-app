@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { IonRadio, IonRadioGroup, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-view-popover',
@@ -6,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-popover.component.scss'],
 })
 export class ViewPopoverComponent implements OnInit {
+  @ViewChild('radioGroup') radioGroup: IonRadioGroup;
+  @Input() currentView: string;
 
-  constructor() { }
+  viewMode = "";
+  constructor(private popoverController: PopoverController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.viewMode = this.currentView;
+  }
 
+  radioGroupChange(event: any) {
+    let viewChanged = event.detail;
+    this.viewMode = this.radioGroup.value;
+    this.popoverController.dismiss(viewChanged);
+  }
 }

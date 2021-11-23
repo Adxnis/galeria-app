@@ -23,7 +23,7 @@
   <div style="overflow:scroll; height: 30vh; display:flex; width: 100%;" class="w3-border-red w3-border">
     <ul id="personal">
       <li *ngFor="let album of this.albums" style="padding-left:10px;">
-        <ion-icon style="margin-bottom: -10%;" size="large" name="albums-sharp"></ion-icon>
+        <ion-icon (click)="getSelectedAlbum(album)" style="margin-bottom: -10%;" size="large" name="albums-sharp"></ion-icon>
         <label style="margin-left: 7px;">{{album.album_name}}</label>
         <br>
       </li>

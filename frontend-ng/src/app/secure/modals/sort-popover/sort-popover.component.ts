@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { IonRadioGroup, ModalController, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-sort-popover',
@@ -8,6 +8,8 @@ import { ModalController, PopoverController } from '@ionic/angular';
 })
 export class SortPopoverComponent implements OnInit {
 
+  @ViewChild('radioGroup') radioGroup: IonRadioGroup;
+  @Input() sortBy: string;
   @Output() sortValue = new EventEmitter<string>();
   constructor(private popover: PopoverController) { }
 

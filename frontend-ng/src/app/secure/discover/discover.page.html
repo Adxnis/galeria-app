@@ -1,9 +1,67 @@
-<div class="header w3-card" style="background-color: rgb(9, 58, 114);">
-  <header>
-    <h2>{{title}}</h2>
-  </header>
-  <div>
-    <label style="padding-right:7px;align-self:flex-end;">Log out</label>
-    <ion-icon routerLink="/login" (click)="logout()" color="danger"style="font-size: 20px; cursor:pointer; align-self:flex-end; margin-bottom: -6%;" name="log-out-outline"></ion-icon>
+<div>
+  <div class="header w3-card" style="background-color: rgb(9, 58, 114);">
+    <header>
+      <h2>{{title}}</h2>
+    </header>
+    <div>
+      <label style="padding-right:7px;align-self:flex-end;">Log out</label>
+      <ion-icon routerLink="/login" (click)="logout()" color="danger"
+        style="font-size: 20px; cursor:pointer; align-self:flex-end; margin-bottom: -6%;" name="log-out-outline">
+      </ion-icon>
+    </div>
   </div>
-</div>
+
+  <div class="main-bar">
+    <!-- Albums | Photos | Shared -->
+
+    <div style="align-self: flex-end; padding-left: 5px;">
+      <h3>Discover</h3>
+    </div>
+
+    <!-- Search bar with search icon -->
+    <div class="search" style="border-radius: 20px; border:˚ 1px solid rgb(9, 58, 114);margin-bottom:-2px;">
+      <ion-searchbar style="--border-radius: 20px;--box-shadow:0; --icon-color: rgb(9, 58, 114)" animated>
+      </ion-searchbar>
+    </div>
+
+    <!-- Sort & View -->
+    <div class="options">
+      <label>Sort</label>
+      <ion-icon (click)="presentSortMenu($event)" class="options-icons" name='funnel'></ion-icon>
+
+      <label style="padding-left: 10px;padding-bottom:15px">View</label>
+      <ion-icon (click)="presentViewMenu($event)" class="options-icons" name="grid"></ion-icon>
+    </div>
+
+
+  </div>
+
+  <div *ngIf="fullView" style="height:100vh;overflow:scroll; padding: 0 20px 500px; margin-top: 10px;">
+    <section class="grid-image-gallery">
+      <span *ngFor="let item of photos">
+        <img style="cursor: pointer;"  src="{{item.file_name}}">
+      </span>
+    </section>
+  </div>
+
+  <div *ngIf="compactView" style="height:90vh; overflow:scroll; padding: 0 20px 200px;">
+    <div *ngFor="let photo of photos" class="responsive">
+      <div class="gallery">
+        <img class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400">
+        <ion-icon  class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
+
+        <div class="desc">
+          <p>{{photo.name}}</p>
+          <div style="display: flex; justify-content: space-between">
+            <p id="details">@{{photo.user.username}}</p>
+            <p id="details"  style="max-width: 120px; overflow: auto; white-space: nowrap">
+              <span *ngFor="let tag of photo.tags">#{{tag.title}}  </span>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>

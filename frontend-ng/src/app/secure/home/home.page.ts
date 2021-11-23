@@ -7,6 +7,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
+  view: string = "compact";
   activeTab = "albums";
   constructor() { }
 
@@ -14,12 +15,14 @@ export class HomePage implements OnInit {
     console.log("hey")
   }
 
+  // tabs
   display(tab: string) {
     this.activeTab = tab;
+    console.log("TAB: " + tab);
   }
 
-  ngOnChanges(changes: SimpleChanges){
-    console.log("JSNS");
+  changeView(view: string) {
+    console.log("View: " + view);
+    this.view = view;
   }
-
 }

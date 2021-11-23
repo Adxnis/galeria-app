@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
@@ -13,7 +13,11 @@ import { UploadPhotoComponent } from '../../../../secure/modals/upload-photo/upl
 })
 export class PhotosComponent implements OnInit {
 
+  currentView: string = "compact";
+  public fullView: boolean;
+  public compactView: boolean = true;
 
+  @Input() view: string;
   public photos: Photo[];
   currentRoute: string;
   constructor(
@@ -21,41 +25,26 @@ export class PhotosComponent implements OnInit {
     private photoService: PhotoService, private tagService: TagService, private router: Router) {
     this.currentRoute = "";
     this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        // this.getPhotos();
-        console.log('Route change detected');
-      }
-
       if (event instanceof NavigationEnd) {
-
-        // Hide progress spinner or progress bar
         this.currentRoute = event.url;
         if (this.currentRoute == "/home" && event.urlAfterRedirects === "/home") {
           this.getPhotos();
         }
         console.log(event);
       }
-
-      if (event instanceof NavigationError) {
-        // Hide progress spinner or progress bar
-
-        // Present error to user
-        console.log(event.error);
-      }
     });
   }
 
   ngOnInit() {
     this.getPhotos();
+    console.log("View: " + this.view);
   }
 
-  ngonChanges(changes: SimpleChanges) {
-    console.log("JSNS")
-  }
+
 
   // Populate photos
   public getPhotos() {
-    this.photoService.getUserPhotos().subscribe(photos => this.photos = photos);
+    this.photoService.getUserPhotos().subscribe((photos: Photo[]) => this.photos = photos);
   }
 
   // Show upload photo dialog

@@ -47,4 +47,9 @@ class Album extends Model
     public function getTotalPhotosAttribute() {
         return $this->photos->count();
     }
+
+    public function getTotalSizeAttribute() {
+        return $this->photos->sum(fn(Photo $photo) => $photo->size);
+    }
 }
+

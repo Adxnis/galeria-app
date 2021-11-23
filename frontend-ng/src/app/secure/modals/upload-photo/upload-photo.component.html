@@ -34,7 +34,7 @@
 
     <label style="padding-bottom: 5px;">Sharing options:</label>
     <div style="display: inline-block">
-      <ion-checkbox (ionChange)="isPublic($event)" formControlName="isPublic" id="public"
+      <ion-checkbox formControlName="isPublic" id="public"
         style="top:7%; --size: 12px; margin-right: 2px;"></ion-checkbox>
       <label> Allow photo to be in Discover</label>
     </div>
@@ -44,10 +44,12 @@
     <div *ngIf="!this.albumPage">
       <div *ngIf="this.image" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
         <label>Add to Albums (optional)</label>
-        <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
+        <div>
+          <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
+          <div style="color:rgb(53, 161, 26); padding-top: 10px" *ngIf="this.selectedAlbumName">*Adding to Album {{this.selectedAlbumName}}</div>
+        </div>
         <br>
-
-        <ion-button (click)="submit()" style="align-self: center;">Upload</ion-button>
+        <ion-button (click)="submit()">Upload</ion-button>
       </div>
     </div>
 

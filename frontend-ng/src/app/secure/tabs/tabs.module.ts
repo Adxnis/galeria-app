@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 import { TabsPage } from './tabs.page';
 import { HttpClientModule } from '@angular/common/http';
+import { ComponentsModule } from 'src/app/components';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     TabsPageRoutingModule,
     HttpClientModule,
     RouterModule,
+    ComponentsModule
   ],
   declarations: [TabsPage]
 })

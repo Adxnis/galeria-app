@@ -1,6 +1,7 @@
 import { Album } from "./album";
 import { Tag } from "./tag";
 import { Comment } from "./comment";
+import { User } from "./user";
 
 export interface Photo {
     id: number;
@@ -22,5 +23,6 @@ export interface Photo {
     likes: any[];
     tags: Tag[];
     comments: Comment[];
+    user: User;
 
 }

@@ -14,6 +14,7 @@ export class UploadPhotoComponent implements OnInit {
   public form: FormGroup;
   public image: string;
   public tags: Tag[] = [];
+  public selectedAlbumName: string
   // get album from parent component
   @Input() albumPage: boolean;
 
@@ -29,9 +30,9 @@ export class UploadPhotoComponent implements OnInit {
       name: '',
       file_name: '',
       file_type: '',
-      date_last_modified: '',
       size: '',
-      isPublic: false
+      isPublic: false,
+      albums: []
     });
   }
 
@@ -72,11 +73,6 @@ export class UploadPhotoComponent implements OnInit {
     this.tags = this.tags.filter(e => e != tag)
   }
 
-  isPublic(event: any): void {
-    // const isPublic = event.target.checked;
-    // console.log(isPublic);
-  }
-
   // Clear input 
   clear(event: any) {
     if (event.keyCode == 32 && event.target.value.length > 2) {
@@ -92,8 +88,18 @@ export class UploadPhotoComponent implements OnInit {
       componentProps: { image: this.image },
       id: 'add-to-album'
     });
-    await this.modalController.dismiss();
-    return await modal.present();
+    // await this.modalController.dismiss();
+    await modal.present();
+    await modal.onDidDismiss().then((res) => {
+      if(res.data != undefined) {
+        console.log(res);
+        let album = []
+        album[0] = res.data.id;
+        this.form.controls['albums'].patchValue(album);
+
+        this.selectedAlbumName = res.data.album_name
+      }
+    })
   }
 
   // Create photo
@@ -101,6 +107,7 @@ export class UploadPhotoComponent implements OnInit {
     this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
       this.closeModal(this.tags, res);
     })
+    // console.log(this.form.getRawValue())
   }
 
   // After close send tag and photo data to photo component
