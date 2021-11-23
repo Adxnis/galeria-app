@@ -9,4 +9,12 @@ export interface User {
     email: string;
     photos?: Photo[];
     albums?: Album[];
+    created_at: Date;
+    updated_at: Date;
+    total_photos: number;
+    total_albums: number;
+    isNotificationsEnabled: boolean;
+    isPublic: boolean;
+    profile_picture: string;
+
 }

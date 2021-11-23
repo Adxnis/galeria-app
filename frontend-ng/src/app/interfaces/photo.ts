@@ -1,5 +1,6 @@
 import { Album } from "./album";
 import { Tag } from "./tag";
+import { Comment } from "./comment";
 
 export interface Photo {
     id: number;
@@ -7,14 +8,19 @@ export interface Photo {
     name: string;
     file_name: string;
     size: string;
-    albums?: Album[];
-    isPublic: boolean;
     file_type: string;
-    likes: any[];
-    tags: Tag[];
     created_at: Date;
     updated_at: Date;
+
     total_likes: number;
     total_comments: number;
     total_tags: number;
+
+    isPublic: boolean;
+
+    albums?: Album[];
+    likes: any[];
+    tags: Tag[];
+    comments: Comment[];
+
 }

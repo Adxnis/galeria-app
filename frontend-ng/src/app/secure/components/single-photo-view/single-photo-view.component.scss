@@ -7,11 +7,12 @@ ion-input {
     margin: 0 auto;
 }
 
-ion-button {
+button {
     text-transform: capitalize;
-    height: 20px;
-    width: 60px;
-    margin-top: 3px;
+    background: rgb(9, 58, 114);
+    color: white;
+    padding: 1px 7px;
+    border-radius: 7px;
 }
 
 *{
@@ -21,15 +22,14 @@ ion-button {
 }
 
 img{
-    max-width: 100%;
+    width: 100%;
     max-height: 90%;
     display: block; /* remove extra space below image */
     margin: 0 auto;
 }
 .box{
-    width: 100%; 
+    min-width: 500px; 
     height: 100%;
-   
 }   
 
 ion-icon {
@@ -66,4 +66,10 @@ ion-icon:hover {
 
 .disabled:hover {
     animation:  none;
+}
+
+.author {
+    p {
+        padding:0;
+    }
 }

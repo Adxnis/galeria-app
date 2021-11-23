@@ -18,6 +18,7 @@ import { EditAlbumPopoverComponent } from './secure/modals/edit-album-popover/ed
 import { RenameAlbumComponent } from './secure/modals/rename-album/rename-album.component';
 import { SinglePhotoViewComponent } from './secure/components/single-photo-view/single-photo-view.component';
 import { ImageViewComponent } from './secure/components/image-view/image-view.component';
+import { MoreInfoPhotoPopoverComponent } from './secure/modals/more-info-photo-popover/more-info-photo-popover.component';
 import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -45,7 +46,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
         EditAlbumPopoverComponent,
         RenameAlbumComponent,
         SinglePhotoViewComponent,
-        ImageViewComponent
+        ImageViewComponent,
+        MoreInfoPhotoPopoverComponent
 
     ],
     exports: [
@@ -62,7 +64,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
         EditAlbumPopoverComponent,
         RenameAlbumComponent,
         SinglePhotoViewComponent,
-        ImageViewComponent
+        ImageViewComponent,
+        MoreInfoPhotoPopoverComponent
 
     ],
     entryComponents: [

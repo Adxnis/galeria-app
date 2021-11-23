@@ -1,5 +1,5 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError} from '@angular/router';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -14,44 +14,47 @@ import { UploadPhotoComponent } from '../../../../secure/modals/upload-photo/upl
 export class PhotosComponent implements OnInit {
 
 
-  public photos: Photo[] = [];
+  public photos: Photo[];
   currentRoute: string;
   constructor(
     private modalController: ModalController,
     private photoService: PhotoService, private tagService: TagService, private router: Router) {
-      this.currentRoute = "";
+    this.currentRoute = "";
     this.router.events.subscribe((event: Event) => {
-        if (event instanceof NavigationStart) {
-            this.getPhotos();
-            console.log('Route change detected');
-        }
+      if (event instanceof NavigationStart) {
+        // this.getPhotos();
+        console.log('Route change detected');
+      }
 
-        if (event instanceof NavigationEnd) {
-            // Hide progress spinner or progress bar
-            this.currentRoute = event.url;          
-            console.log(event);
-        }
+      if (event instanceof NavigationEnd) {
 
-        if (event instanceof NavigationError) {
-             // Hide progress spinner or progress bar
-
-            // Present error to user
-            console.log(event.error);
+        // Hide progress spinner or progress bar
+        this.currentRoute = event.url;
+        if (this.currentRoute == "/home" && event.urlAfterRedirects === "/home") {
+          this.getPhotos();
         }
-     })
+        console.log(event);
+      }
+
+      if (event instanceof NavigationError) {
+        // Hide progress spinner or progress bar
+
+        // Present error to user
+        console.log(event.error);
+      }
+    });
   }
 
-  ngOnInit() { 
-    console.log("hey")
+  ngOnInit() {
     this.getPhotos();
   }
 
-  ngonChanges(changes: SimpleChanges){
+  ngonChanges(changes: SimpleChanges) {
     console.log("JSNS")
   }
 
   // Populate photos
-  public async getPhotos() {
+  public getPhotos() {
     this.photoService.getUserPhotos().subscribe(photos => this.photos = photos);
   }
 
@@ -59,9 +62,9 @@ export class PhotosComponent implements OnInit {
   public async presentUploadModal() {
     const modal = await this.modalController.create({
       component: UploadPhotoComponent,
-      cssClass: 'upload-photo auto-height', 
+      cssClass: 'upload-photo auto-height',
       backdropDismiss: false,
-      
+
     });
     await modal.present();
     modal.onDidDismiss().then((res) => {
@@ -69,17 +72,16 @@ export class PhotosComponent implements OnInit {
       this.getPhotos();
 
       console.log(res);
-      if (res.data != undefined) {      
+      if (res.data != undefined) {
         let tagName: string[] = res.data.tags;
-        for(let i=0; i < tagName.length; i++) {
+        for (let i = 0; i < tagName.length; i++) {
           // Add tags to photo
-          this.tagService.create({title: tagName[i], photos: [res.data.photo.id]}).subscribe((res) => 
-            {
-              console.log("Created tags");
-              console.log(res)
-            });
+          this.tagService.create({ title: tagName[i], photos: [res.data.photo.id] }).subscribe((res) => {
+            console.log("Created tags");
+            console.log(res)
+          });
         }
-      }      
+      }
     });
   }
 
@@ -89,6 +91,6 @@ export class PhotosComponent implements OnInit {
     this.router.navigate(['/photos', photo_id]);
   }
 
-  
+
 
 }

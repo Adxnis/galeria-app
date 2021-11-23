@@ -8,10 +8,6 @@ const routes: Routes = [
     path: '',
     component: PhotoViewPage
   },
-  {
-    path: '',
-    component: PhotoViewPage
-  }
 ];
 
 @NgModule({
