@@ -8,6 +8,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 export class HomePage implements OnInit {
 
   view: string = "compact";
+  sort: string = "sortByDate";
   activeTab = "albums";
   constructor() { }
 
@@ -24,5 +25,10 @@ export class HomePage implements OnInit {
   changeView(view: string) {
     console.log("View: " + view);
     this.view = view;
+  }
+
+  changeSort(sort: string) {
+    console.log("Sort: " + sort);
+    this.sort = sort;
   }
 }

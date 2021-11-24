@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ImageViewComponent } from './image-view.component';
+import { AlbumPhotoViewPage } from './album-photo-view.page';
 
-describe('ImageViewComponent', () => {
-  let component: ImageViewComponent;
-  let fixture: ComponentFixture<ImageViewComponent>;
+describe('AlbumPhotoViewPage', () => {
+  let component: AlbumPhotoViewPage;
+  let fixture: ComponentFixture<AlbumPhotoViewPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImageViewComponent ],
+      declarations: [ AlbumPhotoViewPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImageViewComponent);
+    fixture = TestBed.createComponent(AlbumPhotoViewPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

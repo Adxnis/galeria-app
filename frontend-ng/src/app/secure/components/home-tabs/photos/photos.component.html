@@ -16,7 +16,7 @@
   <div *ngIf="this.view==='compact'" style="height:90vh; overflow:scroll; padding: 0 20px 100px;">
     <div *ngFor="let photo of photos" class="responsive">
       <div class="gallery">
-        <img class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400">
+        <img style="cursor: pointer;" class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400" (click)="goToSinglePhotoView(photo.id);">
         <ion-icon class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
 
         <div class="desc">

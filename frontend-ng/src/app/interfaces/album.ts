@@ -8,4 +8,5 @@ export interface Album {
     total_photos: number;
     created_at: Date;
     updated_at: Date;
+    total_size: number;
 }

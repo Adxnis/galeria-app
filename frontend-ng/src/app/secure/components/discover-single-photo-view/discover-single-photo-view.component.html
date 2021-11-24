@@ -14,8 +14,8 @@
 
     <div class="box" style=" width: 80%; margin: 5px 20px; overflow:scroll">
       <div style="display: flex; margin-bottom: 2px;">
-        <ion-input debounce="1000" [(ngModel)]="photo_name" (ionChange)="updatePhotoName()" value="{{this.photos[index].name}}"></ion-input>
-        <ion-icon (click)="deletePhoto()" style="font-size: 20px; margin-top: 6px" name="trash-outline"></ion-icon>
+        <ion-input debounce="1000" [(ngModel)]="photo_name" value="{{this.photos[this.index].name}}"></ion-input>
+       
         <ion-icon (click)="zoomInPhoto()" style="font-size: 20px; margin-top: 6px" name="square-outline"></ion-icon>
         <ion-icon (click)="zoomOutPhoto()" style="font-size: 20px; margin-top: 6px" name="stop-outline"></ion-icon>
         <ion-icon (click)="moreInfo($event)" style="font-size: 20px; margin-top: 6px" name="ellipsis-vertical-outline"></ion-icon>
@@ -36,7 +36,7 @@
           <ion-icon *ngIf="photo_liked === false" (click)="likePhoto(index)" name="heart-outline" style="font-size: 16px; margin-bottom: -5%;"></ion-icon>
           <label>{{(this.photos[index].total_likes) ? this.photos[index].total_likes : '0'}}</label>
 
-          <ion-icon (click)="commentSection()" style="font-size: 16px; margin-bottom: -5%;"
+          <ion-icon style="font-size: 16px; margin-bottom: -5%;"
             name="chatbox-ellipses-outline"></ion-icon>
           <label>{{(this.photos[index].total_comments) ? this.photos[index].total_comments : '0'}}</label>
         </div>

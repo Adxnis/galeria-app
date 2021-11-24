@@ -36,18 +36,18 @@
 
   </div>
 
-  <div *ngIf="fullView" style="height:100vh;overflow:scroll; padding: 0 20px 500px; margin-top: 10px;">
+  <div *ngIf="currentView == 'full'"  style="height:100vh;overflow:scroll; padding: 0 20px 500px; margin-top: 10px;">
     <section class="grid-image-gallery">
-      <span *ngFor="let item of photos">
-        <img style="cursor: pointer;"  src="{{item.file_name}}">
+      <span *ngFor="let photo of photos">
+        <img (click)="goToSinglePhotoView(photo.id)" style="cursor: pointer;"  src="{{photo.file_name}}">
       </span>
     </section>
   </div>
 
-  <div *ngIf="compactView" style="height:90vh; overflow:scroll; padding: 0 20px 200px;">
+  <div *ngIf="currentView == 'compact'" style="height:90vh; overflow:scroll; padding: 0 20px 200px;">
     <div *ngFor="let photo of photos" class="responsive">
       <div class="gallery">
-        <img class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400">
+        <img (click)="goToSinglePhotoView(photo.id)" class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400">
         <ion-icon  class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
 
         <div class="desc">

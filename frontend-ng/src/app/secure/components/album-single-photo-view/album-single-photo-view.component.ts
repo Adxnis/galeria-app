@@ -1,34 +1,37 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Photo } from 'src/app/interfaces/photo';
-import { Comment } from 'src/app/interfaces/comment';
-import { User } from 'src/app/interfaces/user';
-import { PhotoService } from 'src/app/services/photo.service';
-import { AuthService } from 'src/app/services/auth.service';
-
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, PopoverController } from '@ionic/angular';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { CommentService } from 'src/app/services/comment.service';
+import { Album } from 'src/app/interfaces/album';
+import { Photo } from 'src/app/interfaces/photo';
+import { User } from 'src/app/interfaces/user';
 import { AlbumService } from 'src/app/services/album.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
+import { PhotoService } from 'src/app/services/photo.service';
 import { MoreInfoPhotoPopoverComponent } from '../../modals/more-info-photo-popover/more-info-photo-popover.component';
 
 @Component({
-  selector: 'app-single-photo-view',
-  templateUrl: './single-photo-view.component.html',
-  styleUrls: ['./single-photo-view.component.scss'],
+  selector: 'app-album-single-photo-view',
+  templateUrl: './album-single-photo-view.component.html',
+  styleUrls: ['./album-single-photo-view.component.scss'],
 })
-export class SinglePhotoViewComponent implements OnInit {
+export class AlbumSinglePhotoViewComponent implements OnInit {
+
   public photo_id: number;
+  public album_id: number;
   public photos: Photo[];
   public user: User;
+  public user_id: number;
+
   public index: number;
   public total_photos: number;
   public form: FormGroup;
-  public comments: Comment[];
+  // public comments: Comment[];
   public photo_liked: boolean = false;
   public photo_name: string;
+  public album: Album;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -49,66 +52,19 @@ export class SinglePhotoViewComponent implements OnInit {
       body: ''
     });
 
-    this.getUserPhotos();
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = parseInt(params.get('id'));
-      this.photo_id = id;
-      this.getUserPhotos();
-    });
+    
+    this.album_id = parseInt(this.route.snapshot.paramMap.get('id1'));
+    this.photo_id = parseInt(this.route.snapshot.paramMap.get('id2'));
+
+
+  
+    this.authService.user().subscribe((user: User) => {this.user = user; this.user_id = user.id});
+    this.getAlbumPhotos();
+
 
   }
 
-  // Go to previous photo
-  public goPrevious() {
-    console.log(this.index);
-    if (this.index != 0) {
-      let previousId = this.photos[this.index - 1].id;
-      this.router.navigate(['/photos', previousId]);
-    }
-  }
 
-  // Go to next photo unless photo is the last one
-  public goNext() {
-    if (this.index != this.photos.length - 1) {
-      console.log("Next");
-      console.log(this.index);
-      let nextId = this.photos[this.index + 1].id;
-      this.router.navigate(['/photos', nextId])
-    }
-    else {
-      this.goBack();
-    }
-  }
-
-  // return to all photos
-  public goBack() {
-    this.router.navigate(['/home'])
-  }
-
-  public commentSection() { }
-
-
-  // Get all users photos
-  public getUserPhotos() {
-    this.authService.user().subscribe((user: User) => {
-      this.photos = user.photos;
-      this.total_photos = user.total_photos;
-      this.user = user;
-      this.index = this.photos.findIndex(x => x.id === this.photo_id);
-      this.photo_name = this.user.photos[this.index].name;
-      const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
-      if (liked) {
-        console.log("I like this picture")
-        this.photo_liked = true;
-      };
-    })
-  };
-
-  public getPhotoById(id: number) {
-    this.photoService.get(id).subscribe((res: any) => {
-      this.photos[this.index] = res;
-    });
-  }
 
 
   // delete confirmation alert
@@ -125,7 +81,7 @@ export class SinglePhotoViewComponent implements OnInit {
             this.photoService.delete(this.photo_id).subscribe(() => {
               console.log("deleted");
               console.log("INDEX before: " + this.index)
-              // this.getUserPhotos();
+              // this.getAlbumPhotos();
               console.log("INDEX AFTEr: " + this.index)
               if (this.index == this.photos.length - 1 && this.index != 0) {
                 this.goPrevious();
@@ -149,13 +105,13 @@ export class SinglePhotoViewComponent implements OnInit {
     this.form.patchValue({ 'user_id': this.user.id, 'photo_id': this.photo_id, 'username': this.user.username })
     console.log(this.form.getRawValue());
     this.commentService.create(this.form.getRawValue()).subscribe(() => {
-      this.getUserPhotos();
+      this.getAlbumPhotos();
     });
   }
 
   public deleteComment(id: number): void {
     this.commentService.delete(id).subscribe(() => {
-      this.getUserPhotos();
+      this.getAlbumPhotos();
     })
   }
 
@@ -219,6 +175,60 @@ export class SinglePhotoViewComponent implements OnInit {
     });
     await popover.present();
   }
+
+
+    // Go to previous photo
+    public goPrevious() {
+      console.log(this.index);
+      if (this.index != 0) {
+        let previousId = this.photos[this.index - 1].id;
+        this.router.navigate([`album/${this.album_id}/photo`, previousId]);
+      }
+    }
+  
+    // Go to next photo unless photo is the last one
+    public goNext() {
+      if (this.index != this.photos.length - 1) {
+        console.log("Next");
+        console.log(this.index);
+        let nextId = this.photos[this.index + 1].id;
+        this.router.navigate([`album/${this.album_id}/photo`, nextId]);
+      }
+      else {
+        this.goBack();
+      }
+    }
+  
+    // return to all photos
+    public goBack() {
+      this.router.navigate([`album/${this.album_id}/`])
+    }
+
+    public getAlbumPhotos() {
+      this.albumService.get(this.album_id).subscribe((album: Album) => {
+        this.album = album;
+      
+        this.photos = album.photos;
+        console.log("Photos");
+        console.log(this.photos);
+
+        this.index = this.photos.findIndex(x => x.id === this.photo_id);
+        this.photo_name = this.photos[this.index].name;
+        this.total_photos = this.album.total_photos;
+        const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
+        if (liked) {
+          this.photo_liked = true;
+        };
+
+        console.log("Index: " + this.index); 
+      });
+    }
+
+    public getPhotoById(id: number) {
+      this.photoService.get(id).subscribe((res: any) => {
+        this.photos[this.index] = res;
+      });
+    }
 
 
 

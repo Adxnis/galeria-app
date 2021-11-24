@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AlbumSinglePhotoViewComponent } from '../components/album-single-photo-view/album-single-photo-view.component';
+import { DiscoverSinglePhotoViewComponent } from '../components/discover-single-photo-view/discover-single-photo-view.component';
 import { SinglePhotoViewComponent } from '../components/single-photo-view/single-photo-view.component';
-import { PhotoViewPage } from '../photo-view/photo-view.page';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
@@ -26,10 +27,18 @@ const routes: Routes = [
         path: 'photos/:id',
         component: SinglePhotoViewComponent
       },
-      // {
-      //   path: 'home/:id',
-      //   loadChildren: () => import('../photo-view/photo-view.module').then( m => m.PhotoViewPageModule)
-      // },
+      {
+        path: 'album/:id',
+        loadChildren: () => import('../album-photo-view/album-photo-view.module').then( m => m.AlbumPhotoViewPageModule)
+      },
+      {
+        path: 'album/:id1/photo/:id2',
+        component: AlbumSinglePhotoViewComponent
+      },
+      {
+        path: 'discover/photos/:id',
+        component: DiscoverSinglePhotoViewComponent
+      },
       {
         path: '',
         redirectTo: '/home',

@@ -13,8 +13,10 @@ import { ViewPopoverComponent } from '../../../secure/modals/view-popover/view-p
 export class HeaderComponent implements OnInit {
   @Output() displayActiveTab = new EventEmitter<string>();
   @Output() displayView = new EventEmitter<string>();
+  @Output() sortByView = new EventEmitter<string>();
   public title = 'Galeria';
   currentView: string = "compact";
+  defaultSortBy: string = "sortbydate"
   public fullView: boolean;
   public compactView: boolean = true;
 
@@ -29,6 +31,12 @@ export class HeaderComponent implements OnInit {
   changeView(view: string) {
     this.displayView.emit(view)
   }
+
+  changeSort(sort: string) {
+    this.sortByView.emit(sort);
+  }
+
+
   async presentViewMenu(ev?: any) {
     console.log('IM IN HERE');
     const popover = await this.popoverController.create({
@@ -60,14 +68,20 @@ export class HeaderComponent implements OnInit {
       translucent: true,
       showBackdrop: false,
       animated: false,
+      componentProps: {sortBy: this.defaultSortBy}
       // backdropDismiss: true,
       // keyboardClose: true,
       // mode: 'ios'
     });
     await popover.present();
     await popover.onDidDismiss().then((res) => {
-      console.log(res)
-    });
+      if(res.data != undefined) {
+        console.log(res.data.value);
+        let view = res.data.value;
+        this.defaultSortBy = view;
+        this.changeSort(view);
+      }
+    })
   }
 
   logout(): void {

@@ -10,13 +10,18 @@ export class SortPopoverComponent implements OnInit {
 
   @ViewChild('radioGroup') radioGroup: IonRadioGroup;
   @Input() sortBy: string;
-  @Output() sortValue = new EventEmitter<string>();
-  constructor(private popover: PopoverController) { }
+  constructor(private popoverController: PopoverController) { }
 
-  ngOnInit() {}
+  sortMode = "";
+  ngOnInit() {
+    console.log(this.sortBy);
+    this.sortMode = this.sortBy;
+  }
 
-  sort(event) {
-    // this.popover.dismiss(event);
+  radioGroupChange(event: any) {
+    let viewChanged = event.detail;
+    this.sortMode = this.radioGroup.value;
+    this.popoverController.dismiss(viewChanged);
   }
 
 }

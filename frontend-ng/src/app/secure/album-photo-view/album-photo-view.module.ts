@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PhotoViewPageRoutingModule } from './photo-view-routing.module';
+import { AlbumPhotoViewPageRoutingModule } from './album-photo-view-routing.module';
 
-import { PhotoViewPage } from './photo-view.page';
+import { AlbumPhotoViewPage } from './album-photo-view.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PhotoViewPageRoutingModule
+    AlbumPhotoViewPageRoutingModule
   ],
-  declarations: [PhotoViewPage]
+  declarations: [AlbumPhotoViewPage]
 })
-export class PhotoViewPageModule {}
+export class AlbumPhotoViewPageModule {}

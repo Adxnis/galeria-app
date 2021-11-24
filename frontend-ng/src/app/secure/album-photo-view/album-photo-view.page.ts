@@ -1,45 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
+import { Album } from 'src/app/interfaces/album';
 import { Photo } from 'src/app/interfaces/photo';
-import { AuthService } from 'src/app/services/auth.service';
-import { DiscoveryService } from 'src/app/services/discovery.service';
+import { AlbumService } from 'src/app/services/album.service';
 import { SortPopoverComponent } from '../modals/sort-popover/sort-popover.component';
 import { ViewPopoverComponent } from '../modals/view-popover/view-popover.component';
 
 @Component({
-  selector: 'app-discover',
-  templateUrl: './discover.page.html',
-  styleUrls: ['./discover.page.scss'],
+  selector: 'app-album-photo-view',
+  templateUrl: './album-photo-view.page.html',
+  styleUrls: ['./album-photo-view.page.scss'],
 })
-export class DiscoverPage implements OnInit {
+export class AlbumPhotoViewPage implements OnInit {
 
-  public currentView: string = "compact";
+  public album_id: number;
+  public album: Album;
   public photos: Photo[];
-  public title = 'Galeria';
-  public currentRoute: string;
+  public currentView: string = "compact";
   public defaultSortBy: string = "sortbydate";
 
-  constructor(private authService: AuthService,
-    private discoveryService: DiscoveryService, private popoverController: PopoverController, private router: Router) {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.url;
-        if (this.currentRoute == "/discover" && event.urlAfterRedirects === "/discover") {
-          this.getAllPublicPhotos();
-        }
-        console.log(event);
-      }
-    });
-  }
+  constructor(private route: ActivatedRoute, private router: Router,private albumService: AlbumService, private popoverController: PopoverController) { }
 
   ngOnInit() {
+    let id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.album_id = id;
+    this.albumService.get(this.album_id).subscribe((response: Album) => {
+      console.log(response);
+      this.album = response;
+      this.photos = response.photos;
+    })
   }
 
-  public logout(): void {
-    this.authService.logout().subscribe(() => {
-      console.log("success")
-    })
+  goBack() {
+    this.router.navigate(['/home'])
   }
 
   async presentViewMenu(ev?: any) {
@@ -85,14 +79,8 @@ export class DiscoverPage implements OnInit {
         let sortBy = res.data.value;
         this.defaultSortBy = sortBy;
         this.sort();
-
-
       }
     });
-  }
-
-  getAllPublicPhotos() {
-    this.discoveryService.all().subscribe(photos => this.photos = photos);
   }
 
   sort() {
@@ -134,11 +122,10 @@ export class DiscoverPage implements OnInit {
     }
   }
 
-    // Single view
-    goToSinglePhotoView(photo_id: number) {
-      this.router.navigate(['/discover/photos', photo_id]);
-    }
-
+   // Single view
+   goToSinglePhotoView(photo_id: number) {
+    this.router.navigate([`album/${this.album_id}/photo`, photo_id]);
+  }
 
 
 
