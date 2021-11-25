@@ -18,9 +18,11 @@ class PhotoController extends Controller
     public function index(Request $request)
     {
 
-        return PhotoResource::collection(Photo::all()); 
 
-        // return Auth::user()->id;
+
+
+        
+        return PhotoResource::collection(Photo::all()); 
 
     }
 
@@ -59,7 +61,7 @@ class PhotoController extends Controller
     public function show($id)
     {
         //
-        return new PhotoResource(Photo::find($id)->load('albums', 'tags', 'likes', 'comments'));
+        return new PhotoResource(Photo::find($id));
     }
 
     /**

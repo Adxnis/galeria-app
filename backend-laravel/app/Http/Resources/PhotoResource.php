@@ -27,11 +27,12 @@ class PhotoResource extends JsonResource
             'total_comments' => $this->totalComments,
             'total_tags' => $this->totalTags,
             'isPublic' => $this->isPublic,
-            'albums' => $this->albums,
+            'albums' => AlbumResource::collection($this->whenLoaded('albums')),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
             'likes' => $this->likes,
             'comments' => $this->comments,
-            'tags' => $this->tags,
-            'user' => $this->user
+            'user' => new UserResource($this->whenLoaded('user')),
+
         ];
     }
 }

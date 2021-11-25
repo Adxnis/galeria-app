@@ -1,9 +1,9 @@
-<div style="width: 90%;margin:0 auto;">
+<div style="width: 90%;margin:0 auto;" *ngIf="user">
     <div id="title" class="w3-container w3-border-bottom w3-border-grey">
         <p>Profile Settings</p>
     </div>
 
-    <div id="profile-settings" style="width: 80%; margin: 0 auto;">
+    <div id="profile-settings" style="width: 80%; margin: 0 auto; overflow:scroll; height: 90vh; padding-bottom: 350px">
 
         <div id="basicinfo">
             <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Basic Info</h5>
@@ -15,24 +15,29 @@
                     </ion-button>
                 </div>
                 <div style="margin-bottom: 10px">
-                    <label class="basic-info-labels">Name:</label>
-                    <input>
-                    <ion-button style="height: 17px" fill="clear">Edit</ion-button>
+                    <label class="basic-info-labels">First Name:</label>
+                    <input [(ngModel)]="first_name" (change)="updateFirstName()" value="{{this.user.first_name}} {{this.user.last_name}}">
+                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
+                </div>
+                <div style="margin-bottom: 10px">
+                    <label class="basic-info-labels">Last Name</label>
+                    <input [(ngModel)]="last_name" (ionChange)="updateLastName()" value="{{this.user.first_name}} {{this.user.last_name}}">
+                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">Username:</label>
-                    <input>
-                    <ion-button style="height: 20px" fill="clear">Edit</ion-button>
+                    <input [(ngModel)]="username" (ionChange)="updateUsername()" value="{{this.user.username}}">
+                    <!-- <ion-button style="height: 20px" fill="clear">Edit</ion-button> -->
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">Email:</label>
-                    <input>
-                    <ion-button style="height: 17px" fill="clear">Edit</ion-button>
+                    <input [(ngModel)]="email" (ionChange)="updateEmail()" value="{{this.user.email}}">
+                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">Location</label>
-                    <input>
-                    <ion-button style="height: 17px" fill="clear">Edit</ion-button>
+                    <input [(ngModel)]="location" (ionChange)="updateLocation()" value="{{this.user.location}}">
+                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
                 </div>
                 <br>
 
@@ -51,24 +56,26 @@
             </div>
         </div>
 
-        <div id="statistics">
+        <div id="statistics" style="margin-bottom: 150px;">
             <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Statistics</h5>
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Total number of photos: </label>
+                <label style="display: inline-block; padding-left: 40px;">Total number of photos: {{user.total_photos}} </label>
             </div>
 
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Total number of albums:  </label>
+                <label style="display: inline-block; padding-left: 40px;">Total number of albums: {{user.total_albums}}</label>
             </div>
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Most commented Photo:  </label>
+                <label style="display: inline-block; padding-left: 40px;">Most commented photo:  <img src={{this.mostCommentedPhoto?.file_name}}> </label>
+                <ion-button [routerLink]="['/photos', this.mostLikedPhoto.id]" style="height: 17px" fill="clear">View</ion-button>
             </div>
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Most liked public photo:  </label>
+                <label style="display: inline-block; padding-left: 40px;">Most liked public photo:  <img src={{this.mostLikedPhoto?.file_name}}> </label>
+                <ion-button [routerLink]="['/photos', this.mostCommentedPhoto.id]" style="height: 17px" fill="clear">View</ion-button>
             </div>
 
             

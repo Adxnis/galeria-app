@@ -18,6 +18,7 @@ class DiscoveryController extends Controller
      */
     public function index(){
         $photos = Photo::where('isPublic', 1)->get();
+        $photos->load('user');
         return PhotoResource::collection($photos);
     }
 }

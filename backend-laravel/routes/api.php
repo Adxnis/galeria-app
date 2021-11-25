@@ -26,6 +26,7 @@ use App\Http\Controllers\SharedAlbumController;
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::put('updateInfo', [AuthController::class, 'updateInfo']);
     Route::apiResource('album', AlbumController::class);
     Route::apiResource('photo', PhotoController::class);
     Route::apiResource('comment', CommentController::class);

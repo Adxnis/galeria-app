@@ -54,7 +54,7 @@ class AuthController extends Controller
 
     public function user(Request $request) {
         $user = $request->user();
-        return new UserResource(($user)->load('photos', 'albums'));
+        return new UserResource(($user));
     }
 
 
@@ -71,7 +71,7 @@ class AuthController extends Controller
     public function updateInfo(UpdateInfoRequest $request) {
         $user = $request->user();
 
-        $user->update($request->only('first_name', 'last_name', 'email'));
+        $user->update($request->only('first_name', 'last_name', 'email', 'location', 'profile_picture'));
 
         return \response($user, Response::HTTP_ACCEPTED);
     }
@@ -84,7 +84,7 @@ class AuthController extends Controller
         ]);
 
         return \response($user, Response::HTTP_ACCEPTED);
-
     }
+
 
 }

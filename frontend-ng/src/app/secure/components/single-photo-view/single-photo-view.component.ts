@@ -28,7 +28,7 @@ export class SinglePhotoViewComponent implements OnInit {
   public form: FormGroup;
   public comments: Comment[];
   public photo_liked: boolean = false;
-  public photo_name: string;
+  public album_name: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -95,7 +95,7 @@ export class SinglePhotoViewComponent implements OnInit {
       this.total_photos = user.total_photos;
       this.user = user;
       this.index = this.photos.findIndex(x => x.id === this.photo_id);
-      this.photo_name = this.user.photos[this.index].name;
+      this.album_name = this.user.photos[this.index].name;
       const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
       if (liked) {
         console.log("I like this picture")
@@ -198,9 +198,9 @@ export class SinglePhotoViewComponent implements OnInit {
     }
   }
 
-  public updatePhotoName(): void {
-    console.log(this.photo_name)
-    this.photoService.update(this.photo_id, {name: this.photo_name}).subscribe((res) => {
+  public updateAlbumName(): void {
+    console.log(this.album_name)
+    this.photoService.update(this.photo_id, {name: this.album_name}).subscribe((res) => {
       console.log(res);
       this.getPhotoById(this.photo_id);
     });

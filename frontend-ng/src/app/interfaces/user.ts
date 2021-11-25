@@ -7,6 +7,7 @@ export interface User {
     first_name: string;
     last_name: string;
     email: string;
+    location: string;
     photos?: Photo[];
     albums?: Album[];
     created_at: Date;

@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\PhotoResource;
 class TagResource extends JsonResource
 {
     /**
@@ -14,9 +14,12 @@ class TagResource extends JsonResource
      */
     public function toArray($request)
     {
+        $photos = $this->whenLoaded('photos');
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'photos' => new PhotoResource($photos)
+
         ];
     }
 }
