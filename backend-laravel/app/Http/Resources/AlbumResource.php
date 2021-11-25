@@ -23,7 +23,7 @@ class AlbumResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'total_photos' => $this->totalPhotos,
-            'photos' => $this->photos,
+            'photos' => PhotoResource::collection($this->whenLoaded('photos')),
             'total_size' => $this->totalSize
         ];
     }

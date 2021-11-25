@@ -3,42 +3,81 @@
         <p>Profile Settings</p>
     </div>
 
-    <div id="profile-settings" style="width: 80%; margin: 0 auto;" class="w3-border w3-border-red">
+    <div id="profile-settings" style="width: 80%; margin: 0 auto;">
 
-        <div id="basicinfo" (click)="hideOverview($event)">
-            Basic Info <ion-icon [@showHideRotatedState]="openState"
-                style="font-size: 18px; margin-bottom: -4px; padding-left: 5px;" name="arrow-down-circle-outline"
-                color="primary"></ion-icon>
+        <div id="basicinfo">
+            <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Basic Info</h5>
+
+            <div>
+                <div style="margin-bottom: 10px; display: flex;">
+                    <ion-icon style="font-size: 100px;" name="person-circle"></ion-icon>
+                    <ion-button style="color: rgb(9, 58, 114); align-self: center;" fill="clear">Change Profile Picture
+                    </ion-button>
+                </div>
+                <div style="margin-bottom: 10px">
+                    <label class="basic-info-labels">Name:</label>
+                    <input>
+                    <ion-button style="height: 17px" fill="clear">Edit</ion-button>
+                </div>
+                <div style="margin-bottom: 10px">
+                    <label class="basic-info-labels">Username:</label>
+                    <input>
+                    <ion-button style="height: 20px" fill="clear">Edit</ion-button>
+                </div>
+                <div style="margin-bottom: 10px">
+                    <label class="basic-info-labels">Email:</label>
+                    <input>
+                    <ion-button style="height: 17px" fill="clear">Edit</ion-button>
+                </div>
+                <div style="margin-bottom: 10px">
+                    <label class="basic-info-labels">Location</label>
+                    <input>
+                    <ion-button style="height: 17px" fill="clear">Edit</ion-button>
+                </div>
+                <br>
+
+
+            </div>
+
         </div>
 
-        <div id="permissions" (click)="hideOverview($event)">
-            Permissions <ion-icon [@showHideRotatedState]="openState"
-                style="font-size: 18px; margin-bottom: -4px; padding-left: 5px;" name="arrow-down-circle-outline"
-                color="primary"></ion-icon>
+        <div id="Sharing">
+            <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Sharing</h5>
+
+            <div style="margin-bottom: 10px">
+                <label style="display: inline-block; padding-left: 40px;">Hide your pictures from discovery</label>
+                <ion-toggle #toggle [(ngModel)]="hidePictures"></ion-toggle>
+
+            </div>
         </div>
 
-        <div id="sharing" (click)="hideOverview($event)">
-            Sharing <ion-icon [@showHideRotatedState]="openState"
-                style="font-size: 18px; margin-bottom: -4px; padding-left: 5px;" name="arrow-down-circle-outline"
-                color="primary"></ion-icon>
+        <div id="statistics">
+            <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Statistics</h5>
+
+            <div style="margin-bottom: 10px">
+                <label style="display: inline-block; padding-left: 40px;">Total number of photos: </label>
+            </div>
+
+
+            <div style="margin-bottom: 10px">
+                <label style="display: inline-block; padding-left: 40px;">Total number of albums:  </label>
+            </div>
+
+            <div style="margin-bottom: 10px">
+                <label style="display: inline-block; padding-left: 40px;">Most commented Photo:  </label>
+            </div>
+
+            <div style="margin-bottom: 10px">
+                <label style="display: inline-block; padding-left: 40px;">Most liked public photo:  </label>
+            </div>
+
+            
+
+
+
+
         </div>
 
-        <div id="notifcations" (click)="hideOverview($event)">
-            Notifications <ion-icon [@showHideRotatedState]="openState"
-                style="font-size: 18px; margin-bottom: -4px; padding-left: 5px;" name="arrow-down-circle-outline"
-                color="primary"></ion-icon>
-        </div>
 
-        <div id="activitylog" (click)="hideOverview($event)">
-            Activity Log <ion-icon [@showHideRotatedState]="openState"
-                style="font-size: 18px; margin-bottom: -4px; padding-left: 5px;" name="arrow-down-circle-outline"
-                color="primary"></ion-icon>
-        </div>
-
-        <div id="statistics" (click)="hideOverview($event)">
-            Statistics` <ion-icon [@showHideRotatedState]="openState"
-                style="font-size: 18px; margin-bottom: -4px; padding-left: 5px;" name="arrow-down-circle-outline"
-                color="primary"></ion-icon>
-        </div>
     </div>
 </div>

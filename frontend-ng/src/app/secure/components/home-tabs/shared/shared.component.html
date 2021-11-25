@@ -1,5 +1,35 @@
 <div class="shared">
   <div style="height: 5vh;">
-    <ion-button (click)="presentUploadSharedAlbumModal()" fill="clear" size="small" color="primary">Create New Shared Album</ion-button>
+    <ion-button (click)="presentCreatedSharedAlbumModal()" fill="clear" size="small" color="primary">Create New Shared Album</ion-button>
+  </div>
+</div>
+
+<div *ngIf="this.view==='full'" style="height:100vh;overflow:scroll;">
+  <section class="grid-image-gallery">
+    <span *ngFor="let album of sharedAlbums">
+      <img *ngIf="album.photos.length > 0" (click)="goToSingleAlbumView(album.id)" style="cursor: pointer;" src="{{album.photos[0].file_name}}">
+      <img *ngIf="album.photos.length == 0" (click)="goToSingleAlbumView(album.id)" style="cursor: pointer;" src="http://localhost:8000/resources/empty_album.png">
+    </span>
+  </section>
+</div>
+<div *ngIf="this.view === 'compact'" style="height:90vh; overflow:scroll; padding: 0 20px 100px;">
+  <div *ngFor="let album of sharedAlbums " class="responsive">
+    <div class="gallery" >
+
+      <img  style="cursor: pointer;" class="thumbnail" (click)="goToSingleAlbumView(album.id)" *ngIf="album.photos.length == 0" src="http://localhost:8000/resources/empty_album.png"
+        alt="Cinque Terre" width="600" height="400">
+
+      <img  style="cursor: pointer;" class="thumbnail" (click)="goToSingleAlbumView(album.id)" *ngIf="album.photos.length > 0" src="{{album.photos[0].file_name}}" alt="Cinque Terre"
+        width="600" height="400">
+      <ion-icon  (click)="editAlbum($event, album)" class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
+
+      <div class="desc">
+        <p>{{album.album_name}}</p>
+        <p id="details" style="float:right;">{{album.created_at | date}}</p>
+        <p id="details">{{album.total_photos}} 
+        {{album.total_photos == 1 ? 'photo' : 'photos'}}</p>
+      </div>
+      
+    </div>
   </div>
 </div>

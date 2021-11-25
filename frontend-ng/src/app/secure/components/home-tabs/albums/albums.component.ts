@@ -16,7 +16,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
 
   albumSubscription$: Subscription;
   @Input() view: string;
-  @Input() sort: string
+  @Input() sort: string;
   public albums: Album[] = [];
   constructor(private modalController: ModalController, private albumService: AlbumService, private popoverController: PopoverController, private router: Router) { }
 

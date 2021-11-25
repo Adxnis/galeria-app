@@ -31,27 +31,9 @@ export class CreateNewAlbumComponent implements OnInit {
       album_name: '',
     });
     this.image = this.navParams.data.image
-    console.log("OM BACK")
   }
 
-  async cancel() {
-    const alert = await this.alertCtrl.create({
-      header: 'Warning',
-      message: '<div>Are you sure you want to exit?</div>',
-      backdropDismiss: false,
-      animated: false,
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-            this.modalController.dismiss();
-          }
-        },
-        { text: 'No' }
-      ]
-    });
-    await alert.present();
-  }
+
 
   public createAlbum(): void {
     console.log(this.form.getRawValue())
@@ -94,4 +76,22 @@ export class CreateNewAlbumComponent implements OnInit {
     console.log(this.photo);
   }
     
+  async cancel() {
+    const alert = await this.alertCtrl.create({
+      header: 'Warning',
+      message: '<div>Are you sure you want to exit?</div>',
+      backdropDismiss: false,
+      animated: false,
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.modalController.dismiss();
+          }
+        },
+        { text: 'No' }
+      ]
+    });
+    await alert.present();
+  }
 }

@@ -3,6 +3,7 @@ import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { AlbumService } from 'src/app/services/album.service';
 import { CreateNewAlbumComponent } from '../create-new-album/create-new-album.component';
 import { Album } from 'src/app/interfaces/album';
+import { CreateNewSharedAlbumComponent } from '../create-new-shared-album/create-new-shared-album.component';
 @Component({
   selector: 'app-add-to-album',
   templateUrl: './add-to-album.component.html',
@@ -30,7 +31,7 @@ export class AddToAlbumComponent implements OnInit {
     });
   }
 
-  async presentCreateModal() {
+  async presentCreateAlbumModal() {
 
     const modal = await this.modalController.create({
       component: CreateNewAlbumComponent,
@@ -41,6 +42,25 @@ export class AddToAlbumComponent implements OnInit {
     await modal.present();
     modal.onDidDismiss().then((res) => {
       let photo_id = res.data.album_id
+      this.getAlbums();
+      this.modalController.dismiss(
+        '','','create-album')
+    });
+
+  }
+
+
+  async presentCreateSharedAlbumModal() {
+
+    const modal = await this.modalController.create({
+      component: CreateNewSharedAlbumComponent,
+      cssClass: 'create-album auto-height',
+      componentProps: {image: this.image},
+      id: 'create-album'
+    });
+    await modal.present();
+    modal.onDidDismiss().then((res) => {
+      // let photo_id = res.data.album_id
       this.getAlbums();
       this.modalController.dismiss(
         '','','create-album')

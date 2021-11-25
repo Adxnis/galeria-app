@@ -21,6 +21,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   @Input() view: string;
   @Input() sort: string;
   public photos: Photo[];
+  public photo_size: number;
   currentRoute: string;
 
   photoSubscription$: Subscription;
@@ -46,6 +47,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("destroying")
     this.photoSubscription$.unsubscribe();
   }
 
@@ -91,7 +93,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   // Populate photos
   public getPhotos() {
-    this.photoSubscription$ = this.photoService.getUserPhotos().subscribe((photos: Photo[]) => this.photos = photos);
+    this.photoSubscription$ = this.photoService.getUserPhotos().subscribe((photos: Photo[]) => 
+    {
+      this.photos = photos;
+    });
   }
 
   // Show upload photo dialog
@@ -124,6 +129,12 @@ export class PhotosComponent implements OnInit, OnDestroy {
   // Single view
   goToSinglePhotoView(photo_id: number) {
     this.router.navigate(['/photos', photo_id]);
+  }
+
+  hey(h: string) {
+   let x: number = parseInt(h);
+   return x / 1000000
+
   }
 
 

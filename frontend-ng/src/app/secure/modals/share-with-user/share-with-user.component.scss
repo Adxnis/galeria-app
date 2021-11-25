@@ -1,0 +1,27 @@
+ion-input {
+    margin: 10px 0;
+    padding: 0;
+    border: 1px solid black;
+    max-height: 25px;border-radius: 5px 5px 5px 5px;
+    width: 100%;
+}
+
+ion-icon {
+    font-size: 21px;
+    margin-bottom: -6%;
+}
+
+*{
+    color: rgb(9, 58, 114);
+}
+
+.search-results {
+    max-width: 100px !important;
+    width: 100%;
+    margin: 20px auto 0 auto;
+}
+
+.results:hover {
+
+    background-color: rgb(207, 220, 221);
+}

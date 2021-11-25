@@ -23,6 +23,10 @@ export class UserService {
     return this.http.get<User>(`${environment.api}/getUser/${id}`);
   }
 
+  search(username: string): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.api}/search/${username}`);
+  }
+
   // update(id: number, data: any): Observable<Tag> {
   //   return this.http.put<Tag>(`${environment.api}/tag/${id}`, data);
   // }

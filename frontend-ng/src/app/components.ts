@@ -20,6 +20,8 @@ import { SinglePhotoViewComponent } from './secure/components/single-photo-view/
 import { MoreInfoPhotoPopoverComponent } from './secure/modals/more-info-photo-popover/more-info-photo-popover.component';
 import { AlbumSinglePhotoViewComponent } from './secure/components/album-single-photo-view/album-single-photo-view.component';
 import { DiscoverSinglePhotoViewComponent } from './secure/components/discover-single-photo-view/discover-single-photo-view.component';
+import { CreateNewSharedAlbumComponent } from './secure/modals/create-new-shared-album/create-new-shared-album.component';
+import { ShareWithUserComponent } from './secure/modals/share-with-user/share-with-user.component';
 import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -49,7 +51,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
         SinglePhotoViewComponent,
         MoreInfoPhotoPopoverComponent,
         AlbumSinglePhotoViewComponent,
-        DiscoverSinglePhotoViewComponent
+        DiscoverSinglePhotoViewComponent,
+        CreateNewSharedAlbumComponent,
+        ShareWithUserComponent
 
     ],
     exports: [
@@ -68,7 +72,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
         SinglePhotoViewComponent,
         MoreInfoPhotoPopoverComponent,
         AlbumSinglePhotoViewComponent,
-        DiscoverSinglePhotoViewComponent
+        DiscoverSinglePhotoViewComponent,
+        CreateNewSharedAlbumComponent,
+        ShareWithUserComponent
 
     ],
     entryComponents: [

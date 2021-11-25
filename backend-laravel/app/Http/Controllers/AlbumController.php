@@ -15,7 +15,8 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return AlbumResource::collection(Album::all());
+        $albums = Album::where('isShared', "=" ,null)->get();
+        return AlbumResource::collection($albums->load('photos'));
     }
 
     /**
@@ -46,7 +47,7 @@ class AlbumController extends Controller
      */
     public function show($id)
     {
-        return new AlbumResource(Album::find($id));
+        return new AlbumResource(Album::find($id)->load('photos'));
     }
 
     /**
@@ -79,7 +80,21 @@ class AlbumController extends Controller
 
     public function getUserAlbums() {
         $user_id = Auth::user()->id;
-        $albums = Album::where('user_id', "=" ,$user_id)->get();
+        $albums = Album::where('user_id', "=" ,$user_id)->where('isShared', "=" ,null)->get();
+        return AlbumResource::collection($albums);
+    }
+
+    public function getSharedAlbums() {
+        $user_id = Auth::user()->id;
+        $albums = Album::join('shared', 'album.id', '=', 'shared.album_id')
+        ->select('album.*')
+        ->where('owner_id', $user_id)
+        ->where('isShared', 1)
+        ->orWhere(function($query) {
+            $user_id = Auth::user()->id;
+            $query->where('shared_person_id', $user_id)
+            ->where('isShared', 1);
+        })->get();
         return AlbumResource::collection($albums);
     }
 }

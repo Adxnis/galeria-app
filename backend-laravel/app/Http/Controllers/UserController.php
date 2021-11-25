@@ -18,4 +18,11 @@ class UserController extends Controller
     {
         return new UserResource(User::find($id));
     }
+
+    public function search($username) {
+        $users = User::where('username', 'like', '%'.$username.'%')
+        ->take(10)
+        ->get();
+        return $users;
+    }
 }

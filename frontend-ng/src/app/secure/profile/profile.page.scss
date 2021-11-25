@@ -1,0 +1,31 @@
+ion-button {
+    text-transform: capitalize;
+    font-size: 15px;
+}
+
+ion-input {
+    padding: 0;
+    border: 1px solid black;
+    width: 100px;
+    max-height: 30px;
+    border-radius: 5px 5px 5px 5px;
+    display: inline-block;
+}
+
+input {
+    padding: 5px 10px;
+}
+
+.basic-info-labels {
+    display: inline-block;
+    width: 110px;
+    text-align: right;
+}
+
+ion-toggle {
+    padding: 14px 0 0 14px;
+}
+
+h5 {
+    color: rgb(9, 58, 114);
+}

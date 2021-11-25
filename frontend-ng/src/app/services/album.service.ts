@@ -13,11 +13,15 @@ export class AlbumService {
 
   
   all(): Observable<Album[]> {
-    return this.http.get<Album[]>(`${environment.api}/album`)
+    return this.http.get<Album[]>(`${environment.api}/album`);
   }
 
   albums(): Observable<Album[]> {
-    return this.http.get<Album[]>(`${environment.api}/userAlbums`)
+    return this.http.get<Album[]>(`${environment.api}/userAlbums`);
+  }
+
+  sharedAlbums(): Observable<Album[]> {
+    return this.http.get<Album[]>(`${environment.api}/sharedAlbums`);
   }
 
   create(data: any): Observable<any> {

@@ -20,7 +20,11 @@
         <ion-icon class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
 
         <div class="desc">
-          <p>{{photo.name}}</p>
+ 
+            <div style="display: flex; justify-content: space-between">
+              <p>{{photo.name}}</p>
+              <p id="details">{{hey(photo.size) | number: '1.1-2'}} mb</p>
+          </div>
           <div style="display: flex; justify-content: space-between">
             <p id="details">@{{photo.user.username}}</p>
             <p id="details" style="max-width: 120px; overflow: auto; white-space: nowrap">

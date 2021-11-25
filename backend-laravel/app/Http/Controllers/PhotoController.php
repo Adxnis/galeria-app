@@ -96,4 +96,13 @@ class PhotoController extends Controller
         $photos = Photo::where('user_id', "=" ,$user_id)->get();
         return PhotoResource::collection($photos);
     }
+
+    public function searchByTags($tagQuery) {
+        $photos = Photo::join('photo_tag', 'photo.id', '=', 'photo_tag.photo_id')
+        ->select('photo.*')
+        ->where('name', 'like', '%'.$tagQuery.'%')
+        ->get();
+
+        return PhotoResource::collection($photos);
+    }
 }

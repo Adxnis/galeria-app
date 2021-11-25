@@ -8,6 +8,6 @@
         <app-photos [view]="view" [sort]="sort"></app-photos>
     </div>
     <div *ngIf="activeTab === 'shared'">
-        <app-shared></app-shared>
+        <app-shared [view]="view" [sort]="sort"></app-shared>
     </div>
 </div>

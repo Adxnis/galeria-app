@@ -11,7 +11,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiscoveryController;
-
+use App\Http\Controllers\SharedAlbumController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,11 +31,16 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('comment', CommentController::class);
     Route::apiResource('like', LikeController::class);
     Route::apiResource('tag', TagController::class);
+    Route::apiResource('shared', SharedAlbumController::class);
     Route::get('userPhotos', [PhotoController::class, 'getUserPhotos']);
+    Route::get('searchByTags/{id}', [PhotoController::class, 'searchByTags']);
     Route::get('userAlbums', [AlbumController::class, 'getUserAlbums']);
+    Route::get('sharedAlbums', [AlbumController::class, 'getSharedAlbums']);
     Route::post('upload', [ImageController::class, 'upload']);
     Route::get('getUsers', [UserController::class, 'getUsers']);
     Route::get('getUser', [UserController::class, 'getUser']);
+    Route::get('search/{id}', [UserController::class, 'search']);
+    
     Route::get('getCommentsFromPhoto/{id}', [CommentController::class, 'getCommentsFromPhoto']);
     Route::get('getPublicPhotos', [DiscoveryController::class, 'index']);
 

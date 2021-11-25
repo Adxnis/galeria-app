@@ -31,5 +31,7 @@ export class PhotoService {
     return this.http.delete<void>(`${environment.api}/photo/${id}`);
   }
 
-
+  searchByTags(tag: string): Observable<Photo> {
+    return this.http.get<Photo>(`${environment.api}/searchByTags/${tag}`);
+  }
 }

@@ -62,6 +62,12 @@ $primaryColor: rgb(9, 58, 114);
     background-color: rgb(227, 231, 238)
 }
 
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.share-with-user .popover-content {
+    width: 500px;
+    background-color: rgb(227, 231, 238)
+}
+
 .view-menu {
     // width: 200px;
     ion-backdrop {

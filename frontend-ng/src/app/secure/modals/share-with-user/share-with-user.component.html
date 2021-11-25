@@ -1,0 +1,27 @@
+<!-- <div style="width: 200px;"> -->
+
+  <ion-header class="modal-header" style="margin-bottom: 25px;">
+    <ion-toolbar>
+      <ion-title>
+        Find User
+        <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right"
+          name="close-sharp"></ion-icon>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div style="display: flex; flex-direction: column;margin: 25px 50px 30px">
+    <label>Send an invite to '{{title}}' Album</label>
+    <ion-input debounce="500" [(ngModel)]="username" (ionChange)="findUser()" ></ion-input>
+    <section class="search-results" class="w3-border w3-border-indigo">
+      <p *ngIf="users.length < 1 && hasQuery"> Sorry, no users found.</p>
+      <ng-template ngFor let-user [ngForOf]="users" let-i="index">
+        <!-- <hr *ngIf="i > 0" /> -->
+        <div (click)="selectUser(user)" style="display: flex; padding: 10px 0; cursor: pointer" class="results" > 
+          <ion-icon style="padding-right: 10px" name="person-circle"></ion-icon>
+          <ion-text>{{user.first_name}} {{user.last_name}}  <span style="color:rgb(31, 117, 74)">@{{user.username}}</span></ion-text>
+          <!-- <ion-icon style="padding-left: 10px;" name="paper-plane-outline"></ion-icon> -->
+        </div>
+      </ng-template>
+    </section>
+  </div>
+<!-- </div> -->
