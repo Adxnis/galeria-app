@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Album } from 'src/app/interfaces/album';
 import { AlbumService } from 'src/app/services/album.service';
 import { RenameAlbumComponent } from '../rename-album/rename-album.component';
@@ -9,28 +10,34 @@ import { RenameAlbumComponent } from '../rename-album/rename-album.component';
   templateUrl: './edit-album-popover.component.html',
   styleUrls: ['./edit-album-popover.component.scss'],
 })
-export class EditAlbumPopoverComponent implements OnInit {
+export class EditAlbumPopoverComponent implements OnInit, OnDestroy {
 
+  // get album name
   @Input() album: Album;
-  constructor(private albumService: AlbumService, private modalController: ModalController, private popover: PopoverController) { }
+
+  // subscriptions
+  public albumSubscription$: Subscription
+
+  constructor(
+    private albumService: AlbumService, 
+    private modalController: ModalController, 
+    private popover: PopoverController) { }
 
   ngOnInit() {
-    this.getAlbums();
   }
 
-  public async getAlbums() {
-    this.albumService.albums().subscribe((albums) => { 
-    })
+  ngOnDestroy() {
+    this.albumSubscription$.unsubscribe();
   }
 
+  // delete album
   public async deleteAlbum() {
-    console.log("DELETING " +  this.album.id)
-    this.albumService.delete(this.album.id).subscribe((res)=> {
-      console.log("DELETEDALBUM ");
+    this.albumSubscription$ = this.albumService.delete(this.album.id).subscribe((res)=> {
       this.popover.dismiss();
     });
   }
 
+  // show rename album dialog
   public async renameAlbum() {
     const modal = await this.modalController.create({
       component: RenameAlbumComponent,

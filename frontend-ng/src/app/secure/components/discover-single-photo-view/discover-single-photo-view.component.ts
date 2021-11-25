@@ -48,8 +48,6 @@ export class DiscoverSinglePhotoViewComponent implements OnInit {
     private commentService: CommentService,
     private discoverService: DiscoveryService,
     private likeService: LikeService,
-    private albumService: AlbumService,
-    private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
     private popoverController: PopoverController) { }
 
@@ -85,7 +83,6 @@ export class DiscoverSinglePhotoViewComponent implements OnInit {
 
   // Go to previous photo
   public goPrevious() {
-    console.log(this.index);
     if (this.index != 0) {
       let previousId = this.photos[this.index - 1].id;
       this.router.navigate([`discover/photos`, previousId]);
@@ -95,8 +92,6 @@ export class DiscoverSinglePhotoViewComponent implements OnInit {
   // Go to next photo unless photo is the last one
   public goNext() {
     if (this.index != this.photos.length - 1) {
-      console.log("Next");
-      console.log(this.index);
       let nextId = this.photos[this.index + 1].id;
       this.router.navigate([`discover/photos`, nextId]);
     }
@@ -130,9 +125,6 @@ export class DiscoverSinglePhotoViewComponent implements OnInit {
   }
 
   public likePhoto(index: number): void {
-    console.log(this.user);
-    console.log(this.photos[this.index]);
-    console.log(this.photos[this.index].likes.indexOf(this.user.id))
     const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
     if (liked) {
       this.likeService.delete(this.user.id).subscribe((res: any) => {
@@ -141,9 +133,7 @@ export class DiscoverSinglePhotoViewComponent implements OnInit {
       });
     }
     else {
-      console.log(this.user.id, this.photos[index].id )
       this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
-        console.log("Created");
         this.getPhotoById(this.photo_id);
         this.photo_liked = true;
       })
@@ -170,10 +160,7 @@ export class DiscoverSinglePhotoViewComponent implements OnInit {
 
     // Create new comment
     public addNewComment(): void {
-      console.log("UserId = " + this.user.id);
-      console.log("photoId = " + this.photo_id);
       this.form.patchValue({ 'user_id': this.user.id, 'photo_id': this.photo_id, 'username': this.user.username })
-      console.log(this.form.getRawValue());
       this.commentService.create(this.form.getRawValue()).subscribe(() => {
         this.getAllPublicPhotos();
       });

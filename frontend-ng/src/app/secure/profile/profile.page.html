@@ -10,40 +10,39 @@
 
             <div>
                 <div style="margin-bottom: 10px; display: flex;">
-                    <ion-icon style="font-size: 100px;" name="person-circle"></ion-icon>
-                    <ion-button style="color: rgb(9, 58, 114); align-self: center;" fill="clear">Change Profile Picture
+
+                    <ion-icon *ngIf="!this.user.profile_picture" style="font-size: 100px;" name="person-circle">
+                    </ion-icon>
+                    <img *ngIf="this.user.profile_picture" class="profilePic" src={{this.user.profile_picture}}>
+                    <ion-button (click)="presentProfilePictureModal()"
+                        style="color: rgb(9, 58, 114); align-self: center;" fill="clear">Change Profile Picture
                     </ion-button>
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">First Name:</label>
-                    <input [(ngModel)]="first_name" (change)="updateFirstName()" value="{{this.user.first_name}} {{this.user.last_name}}">
-                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
+                    <input [(ngModel)]="first_name" (change)="updateFirstName()"
+                        value="{{this.user.first_name}} {{this.user.last_name}}">
                 </div>
                 <div style="margin-bottom: 10px">
-                    <label class="basic-info-labels">Last Name</label>
-                    <input [(ngModel)]="last_name" (ionChange)="updateLastName()" value="{{this.user.first_name}} {{this.user.last_name}}">
-                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
+                    <label class="basic-info-labels">Last Name:</label>
+                    <input [(ngModel)]="last_name" (change)="updateLastName()"
+                        value="{{this.user.first_name}} {{this.user.last_name}}">
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">Username:</label>
-                    <input [(ngModel)]="username" (ionChange)="updateUsername()" value="{{this.user.username}}">
+                    <input [(ngModel)]="username" (change)="updateUsername()" value="{{this.user.username}}">
                     <!-- <ion-button style="height: 20px" fill="clear">Edit</ion-button> -->
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">Email:</label>
-                    <input [(ngModel)]="email" (ionChange)="updateEmail()" value="{{this.user.email}}">
-                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
+                    <input [(ngModel)]="email" (change)="updateEmail()" value="{{this.user.email}}">
                 </div>
                 <div style="margin-bottom: 10px">
                     <label class="basic-info-labels">Location</label>
-                    <input [(ngModel)]="location" (ionChange)="updateLocation()" value="{{this.user.location}}">
-                    <!-- <ion-button style="height: 17px" fill="clear">Edit</ion-button> -->
+                    <input [(ngModel)]="location" (change)="updateLocation()" value="{{this.user.location}}">
                 </div>
                 <br>
-
-
             </div>
-
         </div>
 
         <div id="Sharing">
@@ -51,7 +50,7 @@
 
             <div style="margin-bottom: 10px">
                 <label style="display: inline-block; padding-left: 40px;">Hide your pictures from discovery</label>
-                <ion-toggle #toggle [(ngModel)]="hidePictures"></ion-toggle>
+                <ion-toggle (ionChange)="toggleDiscoverPhotos()" [(ngModel)]="hidePictures"></ion-toggle>
 
             </div>
         </div>
@@ -60,31 +59,37 @@
             <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Statistics</h5>
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Total number of photos: {{user.total_photos}} </label>
+                <label style="display: inline-block; padding-left: 40px;">Total number of photos: {{user.total_photos}}
+                </label>
             </div>
 
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Total number of albums: {{user.total_albums}}</label>
+                <label style="display: inline-block; padding-left: 40px;">Total number of albums:
+                    {{user.total_albums}}</label>
             </div>
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Most commented photo:  <img src={{this.mostCommentedPhoto?.file_name}}> </label>
-                <ion-button [routerLink]="['/photos', this.mostLikedPhoto.id]" style="height: 17px" fill="clear">View</ion-button>
+                <label style="display: inline-block; padding-left: 40px;">Most commented photo: </label>
+                <div *ngIf="this.mostCommentedPhoto?.total_comments > 1">
+                    <img src={{this.mostCommentedPhoto?.file_name}}>
+                    <ion-button [routerLink]="['/photos', this.mostLikedPhoto?.id]" style="height: 17px" fill="clear">
+                        View
+                    </ion-button>
+                </div>
             </div>
+            <br>
 
             <div style="margin-bottom: 10px">
-                <label style="display: inline-block; padding-left: 40px;">Most liked public photo:  <img src={{this.mostLikedPhoto?.file_name}}> </label>
-                <ion-button [routerLink]="['/photos', this.mostCommentedPhoto.id]" style="height: 17px" fill="clear">View</ion-button>
+                <label style="display: inline-block; padding-left: 40px;">Most liked public photo: </label>
+                <div *ngIf="this.mostLikedPhoto?.total_likes > 0">
+                    <img src={{this.mostLikedPhoto?.file_name}}>
+                    <ion-button [routerLink]="['/photos', this.mostCommentedPhoto?.id]" style="height: 17px"
+                        fill="clear">
+                        View
+                    </ion-button>
+                </div>
             </div>
-
-            
-
-
-
-
         </div>
-
-
     </div>
 </div>

@@ -36,7 +36,7 @@
           <ion-icon *ngIf="photo_liked === false" (click)="likePhoto(index)" name="heart-outline" style="font-size: 16px; margin-bottom: -5%;"></ion-icon>
           <label>{{(this.photos[index].total_likes) ? this.photos[index].total_likes : '0'}}</label>
 
-          <ion-icon (click)="commentSection()" style="font-size: 16px; margin-bottom: -5%;"
+          <ion-icon style="font-size: 16px; margin-bottom: -5%;"
             name="chatbox-ellipses-outline"></ion-icon>
           <label>{{(this.photos[index].total_comments) ? this.photos[index].total_comments : '0'}}</label>
         </div>
@@ -51,10 +51,10 @@
 
       <div id="comment-section">
         Comments:
-        <div style="margin: 2px 20px" class="w3-border w3-border-red">
+        <div style="margin: 2px 20px" >
 
           <div *ngFor="let comment of this.photos[index].comments" class="author"
-            style="flex-direction: row; display:flex; align-items:center" class="w3-border w3-border-green">
+            style="flex-direction: row; display:flex; align-items:center" class="w3-border w3-border-grey">
             <ion-icon name="person-circle"></ion-icon>
             <div style="padding-right: 25px; min-width: 100px">
               <p style="font-size:18px">@{{(comment.username)}}</p>
@@ -65,7 +65,7 @@
               <p>{{comment.body}}</p>
 
             </div>
-            <div style="align-self: flex-end; flex-grow:2; text-align:right;" class="w3-border w3-border-blue">
+            <div style="align-self: flex-end; flex-grow:2; text-align:right;">
               <ion-label style="cursor:pointer" (click)="deleteComment(comment.id)" color="danger">Delete</ion-label>
             </div>
           </div>

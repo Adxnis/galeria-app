@@ -101,8 +101,10 @@ class PhotoController extends Controller
 
     public function searchByTags($tagQuery) {
         $photos = Photo::join('photo_tag', 'photo.id', '=', 'photo_tag.photo_id')
+        ->join('tag', 'tag.id', '=', 'photo_tag.tag_id')
         ->select('photo.*')
-        ->where('name', 'like', '%'.$tagQuery.'%')
+        // ->where("isPublic", 1)
+        ->where('title', 'like', '%'.$tagQuery.'%')
         ->get();
 
         return PhotoResource::collection($photos);

@@ -41,11 +41,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('getUsers', [UserController::class, 'getUsers']);
     Route::get('getUser', [UserController::class, 'getUser']);
     Route::get('search/{id}', [UserController::class, 'search']);
-    
     Route::get('getCommentsFromPhoto/{id}', [CommentController::class, 'getCommentsFromPhoto']);
     Route::get('getPublicPhotos', [DiscoveryController::class, 'index']);
-
-
+    Route::get('hidePhotos', [DiscoveryController::class, 'hidePhotos']);
+    Route::get('showPhotos', [DiscoveryController::class, 'showPhotos']);
 });
 
 Route::post('register', [AuthController::class, 'register']);

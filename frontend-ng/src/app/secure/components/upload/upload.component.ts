@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
+////////////////////////////////
+////// This component receives information from uploaded photo and sends it back to the upload photo form
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -10,13 +11,14 @@ import { environment } from 'src/environments/environment';
 })
 export class UploadComponent implements OnInit {
 
+  
   @Output() uploaded = new EventEmitter<string[]>();
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() { }
 
-  upload(fileChangeEvent) {
+  public upload(fileChangeEvent) {
     // Get a reference to the file that has just been added to the input
     const photo = fileChangeEvent.target.files[0];
 
@@ -30,10 +32,7 @@ export class UploadComponent implements OnInit {
     this.http.post(`${environment.api}/upload`, formData, { withCredentials: true }).subscribe((res: any) => {
 
       this.uploaded.emit([res.url, photo.type.split("/")[1], photo.size]);
-      console.log("RES")
-      console.log(res);
-      console.log("PHOTO")
-      console.log(photo);
+
     });
   }
 }

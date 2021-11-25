@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
 ion-button {
     text-transform: capitalize;
     font-size: 15px;
@@ -20,6 +26,7 @@ input {
     display: inline-block;
     width: 110px;
     text-align: right;
+    padding-right: 5px;
 }
 
 ion-toggle {
@@ -33,4 +40,12 @@ h5 {
 img {
     width: 100px;
     height: 100px;
+}
+
+.profilePic {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
 }

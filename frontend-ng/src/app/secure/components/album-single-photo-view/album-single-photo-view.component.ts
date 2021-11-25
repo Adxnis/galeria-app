@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, PopoverController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Album } from 'src/app/interfaces/album';
 import { Photo } from 'src/app/interfaces/photo';
 import { User } from 'src/app/interfaces/user';
@@ -17,21 +18,37 @@ import { MoreInfoPhotoPopoverComponent } from '../../modals/more-info-photo-popo
   templateUrl: './album-single-photo-view.component.html',
   styleUrls: ['./album-single-photo-view.component.scss'],
 })
-export class AlbumSinglePhotoViewComponent implements OnInit {
+export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
 
+  // Data information
+  // ids
   public photo_id: number;
   public album_id: number;
-  public photos: Photo[];
-  public user: User;
   public user_id: number;
 
+  // Objects
+  public photos: Photo[];
+  public user: User;
+
+  // Photo
   public index: number;
   public total_photos: number;
-  public form: FormGroup;
-  // public comments: Comment[];
   public photo_liked: boolean = false;
   public photo_name: string;
+
+  // form
+  public form: FormGroup;
+
+  // album
   public album: Album;
+
+  // subscriptions
+  public photoSubcription$: Subscription;
+  public commentSubscription$: Subscription;
+  public likeSubscription$: Subscription;
+  public authSubscription$: Subscription;
+  public albumSubscription$: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -41,10 +58,11 @@ export class AlbumSinglePhotoViewComponent implements OnInit {
     private likeService: LikeService,
     private albumService: AlbumService,
     private alertCtrl: AlertController,
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private popoverController: PopoverController) { }
 
   ngOnInit() {
+    // initialize form
     this.form = this.formBuilder.group({
       photo_id: this?.photo_id,
       user_id: '',
@@ -52,19 +70,25 @@ export class AlbumSinglePhotoViewComponent implements OnInit {
       body: ''
     });
 
-    
+
+    // ids from url 
     this.album_id = parseInt(this.route.snapshot.paramMap.get('id1'));
     this.photo_id = parseInt(this.route.snapshot.paramMap.get('id2'));
 
 
-  
-    this.authService.user().subscribe((user: User) => {this.user = user; this.user_id = user.id});
+
+    // get user and get photos from album
+    this.authSubscription$ = this.authService.user().subscribe((user: User) => { this.user = user; this.user_id = user.id });
     this.getAlbumPhotos();
-
-
   }
 
-
+  ngOnDestroy() {
+    this.authSubscription$.unsubscribe();
+    this.likeSubscription$.unsubscribe();
+    this.photoSubcription$.unsubscribe();
+    this.commentSubscription$.unsubscribe();
+    this.albumSubscription$.unsubscribe();
+  }
 
 
   // delete confirmation alert
@@ -78,11 +102,7 @@ export class AlbumSinglePhotoViewComponent implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.photoService.delete(this.photo_id).subscribe(() => {
-              console.log("deleted");
-              console.log("INDEX before: " + this.index)
-              // this.getAlbumPhotos();
-              console.log("INDEX AFTEr: " + this.index)
+            this.photoSubcription$ = this.photoService.delete(this.photo_id).subscribe(() => {
               if (this.index == this.photos.length - 1 && this.index != 0) {
                 this.goPrevious();
               }
@@ -100,36 +120,30 @@ export class AlbumSinglePhotoViewComponent implements OnInit {
 
   // Create new comment
   public addNewComment(): void {
-    console.log("UserId = " + this.user.id);
-    console.log("photoId = " + this.photo_id);
     this.form.patchValue({ 'user_id': this.user.id, 'photo_id': this.photo_id, 'username': this.user.username })
-    console.log(this.form.getRawValue());
-    this.commentService.create(this.form.getRawValue()).subscribe(() => {
+    this.commentSubscription$ = this.commentService.create(this.form.getRawValue()).subscribe(() => {
       this.getAlbumPhotos();
     });
   }
 
+  // delete comment
   public deleteComment(id: number): void {
-    this.commentService.delete(id).subscribe(() => {
+    this.commentSubscription$ = this.commentService.delete(id).subscribe(() => {
       this.getAlbumPhotos();
     })
   }
 
+  // like photo if not liked
   public likePhoto(index: number): void {
-    console.log(this.user);
-    console.log(this.photos[this.index]);
-    console.log(this.photos[this.index].likes.indexOf(this.user.id))
     const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
     if (liked) {
-      this.likeService.delete(this.user.id).subscribe((res: any) => {
+      this.likeSubscription$ = this.likeService.delete(this.user.id).subscribe((res: any) => {
         this.getPhotoById(this.photo_id);
         this.photo_liked = false;
       });
     }
     else {
-      console.log(this.user.id, this.photos[index].id )
-      this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
-        console.log("Created");
+      this.likeSubscription$ = this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
         this.getPhotoById(this.photo_id);
         this.photo_liked = true;
       })
@@ -155,12 +169,10 @@ export class AlbumSinglePhotoViewComponent implements OnInit {
   }
 
   public updatePhotoName(): void {
-    console.log(this.photo_name)
-    this.photoService.update(this.photo_id, {name: this.photo_name}).subscribe((res) => {
-      console.log(res);
+    this.photoSubcription$ = this.photoService.update(this.photo_id, { name: this.photo_name }).subscribe((res) => {
       this.getPhotoById(this.photo_id);
     });
-    
+
   }
 
   public async moreInfo(ev: any): Promise<void> {
@@ -171,64 +183,59 @@ export class AlbumSinglePhotoViewComponent implements OnInit {
       showBackdrop: false,
       animated: false,
       cssClass: 'view-menu',
-      componentProps: {photo: this.photos[this.index]}
+      componentProps: { photo: this.photos[this.index] }
     });
     await popover.present();
   }
 
 
-    // Go to previous photo
-    public goPrevious() {
-      console.log(this.index);
-      if (this.index != 0) {
-        let previousId = this.photos[this.index - 1].id;
-        this.router.navigate([`album/${this.album_id}/photo`, previousId]);
-      }
+  // Go to previous photo
+  public goPrevious() {
+    if (this.index != 0) {
+      let previousId = this.photos[this.index - 1].id;
+      this.router.navigate([`album/${this.album_id}/photo`, previousId]);
     }
-  
-    // Go to next photo unless photo is the last one
-    public goNext() {
-      if (this.index != this.photos.length - 1) {
-        console.log("Next");
-        console.log(this.index);
-        let nextId = this.photos[this.index + 1].id;
-        this.router.navigate([`album/${this.album_id}/photo`, nextId]);
-      }
-      else {
-        this.goBack();
-      }
-    }
-  
-    // return to all photos
-    public goBack() {
-      this.router.navigate([`album/${this.album_id}/`])
-    }
+  }
 
-    public getAlbumPhotos() {
-      this.albumService.get(this.album_id).subscribe((album: Album) => {
-        this.album = album;
-      
-        this.photos = album.photos;
-        console.log("Photos");
-        console.log(this.photos);
-
-        this.index = this.photos.findIndex(x => x.id === this.photo_id);
-        this.photo_name = this.photos[this.index].name;
-        this.total_photos = this.album.total_photos;
-        const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
-        if (liked) {
-          this.photo_liked = true;
-        };
-
-        console.log("Index: " + this.index); 
-      });
+  // Go to next photo unless photo is the last one
+  public goNext() {
+    if (this.index != this.photos.length - 1) {
+      let nextId = this.photos[this.index + 1].id;
+      this.router.navigate([`album/${this.album_id}/photo`, nextId]);
     }
-
-    public getPhotoById(id: number) {
-      this.photoService.get(id).subscribe((res: any) => {
-        this.photos[this.index] = res;
-      });
+    else {
+      this.goBack();
     }
+  }
+
+  // return to all photos
+  public goBack() {
+    this.router.navigate([`album/${this.album_id}/`])
+  }
+
+  public getAlbumPhotos() {
+    this.albumSubscription$ = this.albumService.get(this.album_id).subscribe((album: Album) => {
+      this.album = album;
+      this.photos = album.photos;
+      this.index = this.photos.findIndex(x => x.id === this.photo_id);
+
+      this.photo_name = this.photos[this.index].name;
+      this.total_photos = this.album.total_photos;
+
+      const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
+
+      if (liked) {
+        this.photo_liked = true;
+      };
+    });
+  }
+
+  // get photo 
+  public getPhotoById(id: number) {
+    this.photoService.get(id).subscribe((res: any) => {
+      this.photos[this.index] = res;
+    });
+  }
 
 
 

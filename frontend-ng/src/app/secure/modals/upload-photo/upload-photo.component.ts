@@ -11,10 +11,12 @@ import { AddToAlbumComponent } from '../add-to-album/add-to-album.component';
   styleUrls: ['./upload-photo.component.scss'],
 })
 export class UploadPhotoComponent implements OnInit {
+  
   public form: FormGroup;
-  public image: string;
+  public imageURL: string;
   public tags: Tag[] = [];
   public selectedAlbumName: string
+
   // get album from parent component
   @Input() albumPage: boolean;
 
@@ -39,9 +41,7 @@ export class UploadPhotoComponent implements OnInit {
   // Receieve photo information from upload
   // Add data to form
   public addToForm(photoInfo) {
-    console.log("PHOTOINFO")
-    console.log(photoInfo);
-    this.image = photoInfo[0];
+    this.imageURL = photoInfo[0];
     this.form.patchValue({
       'file_name': photoInfo[0],
       'file_type': photoInfo[1],
@@ -58,13 +58,11 @@ export class UploadPhotoComponent implements OnInit {
 
     // keycode 32 = space
     if (event.keyCode == 32) {
-      console.log("im a space")
       // ADD TAG
       let string = event.target.value.substring(1).trim();
       if (string != "") {
         this.tags.push(string);
       }
-      console.log(this.tags);
     }
   }
 
@@ -85,14 +83,12 @@ export class UploadPhotoComponent implements OnInit {
     const modal = await this.modalController.create({
       component: AddToAlbumComponent,
       cssClass: 'add-to-album auto-height modal',
-      componentProps: { image: this.image },
+      componentProps: { imageURL: this.imageURL },
       id: 'add-to-album'
     });
-    // await this.modalController.dismiss();
     await modal.present();
     await modal.onDidDismiss().then((res) => {
       if(res.data != undefined) {
-        console.log(res);
         let album = []
         album[0] = res.data.id;
         this.form.controls['albums'].patchValue(album);
@@ -107,7 +103,6 @@ export class UploadPhotoComponent implements OnInit {
     this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
       this.closeModal(this.tags, res);
     })
-    // console.log(this.form.getRawValue())
   }
 
   // After close send tag and photo data to photo component
@@ -115,7 +110,7 @@ export class UploadPhotoComponent implements OnInit {
     await this.modalController.dismiss({ tags: tags, photo: photo });
   }
 
-  // Create an alert box to warn and exit with no update to the patient enrollment form
+  // Create an alert box to warn and exit with no update upload form
   async cancel() {
     let title: any = document.getElementById('title');
     if (title.value.length > 0) {

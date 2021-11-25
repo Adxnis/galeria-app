@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Router, Event, NavigationEnd } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Photo } from 'src/app/interfaces/photo';
@@ -16,20 +16,26 @@ import { UploadPhotoComponent } from '../../../../secure/modals/upload-photo/upl
 export class PhotosComponent implements OnInit, OnDestroy {
 
   currentView: string = "compact";
-  public fullView: boolean;
-  public compactView: boolean = true;
+
+  // Data to receive from parent component (homepage)
   @Input() view: string;
   @Input() sort: string;
+
   public photos: Photo[];
   public photo_size: number;
   currentRoute: string;
 
+  // subscriptions
   photoSubscription$: Subscription;
   tagSubscription$: Subscription;
 
   constructor(
     private modalController: ModalController,
-    private photoService: PhotoService, private tagService: TagService, private router: Router) {
+    private photoService: PhotoService, 
+    private tagService: TagService, 
+    private router: Router) {
+    
+    // only get photos if url matches
     this.currentRoute = "";
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -37,30 +43,30 @@ export class PhotosComponent implements OnInit, OnDestroy {
         if (this.currentRoute == "/home" && event.urlAfterRedirects === "/home") {
           this.getPhotos();
         }
-        console.log(event);
       }
     });
   }
 
+  // populate view with photos 
   ngOnInit() {
     this.getPhotos();
   }
 
+  // unsubscribe 
   ngOnDestroy() {
-    console.log("destroying")
     this.photoSubscription$.unsubscribe();
   }
 
   // sort pictures by name, size or date
   ngOnChanges(changes: SimpleChanges) {
     if(this.photos != undefined) {
-      if (changes.sort.currentValue === "sortbysize") {
+      if (changes?.sort?.currentValue === "sortbysize") {
         this.photos = this.photos.sort((a, b) => {
           return parseInt(b.size) - parseInt(a.size);
         });
       }
 
-      if (changes.sort.currentValue === "sortbydate") {
+      if (changes?.sort?.currentValue === "sortbydate") {
         this.photos = this.photos.sort((a, b) => {
           let da = a.created_at,
           db = b.created_at;
@@ -73,7 +79,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
           return 0;
         });
       }
-      if (changes.sort.currentValue === "sortbyname") {
+      if (changes?.sort?.currentValue === "sortbyname") {
         this.photos = this.photos.sort((a, b) => {
           
           let na = a.name.toLowerCase(),
@@ -112,15 +118,11 @@ export class PhotosComponent implements OnInit, OnDestroy {
       // Reload all photos
       this.getPhotos();
 
-      console.log(res);
       if (res.data != undefined) {
         let tagName: string[] = res.data.tags;
         for (let i = 0; i < tagName.length; i++) {
           // Add tags to photo
-          this.tagService.create({ title: tagName[i], photos: [res.data.photo.id] }).subscribe((res) => {
-            console.log("Created tags");
-            console.log(res)
-          });
+          this.tagService.create({ title: tagName[i], photos: [res.data.photo.id] }).subscribe();
         }
       }
     });
@@ -131,10 +133,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.router.navigate(['/photos', photo_id]);
   }
 
-  hey(h: string) {
-   let x: number = parseInt(h);
-   return x / 1000000
-
+  // convert bytes to MB
+  getPhotoSize(bytes: string) {
+    let size: number = parseInt(bytes);
+    return size / 1000000
   }
 
 

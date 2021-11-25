@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { IonRadioGroup, ModalController, PopoverController } from '@ionic/angular';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { IonRadioGroup, PopoverController } from '@ionic/angular';
 
+////////////////////////////////
+////// This component handles the sorting of photos and albums
 @Component({
   selector: 'app-sort-popover',
   templateUrl: './sort-popover.component.html',
@@ -14,7 +16,6 @@ export class SortPopoverComponent implements OnInit {
 
   sortMode = "";
   ngOnInit() {
-    console.log(this.sortBy);
     this.sortMode = this.sortBy;
   }
 

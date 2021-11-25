@@ -13,40 +13,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./albums.component.scss'],
 })
 export class AlbumsComponent implements OnInit, OnDestroy {
-
-  albumSubscription$: Subscription;
+  // Data to receive from parent component (homepage)
   @Input() view: string;
   @Input() sort: string;
-  public albums: Album[] = [];
-  constructor(private modalController: ModalController, private albumService: AlbumService, private popoverController: PopoverController, private router: Router) { }
 
+  // subscriptions
+  albumSubscription$: Subscription;
+
+  // albums
+  public albums: Album[] = [];
+
+  constructor(
+    private modalController: ModalController,
+    private albumService: AlbumService,
+    private popoverController: PopoverController,
+    private router: Router) { }
+
+  // populate page with albums
   ngOnInit() {
     this.getAlbums();
-    console.log("ONIT")
   }
 
+  // unsubscribe
   ngOnDestroy() {
     this.albumSubscription$.unsubscribe();
   }
 
   // sort pictures by name, size or date
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Changing")
-    console.log(changes.sort.currentValue);
-    console.log(this.albums);
-
-    if(this.albums != undefined) {
-      if (changes.sort.currentValue === "sortbysize") {
+    if (this.albums != undefined) {
+      if (changes?.sort?.currentValue === "sortbysize") {
         this.albums = this.albums.sort((a, b) => {
           return b.total_size - a.total_size;
         });
       }
 
-      if (changes.sort.currentValue === "sortbydate") {
+      if (changes?.sort?.currentValue === "sortbydate") {
         this.albums = this.albums.sort((a, b) => {
           let da = a.created_at,
-          db = b.created_at;
-          if(da < db) {
+            db = b.created_at;
+          if (da < db) {
             return -1;
           }
           if (da > db) {
@@ -55,31 +61,34 @@ export class AlbumsComponent implements OnInit, OnDestroy {
           return 0;
         });
       }
-      if (changes.sort.currentValue === "sortbyname") {
+      if (changes?.sort?.currentValue === "sortbyname") {
         this.albums = this.albums.sort((a, b) => {
-          
+
           let na = a.album_name.toLowerCase(),
-              nb = b.album_name.toLowerCase();
-            if(na < nb) {
-              return -1;
-            }
-            if (na > nb) {
-              return 1;
-            }
-            return 0;
+            nb = b.album_name.toLowerCase();
+          if (na < nb) {
+            return -1;
+          }
+          if (na > nb) {
+            return 1;
+          }
+          return 0;
         });
       }
 
     }
   }
 
+  // get albums from service
   public getAlbums() {
     this.albumSubscription$ = this.albumService.albums().subscribe((albums) => {
-      console.log(albums);
       this.albums = albums
     })
   }
 
+  // present create new album dialog
+  // If the dialog is being activated from the album page 
+  // send albumPage = true in component props for view purposes
   async presentCreateModal() {
     const modal = await this.modalController.create({
       component: CreateNewAlbumComponent,
@@ -87,19 +96,24 @@ export class AlbumsComponent implements OnInit, OnDestroy {
       componentProps: { albumPage: true }
     });
     await modal.present();
+    // add photo to album if photo uploaded
     modal.onDidDismiss().then((res) => {
-      // this.getAlbums();
       if (res.data != undefined) {
-        this.albumService.update(res.data.album_id, { photos: [res.data.photo.id] }).subscribe((res) => {
-          console.log(res);
+        if (res.data.photo) {
+          this.albumService.update(res.data.album_id, { photos: [res.data.photo.id] }).subscribe((res) => {
+            this.getAlbums();
+          });
+        }
+        // if no photo was uploaded with album do nothing
+        else {
           this.getAlbums();
-        });
+        }
       }
     });
   }
 
+  // edit album or delete album
   async editAlbum(ev: any, album: Album) {
-    console.log(album);
     const popover = await this.popoverController.create({
       component: EditAlbumPopoverComponent,
       translucent: true,
@@ -111,9 +125,12 @@ export class AlbumsComponent implements OnInit, OnDestroy {
       id: 'edit-album'
     });
     await popover.present();
-    await popover.onDidDismiss().then(() => { this.getAlbums(); });
+    // reload all albums
+    await popover.onDidDismiss().then(() => { 
+      this.getAlbums(); });
   }
 
+  // single album view
   goToSingleAlbumView(album_id: number) {
     this.router.navigate(['/album', album_id]);
   }

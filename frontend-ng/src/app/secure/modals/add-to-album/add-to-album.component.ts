@@ -4,6 +4,7 @@ import { AlbumService } from 'src/app/services/album.service';
 import { CreateNewAlbumComponent } from '../create-new-album/create-new-album.component';
 import { Album } from 'src/app/interfaces/album';
 import { CreateNewSharedAlbumComponent } from '../create-new-shared-album/create-new-shared-album.component';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-add-to-album',
   templateUrl: './add-to-album.component.html',
@@ -12,27 +13,49 @@ import { CreateNewSharedAlbumComponent } from '../create-new-shared-album/create
 export class AddToAlbumComponent implements OnInit {
 
   public albums: Album[];
-  public sharedAlbums = [];
+  public sharedAlbums: Album[];
   public image: string;
   public selectedAlbumId: number
-  constructor(private modalController: ModalController, private alertCtrl: AlertController, private albumService: AlbumService, private navParams: NavParams) { }
 
+  // subscriptions
+  public sharedAlbumSubscription$: Subscription;
+  public albumSubscription$: Subscription;
+
+  constructor(
+    private modalController: ModalController, private alertCtrl: AlertController, 
+    private albumService: AlbumService, 
+    private navParams: NavParams) { }
+
+  // show all shared and personal albums to choose from 
+  // get the uploaded image
   ngOnInit() {
     this.getAlbums();
+    this.getSharedAlbums();
     this.image = this.navParams.data.image;
-    console.log(this.image);
   }
 
+  // unsubscribe 
+  ngOnDestroy() {
+    this.sharedAlbumSubscription$.unsubscribe();
+  }
+
+  // get albums from service
   public async getAlbums() {
-    this.albumService.albums().subscribe((albums) => 
+    this.albumSubscription$ = this.albumService.albums().subscribe((albums) => 
     {
       this.albums = albums;
-      console.log(this.albums);
     });
   }
 
-  async presentCreateAlbumModal() {
+  // get shared albums from service
+  public getSharedAlbums() {
+    this.sharedAlbumSubscription$ = this.albumService.sharedAlbums().subscribe((sharedAlbums: Album[]) => {
+      this.sharedAlbums = sharedAlbums;
+    })
+  }
 
+  // Create a new album dialog
+  async presentCreateAlbumModal() {
     const modal = await this.modalController.create({
       component: CreateNewAlbumComponent,
       cssClass: 'create-album auto-height',
@@ -49,9 +72,8 @@ export class AddToAlbumComponent implements OnInit {
 
   }
 
-
+  // Create a new shared album dialog
   async presentCreateSharedAlbumModal() {
-
     const modal = await this.modalController.create({
       component: CreateNewSharedAlbumComponent,
       cssClass: 'create-album auto-height',
@@ -67,7 +89,8 @@ export class AddToAlbumComponent implements OnInit {
     });
 
   }
-  
+
+  // Create an alert box to warn and exit with no update
   async cancel() {
     const alert = await this.alertCtrl.create({
       header: 'Warning',
@@ -87,6 +110,7 @@ export class AddToAlbumComponent implements OnInit {
     await alert.present();
   }
 
+  // dismiss modal with the selected album
   getSelectedAlbum(album: Album) {
     this.modalController.dismiss(album);
   }

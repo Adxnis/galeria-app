@@ -1,3 +1,18 @@
-<p>
-  add-profile-picture works!
-</p>
+<ion-header class="modal-header" style="margin-bottom: 25px;">
+  <ion-toolbar>
+    <ion-title>
+      Change Profile Picture
+      <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right"
+        name="close-sharp"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<form>
+  <div class="container">
+    <app-upload (uploaded)=getPhotoUrl($event)></app-upload>
+
+    <div *ngIf="image">
+      <ion-button (click)="confirmProfilePicture()">Change</ion-button>
+    </div>
+  </div>
+</form>

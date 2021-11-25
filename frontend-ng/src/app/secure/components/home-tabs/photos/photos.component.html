@@ -17,13 +17,13 @@
     <div *ngFor="let photo of photos" class="responsive">
       <div class="gallery">
         <img style="cursor: pointer;" class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400" (click)="goToSinglePhotoView(photo.id);">
-        <ion-icon class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
+        <!-- <ion-icon class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon> -->
 
         <div class="desc">
  
             <div style="display: flex; justify-content: space-between">
               <p>{{photo.name}}</p>
-              <p id="details">{{hey(photo.size) | number: '1.1-2'}} mb</p>
+              <p id="details">{{getPhotoSize(photo.size) | number: '1.1-2'}} MB</p>
           </div>
           <div style="display: flex; justify-content: space-between">
             <p id="details">@{{photo.user.username}}</p>

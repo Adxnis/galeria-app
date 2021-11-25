@@ -3,7 +3,7 @@ export interface Album {
     id: number;
     album_name: string;
     isFavourited: string;
-    isShared: string;
+    isShared: boolean;
     photos?: Photo[];
     total_photos: number;
     created_at: Date;

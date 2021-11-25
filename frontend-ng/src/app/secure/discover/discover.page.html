@@ -20,7 +20,7 @@
 
     <!-- Search bar with search icon -->
     <div class="search" style="border-radius: 20px; border:˚ 1px solid rgb(9, 58, 114);margin-bottom:-2px;">
-      <ion-searchbar style="--border-radius: 20px;--box-shadow:0; --icon-color: rgb(9, 58, 114)" animated>
+      <ion-searchbar (ionChange)="searchByTags()"  [(ngModel)]="tag" showCancelButton="never" debounce="500" style="--border-radius: 20px;--box-shadow:0; --icon-color: rgb(9, 58, 114) --background: blue; border: 1px solid rgb(9, 58, 114); border-radius: 20px;" animated>
       </ion-searchbar>
     </div>
 
@@ -36,7 +36,9 @@
 
   </div>
 
+  <p *ngIf="tag" style="padding: 5px;">Searching photos with <span style="color: rgb(9, 58, 114)">#{{tag}}</span></p>
   <div *ngIf="currentView == 'full'"  style="height:100vh;overflow:scroll; padding: 0 20px 500px; margin-top: 10px;">
+    
     <section class="grid-image-gallery">
       <span *ngFor="let photo of photos">
         <img (click)="goToSinglePhotoView(photo.id)" style="cursor: pointer;"  src="{{photo.file_name}}">

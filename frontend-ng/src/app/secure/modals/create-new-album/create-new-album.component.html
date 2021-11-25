@@ -14,13 +14,13 @@
     <ion-input formControlName="album_name"></ion-input>
     <br>
 
-    <div *ngIf="this.image">
+    <div *ngIf="this.imageURL">
       <label>Photo to be added</label>
       <br>
-      <img src={{this.image}}>
+      <img src={{this.imageURL}}>
       <br>
     </div>
-    <div *ngIf="!this.image" style>
+    <div *ngIf="!this.imageURL" style>
       <label>Add a photo (optional)</label>
       <br>
       <ion-button size="small" style="justify-content: center;" (click)="uploadPhoto()">Upload</ion-button>

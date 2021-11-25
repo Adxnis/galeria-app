@@ -23,13 +23,13 @@
     </div>
     <br>
 
-    <div *ngIf="this.image">
+    <div *ngIf="this.imageUrl">
       <label>Photo to be added</label>
       <br>
-      <img src={{this.image}}>
+      <img src={{this.imageUrl}}>
       <br>
     </div>
-    <div *ngIf="!this.image" style>
+    <div *ngIf="!this.imageUrl" style>
       <label>Add a photo (optional)</label>
       <br>
       <ion-button size="small" style="justify-content: center;" (click)="uploadPhoto()">Upload</ion-button>

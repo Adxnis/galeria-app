@@ -31,7 +31,6 @@ export class ShareWithUserComponent implements OnInit, OnDestroy{
 
   // Search by username
   public findUser() {
-    console.log(this.username);
     let query = this.username.trim();
 
     // Will match if query is nothing or is only spaces
@@ -43,7 +42,6 @@ export class ShareWithUserComponent implements OnInit, OnDestroy{
     }
     this.userSubscription$ = this.userService.search(query).subscribe(
       (users: User[]) => {
-        console.log(users);
         this.users = users;
         this.hasQuery = true;
       }

@@ -32,8 +32,4 @@ export class AuthService {
   updateInfo(data): Observable<User> {
     return this.http.put<User>(`${environment.api}/updateInfo`, data);
   }
-  // public isAuthenticated():void {
-  //   let test = this.http.get(`${environment.api}/user`, {withCredentials: true})
-  //   console.log(test);
-  // }
 }

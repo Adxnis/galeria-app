@@ -29,12 +29,11 @@
     <div *ngFor="let photo of photos" class="responsive">
       <div class="gallery">
         <img (click)="goToSinglePhotoView(photo.id)" style="cursor:pointer;" class="thumbnail" src="{{photo.file_name}}" alt={{photo.name}} width="600" height="400">
-        <ion-icon  class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon>
+        <!-- <ion-icon  class="edit" color="light" name="ellipsis-vertical-outline"></ion-icon> -->
 
         <div class="desc">
           <p>{{photo.name}}</p>
           <div style="display: flex; justify-content: space-between">
-            <!-- <p id="details">@{{photo.user.username}}</p> -->
             <p id="details"  style="max-width: 120px; overflow: auto; white-space: nowrap">
               <span *ngFor="let tag of photo.tags">#{{tag.title}}  </span>
             </p>

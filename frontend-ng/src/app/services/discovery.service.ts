@@ -14,4 +14,12 @@ export class DiscoveryService {
   public all(): Observable<Photo[]> {
     return this.http.get<Photo[]>(`${environment.api}/getPublicPhotos`);
   }
+
+  public hidePhotos(): Observable<Photo[]> {
+    return this.http.get<Photo[]>(`${environment.api}/hidePhotos`);
+  }
+
+  public showPhotos(): Observable<Photo[]> {
+    return this.http.get<Photo[]>(`${environment.api}/showPhotos`);
+  }
 }

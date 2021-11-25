@@ -27,8 +27,8 @@
 
     <label>Add Photo:</label>
     <app-upload (uploaded)=addToForm($event)></app-upload>
-    <div *ngIf="this.image" style="display:flex; flex-direction: column">
-      <img id="photo-to-upload" src={{this.image}} alt="image-to-upload">
+    <div *ngIf="this.imageURL" style="display:flex; flex-direction: column">
+      <img id="photo-to-upload" src={{this.imageURL}} alt="image-to-upload">
     </div>
     <br>
 
@@ -42,7 +42,7 @@
 
 
     <div *ngIf="!this.albumPage">
-      <div *ngIf="this.image" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
+      <div *ngIf="this.imageURL" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
         <label>Add to Albums (optional)</label>
         <div>
           <ion-button (click)="presentAddToAlbumModal()" shape="round" size="small" mode="ios">Select Album</ion-button>
@@ -54,7 +54,7 @@
     </div>
 
     <div *ngIf="this.albumPage">
-      <div *ngIf="this.image" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
+      <div *ngIf="this.imageURL" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
         <ion-button (click)="submit()" style="align-self: center;">Upload</ion-button>
       </div>
     </div>

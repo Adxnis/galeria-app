@@ -12,23 +12,18 @@ export class HomePage implements OnInit {
   activeTab = "albums";
   constructor() { }
 
-  ngOnInit() {
-    console.log("hey")
-  }
+  ngOnInit() {}
 
   // tabs
   display(tab: string) {
     this.activeTab = tab;
-    console.log("TAB: " + tab);
   }
 
   changeView(view: string) {
-    console.log("View: " + view);
     this.view = view;
   }
 
   changeSort(sort: string) {
-    console.log("Sort: " + sort);
     this.sort = sort;
   }
 }

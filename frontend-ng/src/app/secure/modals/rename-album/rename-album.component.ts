@@ -12,37 +12,46 @@ import { AlbumService } from 'src/app/services/album.service';
   styleUrls: ['./rename-album.component.scss'],
 })
 export class RenameAlbumComponent implements OnInit {
+  // form
   form: FormGroup;
+  // get album 
   @Input() album: Album;
-  photo_ids: number[] = [];
-  constructor(private formBuilder: FormBuilder, private albumService: AlbumService, private modalController: ModalController) { 
- 
-  }
 
+  // update photos with album
+  photo_ids: number[] = [];
+
+  constructor(
+    private formBuilder: FormBuilder, 
+    private albumService: AlbumService, 
+    private modalController: ModalController) { }
+
+  // initialize form
   ngOnInit(): void {
- 
     this.form = this.formBuilder.group({
       album_name: this.album.album_name,
       photos: ''
     });
+
+    // get photos and update to album
     this.getPhotosInAlbum();
   }
 
+  // update album
   public async submit(): Promise<void> {
-    console.log(this.form.getRawValue());
     this.albumService.update(this.album.id,this.form.getRawValue()).subscribe((res: any) => {
-      console.log(res);
       this.closeModal();
     })
   }
 
-  async closeModal(): Promise<void> {
+  // close dialog
+  public async closeModal(): Promise<void> {
     await this.modalController.dismiss();
   }
+
+  // update photos with album
   public getPhotosInAlbum() {
     if(this.album){
       for(let i = 0; i < this.album.photos.length; i++){
-        console.log(this.album.photos[i].id);
         this.photo_ids.push(this.album.photos[i].id);
       }
       this.form.patchValue({ 'photos': this.photo_ids})

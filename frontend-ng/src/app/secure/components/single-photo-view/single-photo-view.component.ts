@@ -1,16 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Photo } from 'src/app/interfaces/photo';
 import { Comment } from 'src/app/interfaces/comment';
 import { User } from 'src/app/interfaces/user';
 import { PhotoService } from 'src/app/services/photo.service';
 import { AuthService } from 'src/app/services/auth.service';
-
 import { AlertController, PopoverController } from '@ionic/angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommentService } from 'src/app/services/comment.service';
-import { AlbumService } from 'src/app/services/album.service';
 import { LikeService } from 'src/app/services/like.service';
 import { MoreInfoPhotoPopoverComponent } from '../../modals/more-info-photo-popover/more-info-photo-popover.component';
 
@@ -19,16 +17,34 @@ import { MoreInfoPhotoPopoverComponent } from '../../modals/more-info-photo-popo
   templateUrl: './single-photo-view.component.html',
   styleUrls: ['./single-photo-view.component.scss'],
 })
-export class SinglePhotoViewComponent implements OnInit {
+export class SinglePhotoViewComponent implements OnInit, OnDestroy {
+
+  // Data information
+  // ids
   public photo_id: number;
+
+  // Objects
   public photos: Photo[];
-  public user: User;
-  public index: number;
-  public total_photos: number;
-  public form: FormGroup;
   public comments: Comment[];
+  public user: User;
+
+  // Photo
+  public index: number;
   public photo_liked: boolean = false;
+  public total_photos: number;
+
+  // form
+  public form: FormGroup
+  
+  // album name
   public album_name: string;
+
+  // subscriptions
+  public photoSubcription$: Subscription
+  public commentSubscription$: Subscription
+  public likeSubscription$: Subscription
+  public authSubscription$: Subscription
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -36,12 +52,12 @@ export class SinglePhotoViewComponent implements OnInit {
     private authService: AuthService,
     private commentService: CommentService,
     private likeService: LikeService,
-    private albumService: AlbumService,
     private alertCtrl: AlertController,
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private popoverController: PopoverController) { }
 
   ngOnInit() {
+    // intialize form
     this.form = this.formBuilder.group({
       photo_id: this?.photo_id,
       user_id: '',
@@ -49,7 +65,10 @@ export class SinglePhotoViewComponent implements OnInit {
       body: ''
     });
 
+    // get all photos from user
     this.getUserPhotos();
+
+    // get id from route url
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = parseInt(params.get('id'));
       this.photo_id = id;
@@ -58,9 +77,15 @@ export class SinglePhotoViewComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.authSubscription$.unsubscribe();
+    this.likeSubscription$.unsubscribe();
+    this.photoSubcription$.unsubscribe();
+    this.commentSubscription$.unsubscribe();
+  }
+
   // Go to previous photo
   public goPrevious() {
-    console.log(this.index);
     if (this.index != 0) {
       let previousId = this.photos[this.index - 1].id;
       this.router.navigate(['/photos', previousId]);
@@ -70,8 +95,6 @@ export class SinglePhotoViewComponent implements OnInit {
   // Go to next photo unless photo is the last one
   public goNext() {
     if (this.index != this.photos.length - 1) {
-      console.log("Next");
-      console.log(this.index);
       let nextId = this.photos[this.index + 1].id;
       this.router.navigate(['/photos', nextId])
     }
@@ -85,27 +108,26 @@ export class SinglePhotoViewComponent implements OnInit {
     this.router.navigate(['/home'])
   }
 
-  public commentSection() { }
-
-
   // Get all users photos
   public getUserPhotos() {
-    this.authService.user().subscribe((user: User) => {
+    this.authSubscription$ = this.authService.user().subscribe((user: User) => {
       this.photos = user.photos;
       this.total_photos = user.total_photos;
       this.user = user;
       this.index = this.photos.findIndex(x => x.id === this.photo_id);
       this.album_name = this.user.photos[this.index].name;
+
+      // if user has liked this photo show it
       const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
       if (liked) {
-        console.log("I like this picture")
         this.photo_liked = true;
       };
     })
   };
 
+  // get photo
   public getPhotoById(id: number) {
-    this.photoService.get(id).subscribe((res: any) => {
+    this.photoSubcription$ = this.photoService.get(id).subscribe((res: any) => {
       this.photos[this.index] = res;
     });
   }
@@ -122,11 +144,7 @@ export class SinglePhotoViewComponent implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.photoService.delete(this.photo_id).subscribe(() => {
-              console.log("deleted");
-              console.log("INDEX before: " + this.index)
-              // this.getUserPhotos();
-              console.log("INDEX AFTEr: " + this.index)
+            this.photoSubcription$ = this.photoService.delete(this.photo_id).subscribe(() => {
               if (this.index == this.photos.length - 1 && this.index != 0) {
                 this.goPrevious();
               }
@@ -144,42 +162,37 @@ export class SinglePhotoViewComponent implements OnInit {
 
   // Create new comment
   public addNewComment(): void {
-    console.log("UserId = " + this.user.id);
-    console.log("photoId = " + this.photo_id);
     this.form.patchValue({ 'user_id': this.user.id, 'photo_id': this.photo_id, 'username': this.user.username })
-    console.log(this.form.getRawValue());
-    this.commentService.create(this.form.getRawValue()).subscribe(() => {
+    this.commentSubscription$ = this.commentService.create(this.form.getRawValue()).subscribe(() => {
       this.getUserPhotos();
     });
   }
 
+  // delete comment
   public deleteComment(id: number): void {
-    this.commentService.delete(id).subscribe(() => {
+    this.commentSubscription$ = this.commentService.delete(id).subscribe(() => {
       this.getUserPhotos();
     })
   }
 
+  // like photo if not liked
   public likePhoto(index: number): void {
-    console.log(this.user);
-    console.log(this.photos[this.index]);
-    console.log(this.photos[this.index].likes.indexOf(this.user.id))
     const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
     if (liked) {
-      this.likeService.delete(this.user.id).subscribe((res: any) => {
+      this.likeSubscription$ = this.likeService.delete(this.user.id).subscribe((res: any) => {
         this.getPhotoById(this.photo_id);
         this.photo_liked = false;
       });
     }
     else {
-      console.log(this.user.id, this.photos[index].id )
-      this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
-        console.log("Created");
+      this.likeSubscription$ = this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
         this.getPhotoById(this.photo_id);
         this.photo_liked = true;
       })
     }
   }
 
+  // zoom in photo
   public zoomInPhoto(): any {
     var myImg = document.getElementById("image");
     var currWidth = myImg.clientWidth;
@@ -189,6 +202,7 @@ export class SinglePhotoViewComponent implements OnInit {
     }
   }
 
+  // zoom out photo
   public zoomOutPhoto(): any {
     var myImg = document.getElementById("image");
     var currWidth = myImg.clientWidth;
@@ -198,13 +212,12 @@ export class SinglePhotoViewComponent implements OnInit {
     }
   }
 
+  // update album name
   public updateAlbumName(): void {
-    console.log(this.album_name)
-    this.photoService.update(this.photo_id, {name: this.album_name}).subscribe((res) => {
-      console.log(res);
+    this.photoSubcription$ = this.photoService.update(this.photo_id, { name: this.album_name }).subscribe((res) => {
       this.getPhotoById(this.photo_id);
     });
-    
+
   }
 
   public async moreInfo(ev: any): Promise<void> {
@@ -215,11 +228,8 @@ export class SinglePhotoViewComponent implements OnInit {
       showBackdrop: false,
       animated: false,
       cssClass: 'view-menu',
-      componentProps: {photo: this.photos[this.index]}
+      componentProps: { photo: this.photos[this.index] }
     });
     await popover.present();
   }
-
-
-
 }

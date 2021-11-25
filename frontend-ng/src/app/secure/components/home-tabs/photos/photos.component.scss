@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
 .grid-image-gallery{
     display: grid;
     gap: 10px;
@@ -82,6 +84,7 @@
 
 * {
     box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .responsive {

@@ -12,9 +12,13 @@ import { UploadPhotoComponent } from '../upload-photo/upload-photo.component';
   styleUrls: ['./create-new-album.component.scss'],
 })
 export class CreateNewAlbumComponent implements OnInit {
+  // reactive form
   form: FormGroup;
+
+  // if false this modal is being activated from photos page
   @Input() albumPage: boolean;
-  public image: string;
+
+  public imageURL: string;
   public photo: Photo;
 
 
@@ -27,23 +31,26 @@ export class CreateNewAlbumComponent implements OnInit {
     private tagService: TagService) { }
 
   ngOnInit() {
+    // get input data from album name form field
     this.form = this.formBuilder.group({
       album_name: '',
     });
-    this.image = this.navParams.data.image
+
+    // get url from uploaded photo from upload photo modal
+    this.imageURL = this.navParams.data.imageURL
   }
 
 
 
+  // open create new album dialog 
   public createAlbum(): void {
-    console.log(this.form.getRawValue())
 
     this.albumService.create(this.form.getRawValue()).subscribe((res) => {
-      console.log(res);
       this.modalController.dismiss({album_id: res.id, photo: this.photo});
     });
   }
 
+  // open upload photo dialog 
   public async uploadPhoto() {
     const modal = await this.modalController.create({
       component: UploadPhotoComponent,
@@ -54,28 +61,23 @@ export class CreateNewAlbumComponent implements OnInit {
     });
     await modal.present();
     modal.onDidDismiss().then((res) => {
-      
-
+      // photo has been uploaded
+      // get url from photo
+      // if tags add them to photos
       if (res.data != undefined) {      
-        console.log(res);
-        console.log(res.data.tags);
         let tagName: string[] = res.data.tags;
         this.photo = res.data.photo;
-        this.image = this.photo.file_name;
-        console.log(tagName.length);
-        console.log(this.photo.id)
-        for(let i=0; i < tagName.length; i++) {
-          this.tagService.create({title: tagName[i], photos: [this.photo.id]}).subscribe(res => {console.log(res)});
+        this.imageURL = this.photo.file_name;
+        if(tagName.length > 0) {
+          for(let i=0; i < tagName.length; i++) {
+            this.tagService.create({title: tagName[i], photos: [this.photo.id]}).subscribe(res => {console.log(res)});
+          }
         }
-
       }      
     });
   }
-  
-  public submit() {
-    console.log(this.photo);
-  }
-    
+
+  // Show warning message
   async cancel() {
     const alert = await this.alertCtrl.create({
       header: 'Warning',

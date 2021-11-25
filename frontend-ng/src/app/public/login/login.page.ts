@@ -31,7 +31,6 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/home']);
 
     })
-    // console.log(this.form.getRawValue());
   }
 
 }
