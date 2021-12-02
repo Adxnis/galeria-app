@@ -29,12 +29,12 @@
       <img src={{this.imageUrl}}>
       <br>
     </div>
-    <div *ngIf="!this.imageUrl" style>
+    <div *ngIf="this.sharedUser" style>
       <label>Add a photo (optional)</label>
       <br>
       <ion-button size="small" style="justify-content: center;" (click)="uploadPhoto()">Upload</ion-button>
     </div>
     <br>
-    <ion-button (click)="createAlbum()" style="align-self: center;">Create</ion-button>
+    <ion-button *ngIf="sharedUser" (click)="createAlbum()" style="align-self: center;">Create</ion-button>
   </div>
 </form>

@@ -1,51 +1,22 @@
 <div style="padding:5px 10px">
-  <h5>Details</h5>
+  <h5 style="border-bottom: 1px solid rgb(9, 58, 114);">Details</h5>
+
+  <ion-label>Date Last Modified</ion-label>
   <div style="display: flex; flex-direction: row">
-    <div>
-      <ion-label>Date Last Modified</ion-label>
-      <br>
-      <ion-icon style="font-size: 20px;" name="calendar-outline"></ion-icon>
+    <ion-icon style="font-size: 20px;" name="calendar-outline"></ion-icon>
 
-      <div style="display:inline-block;">
-
-
-        <div style="display:flex;flex-direction:column" class="w3-border w3-border-red">
-          <ion-label>{{photo.updated_at | date}}</ion-label>
-          <ion-label>{{photo.updated_at | date: "shortTime"}}</ion-label>
-        </div>
-      </div>
+    <div style="display:flex;flex-direction:column; margin-left: 5px;">
+      <ion-label>{{photo.updated_at | date}}</ion-label>
+      <ion-label>{{photo.updated_at | date: "shortTime"}}</ion-label>
     </div>
   </div>
-  <div style="display: flex; flex-direction: row; padding-top: 10px;">
-    <div>
-      <ion-label>Date Last Modified</ion-label>
-      <br>
-      <ion-icon style="font-size: 20px;" name="calendar-outline"></ion-icon>
-
-      <div style="display:inline-block;">
-
-
-        <div style="display:flex;flex-direction:column" class="w3-border w3-border-red">
-          <ion-label>{{photo.updated_at | date}}</ion-label>
-          <ion-label>{{photo.updated_at | date: "shortTime"}}</ion-label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div style="display: flex; flex-direction: row; padding-top: 10px;">
-    <div>
-      <ion-label>Date Last Modified</ion-label>
-      <br>
-      <ion-icon style="font-size: 20px;" name="calendar-outline"></ion-icon>
-
-      <div style="display:inline-block;">
-
-
-        <div style="display:flex;flex-direction:column" class="w3-border w3-border-red">
-          <ion-label>{{photo.updated_at | date}}</ion-label>
-          <ion-label>{{photo.updated_at | date: "shortTime"}}</ion-label>
-        </div>
-      </div>
+  <span style="border-bottom:1px solid rgb(9, 58, 114);"></span>
+  <ion-label>Filename</ion-label>
+  <div style="display: flex; flex-direction: row;">
+    <ion-icon style="font-size: 20px;" name="document-outline"></ion-icon>
+    <div style="display:flex;flex-direction:column; margin-left: 5px;">
+      <ion-label>{{photo.name}}.jpg</ion-label>
+      <ion-label>{{getPhotoSize(photo.size) | number: '1.1-2'}}MB</ion-label>
     </div>
   </div>
 </div>

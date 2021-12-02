@@ -1,6 +1,6 @@
 
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Tag } from 'src/app/interfaces/tag';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -16,6 +16,7 @@ export class UploadPhotoComponent implements OnInit {
   public imageURL: string;
   public tags: Tag[] = [];
   public selectedAlbumName: string
+  public formSubmitted = false;
 
   // get album from parent component
   @Input() albumPage: boolean;
@@ -29,7 +30,7 @@ export class UploadPhotoComponent implements OnInit {
   // Initialize form 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      name: '',
+      name: ['', Validators.required],
       file_name: '',
       file_type: '',
       size: '',
@@ -38,15 +39,19 @@ export class UploadPhotoComponent implements OnInit {
     });
   }
 
+  get name(){return this.form.get('name');}
+
   // Receieve photo information from upload
   // Add data to form
   public addToForm(photoInfo) {
+    console.log(photoInfo);
     this.imageURL = photoInfo[0];
     this.form.patchValue({
       'file_name': photoInfo[0],
       'file_type': photoInfo[1],
       'size': photoInfo[2],
     });
+    
   }
 
   // Insert a # on input
@@ -100,9 +105,13 @@ export class UploadPhotoComponent implements OnInit {
 
   // Create photo
   submit() {
-    this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
-      this.closeModal(this.tags, res);
-    })
+    this.formSubmitted = true;
+    console.log(this.form.status)
+    if(this.form.status == "VALID") {
+      this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
+        this.closeModal(this.tags, res);
+      })
+    }
   }
 
   // After close send tag and photo data to photo component

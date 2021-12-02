@@ -12,5 +12,9 @@ export class MoreInfoPhotoPopoverComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
+  // convert bytes to MB
+  getPhotoSize(bytes: string) {
+    let size: number = parseInt(bytes);
+    return size / 1000000
+  }
 }

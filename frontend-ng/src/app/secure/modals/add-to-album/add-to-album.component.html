@@ -20,7 +20,7 @@
 
   <h4>Personal Albums</h4>
 
-  <div style="overflow:scroll; height: 10vh; display:flex; width: 100%;" class="w3-border-red w3-border">
+  <div style="overflow:scroll; height: 10vh; display:flex; width: 100%;">
     <ul id="personal">
       <li *ngFor="let album of this.albums" style="padding-left:10px; margin-bottom: 5px;">
         <ion-icon (click)="getSelectedAlbum(album)" style="margin-bottom: -10%;" size="large" name="albums-sharp"></ion-icon>
@@ -31,7 +31,7 @@
   </div>
 
   <h4>Shared Albums</h4>
-  <div style="overflow:scroll; height: 10vh; display:flex; width: 100%;" class="w3-border-red w3-border">
+  <div style="overflow:scroll; height: 10vh; display:flex; width: 100%;">
     <ul id="shared" >
       <li *ngFor="let album of this.sharedAlbums" style="padding-left:10px; margin-bottom: 5px;">
         <ion-icon (click)="getSelectedAlbum(album)" style="margin-bottom: -10%;" size="large" name="albums-sharp"></ion-icon>

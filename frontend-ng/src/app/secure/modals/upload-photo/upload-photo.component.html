@@ -12,6 +12,9 @@
   <div class="container">
     <label>Add a title</label>
     <ion-input id="title" formControlName="name" name="name" placeholder="Title"></ion-input>
+    <div style="color:red" *ngIf="name.invalid && formSubmitted">
+      Name is required
+    </div>
     <br>
 
     <label>Tags</label>
@@ -25,7 +28,7 @@
     </div>
     <br>
 
-    <label>Add Photo:</label>
+    <label>Add Photo: (max size: 2MB)</label>
     <app-upload (uploaded)=addToForm($event)></app-upload>
     <div *ngIf="this.imageURL" style="display:flex; flex-direction: column">
       <img id="photo-to-upload" src={{this.imageURL}} alt="image-to-upload">
@@ -55,7 +58,7 @@
 
     <div *ngIf="this.albumPage">
       <div *ngIf="this.imageURL" style="display:flex;flex-direction:column;align-items: flex-start; width: 100%;">
-        <ion-button (click)="submit()" style="align-self: center;">Upload</ion-button>
+        <ion-button type="submit" (click)="submit()" style="align-self: center;">Upload</ion-button>
       </div>
     </div>
 
