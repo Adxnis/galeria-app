@@ -15,6 +15,9 @@
                     <div style="color:red" *ngIf="password.invalid && formSubmitted">
                         password is required
                     </div>
+                    <div style="color:red" *ngIf="error">
+                        {{errorMessage}}
+                    </div>
                     <br>
                     <button type="submit" style="padding: 5px;color: black; background: rgb(93, 168, 131);"
                         class=" w3-btn w3-round-large"> Login </button>
