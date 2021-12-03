@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
@@ -16,7 +17,7 @@ export class ShareWithUserComponent implements OnInit, OnDestroy{
 
   // subscriptions 
   public userSubscription$: Subscription
-  public title: string = "test";
+  @Input() albumName: FormControl;
   public users: User[] = [];
   public hasQuery: boolean = false;
   constructor(private userService: UserService, private popoverController: PopoverController, private alertCtrl: AlertController) { }
@@ -25,7 +26,9 @@ export class ShareWithUserComponent implements OnInit, OnDestroy{
 
   // unsubscribe to http request
   ngOnDestroy() {
-    this.userSubscription$.unsubscribe();
+    if(this.userSubscription$ != null) {
+      this.userSubscription$.unsubscribe();
+    }
   }
 
 

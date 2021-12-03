@@ -36,7 +36,9 @@ export class AlbumsComponent implements OnInit, OnDestroy {
 
   // unsubscribe
   ngOnDestroy() {
-    this.albumSubscription$.unsubscribe();
+    if(this.albumSubscription$ != null) {
+      this.albumSubscription$.unsubscribe();
+    }
   }
 
   // sort pictures by name, size or date

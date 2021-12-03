@@ -14,7 +14,7 @@ export class AddToAlbumComponent implements OnInit {
 
   public albums: Album[];
   public sharedAlbums: Album[];
-  public image: string;
+  public imageURL: string;
   public selectedAlbumId: number
 
   // subscriptions
@@ -31,12 +31,17 @@ export class AddToAlbumComponent implements OnInit {
   ngOnInit() {
     this.getAlbums();
     this.getSharedAlbums();
-    this.image = this.navParams.data.image;
+    this.imageURL = this.navParams.data.imageURL;
   }
 
   // unsubscribe 
   ngOnDestroy() {
-    this.sharedAlbumSubscription$.unsubscribe();
+    if(this.sharedAlbumSubscription$ != null) {
+      this.sharedAlbumSubscription$.unsubscribe();
+    }
+    if(this.albumSubscription$ != null) {
+      this.albumSubscription$.unsubscribe();
+    }
   }
 
   // get albums from service
@@ -59,15 +64,17 @@ export class AddToAlbumComponent implements OnInit {
     const modal = await this.modalController.create({
       component: CreateNewAlbumComponent,
       cssClass: 'create-album auto-height',
-      componentProps: {image: this.image},
+      componentProps: {image: this.imageURL},
       id: 'create-album'
     });
     await modal.present();
     modal.onDidDismiss().then((res) => {
-      let photo_id = res.data.album_id
-      this.getAlbums();
-      this.modalController.dismiss(
-        '','','create-album')
+      if(res.data != undefined) {
+        let photo_id = res.data.album_id
+        this.getAlbums();
+        this.modalController.dismiss(
+          '','','create-album')
+      }
     });
 
   }
@@ -77,7 +84,7 @@ export class AddToAlbumComponent implements OnInit {
     const modal = await this.modalController.create({
       component: CreateNewSharedAlbumComponent,
       cssClass: 'create-album auto-height',
-      componentProps: {image: this.image},
+      componentProps: {image: this.imageURL},
       id: 'create-album'
     });
     await modal.present();

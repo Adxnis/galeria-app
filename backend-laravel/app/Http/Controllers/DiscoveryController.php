@@ -24,6 +24,7 @@ class DiscoveryController extends Controller
 
     public function hidePhotos() {
         $photos = Photo::where('user_id', Auth::user()->id)
+        ->where('isPublic', true)
         ->update(['isPublic' => false]);
 
         return \response($photos, Response::HTTP_ACCEPTED);
@@ -31,6 +32,7 @@ class DiscoveryController extends Controller
 
     public function showPhotos() {
         $photos = Photo::where('user_id', Auth::user()->id)
+        ->where('isPublic', false)
         ->update(['isPublic' => true]);
         return \response($photos, Response::HTTP_ACCEPTED);
     }

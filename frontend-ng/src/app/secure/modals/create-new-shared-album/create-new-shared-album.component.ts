@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, AlertController, NavParams, PopoverController } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
 import { User } from 'src/app/interfaces/user';
@@ -28,7 +28,9 @@ export class CreateNewSharedAlbumComponent implements OnInit {
 
   // image url
   public imageUrl: string;
- 
+
+  // error checking
+  public formSubmitted = false;
 
   constructor(
     private modalController: ModalController,
@@ -43,19 +45,25 @@ export class CreateNewSharedAlbumComponent implements OnInit {
   ngOnInit() {
     // initialize form
     this.form = this.formBuilder.group({
-      album_name: '',
+      album_name: ['', Validators.required],
       isShared: false
     });
-    this.imageUrl = this.navParams.data.imageUrl
+    this.imageUrl = this.navParams.data.image
   }
+
+    // form control value
+    get album_name(){return this.form.get('album_name');}
 
   // create album 
   public createAlbum(): void {
-    this.albumService.create(this.form.getRawValue()).subscribe((res) => {
-      this.sharedAlbumService.create({ shared_person_id: this.sharedUser.id, album_id: res.id }).subscribe();
-
-      this.modalController.dismiss({ album_id: res.id, shared_person_id: this.sharedUser.id, isShared: res.isShared, photo: this.photo });
-    });
+    this.formSubmitted = true;
+    if(this.form.status === "VALID") {
+      this.albumService.create(this.form.getRawValue()).subscribe((res) => {
+        this.sharedAlbumService.create({ shared_person_id: this.sharedUser.id, album_id: res.id }).subscribe();
+  
+        this.modalController.dismiss({ album_id: res.id, shared_person_id: this.sharedUser.id, isShared: res.isShared, photo: this.photo });
+      });
+    }
   }
 
   // present upload photo view
@@ -93,6 +101,7 @@ export class CreateNewSharedAlbumComponent implements OnInit {
       component: ShareWithUserComponent,
       cssClass: 'share-with-user',
       backdropDismiss: false,
+      componentProps: {albumName: this.album_name}
     });
     await popover.present();
     await popover.onDidDismiss().then((res) => {
@@ -123,6 +132,4 @@ export class CreateNewSharedAlbumComponent implements OnInit {
     });
     await alert.present();
   }
-
-
 }

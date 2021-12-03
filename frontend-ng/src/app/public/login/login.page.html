@@ -1,22 +1,31 @@
 <div id="body">
-    <div id="container" >
+    <div id="container">
         <form [formGroup]="form" (ngSubmit)="submit()">
             <div class="con">
                 <h3 style="width:100%; padding-bottom:20px">Galeria</h3>
                 <div class="field-set">
-                    <ion-input formControlName="username" class="form-input" id="txt-input" type="text" placeholder="Username"
-                        name="username" required> </ion-input>
+                    <ion-input formControlName="username" class="form-input" id="txt-input" type="text"
+                        placeholder="Username" name="username" required> </ion-input>
+                    <div style="color:red" *ngIf="username.invalid && formSubmitted">
+                        username is required 
+                    </div>
                     <br>
-                    <ion-input formControlName="password" type="password" placeholder="Password" id="pwd" name="password" required></ion-input>
+                    <ion-input formControlName="password" type="password" placeholder="Password" id="pwd"
+                        name="password" required></ion-input>
+                    <div style="color:red" *ngIf="password.invalid && formSubmitted">
+                        password is required
+                    </div>
                     <br>
-                    <button type="submit" style="padding: 5px;color: black; background: rgb(93, 168, 131);" class=" w3-btn w3-round-large"> Login </button>
+                    <button type="submit" style="padding: 5px;color: black; background: rgb(93, 168, 131);"
+                        class=" w3-btn w3-round-large"> Login </button>
                 </div>
-    
-                <div class="other" style="padding-top: 20px;" >
+
+                <div class="other" style="padding-top: 20px;">
                     <!-- <ion-button mode="ios" fill="outline" size="small" class="btn submits frgt-pass">Forgot Password</ion-button> -->
-                    <ion-button  mode="ios" fill="outline" size="small" routerLink="/register" class="btn submits sign-up">Sign Up
+                    <ion-button mode="ios" fill="outline" size="small" routerLink="/register"
+                        class="btn submits sign-up">Sign Up
                     </ion-button>
-                </div>  
+                </div>
             </div>
         </form>
     </div>

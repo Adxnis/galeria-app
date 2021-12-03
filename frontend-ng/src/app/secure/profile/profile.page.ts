@@ -90,9 +90,16 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   // unsubscribe
   ngOnDestroy() {
-    this.authSubscription$.unsubscribe();
-    this.discoverySubscription$.unsubscribe();
-    this.photoSubscription$.unsubscribe();
+    if(this.authSubscription$ != null) {
+      this.authSubscription$.unsubscribe();
+    }
+    if(this.discoverySubscription$ != null) {
+      this.discoverySubscription$.unsubscribe();
+    }
+
+    if(this.photoSubscription$ != null) {
+      this.photoSubscription$.unsubscribe();
+    }
   }
 
   getUser() {

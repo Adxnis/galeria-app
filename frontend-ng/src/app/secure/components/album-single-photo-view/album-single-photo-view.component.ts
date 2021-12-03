@@ -18,7 +18,7 @@ import { MoreInfoPhotoPopoverComponent } from '../../modals/more-info-photo-popo
   templateUrl: './album-single-photo-view.component.html',
   styleUrls: ['./album-single-photo-view.component.scss'],
 })
-export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
+export class AlbumSinglePhotoViewComponent implements OnInit {
 
   // Data information
   // ids
@@ -42,12 +42,6 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
   // album
   public album: Album;
 
-  // subscriptions
-  public photoSubcription$: Subscription;
-  public commentSubscription$: Subscription;
-  public likeSubscription$: Subscription;
-  public authSubscription$: Subscription;
-  public albumSubscription$: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -78,16 +72,8 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
 
 
     // get user and get photos from album
-    this.authSubscription$ = this.authService.user().subscribe((user: User) => { this.user = user; this.user_id = user.id });
+    this.authService.user().subscribe((user: User) => { this.user = user; this.user_id = user.id });
     this.getAlbumPhotos();
-  }
-
-  ngOnDestroy() {
-    this.authSubscription$.unsubscribe();
-    this.likeSubscription$.unsubscribe();
-    this.photoSubcription$.unsubscribe();
-    this.commentSubscription$.unsubscribe();
-    this.albumSubscription$.unsubscribe();
   }
 
 
@@ -102,7 +88,7 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
         {
           text: 'Yes',
           handler: () => {
-            this.photoSubcription$ = this.photoService.delete(this.photo_id).subscribe(() => {
+            this.photoService.delete(this.photo_id).subscribe(() => {
               if (this.index == this.photos.length - 1 && this.index != 0) {
                 this.goPrevious();
               }
@@ -121,14 +107,14 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
   // Create new comment
   public addNewComment(): void {
     this.form.patchValue({ 'user_id': this.user.id, 'photo_id': this.photo_id, 'username': this.user.username })
-    this.commentSubscription$ = this.commentService.create(this.form.getRawValue()).subscribe(() => {
+    this.commentService.create(this.form.getRawValue()).subscribe(() => {
       this.getAlbumPhotos();
     });
   }
 
   // delete comment
   public deleteComment(id: number): void {
-    this.commentSubscription$ = this.commentService.delete(id).subscribe(() => {
+    this.commentService.delete(id).subscribe(() => {
       this.getAlbumPhotos();
     })
   }
@@ -137,13 +123,13 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
   public likePhoto(index: number): void {
     const liked = this.photos[this.index].likes.some(el => el.user_id === this.user.id);
     if (liked) {
-      this.likeSubscription$ = this.likeService.delete(this.user.id).subscribe((res: any) => {
+      this.likeService.delete(this.user.id).subscribe((res: any) => {
         this.getPhotoById(this.photo_id);
         this.photo_liked = false;
       });
     }
     else {
-      this.likeSubscription$ = this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
+      this.likeService.create({ user_id: this.user.id, photo_id: this.photos[index].id }).subscribe(() => {
         this.getPhotoById(this.photo_id);
         this.photo_liked = true;
       })
@@ -169,7 +155,7 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
   }
 
   public updatePhotoName(): void {
-    this.photoSubcription$ = this.photoService.update(this.photo_id, { name: this.photo_name }).subscribe((res) => {
+    this.photoService.update(this.photo_id, { name: this.photo_name }).subscribe((res) => {
       this.getPhotoById(this.photo_id);
     });
 
@@ -214,7 +200,7 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
   }
 
   public getAlbumPhotos() {
-    this.albumSubscription$ = this.albumService.get(this.album_id).subscribe((album: Album) => {
+    this.albumService.get(this.album_id).subscribe((album: Album) => {
       this.album = album;
       this.photos = album.photos;
       this.index = this.photos.findIndex(x => x.id === this.photo_id);
@@ -236,7 +222,4 @@ export class AlbumSinglePhotoViewComponent implements OnInit, OnDestroy {
       this.photos[this.index] = res;
     });
   }
-
-
-
 }

@@ -5,13 +5,16 @@
       <ion-icon (click)="cancel()" color="danger" style="font-size: 28px; cursor: pointer; float: right"
         name="close-sharp"></ion-icon>
     </ion-title>
-  </ion-toolbar>
+</ion-toolbar>
 </ion-header>
 <form [formGroup]="form">
   <div class="container">
 
     <label>Add an album name</label>
-    <ion-input formControlName="album_name"></ion-input>
+    <ion-input formControlName="album_name" placeholder="album name"></ion-input>
+    <div style="color:red" *ngIf="album_name.invalid && formSubmitted">
+      album name is required
+    </div>
     <br>
     <!-- <div *ngIf="!user"> -->
     <div *ngIf="!sharedUser" style="display: flex; flex-direction:column">
@@ -29,7 +32,7 @@
       <img src={{this.imageUrl}}>
       <br>
     </div>
-    <div *ngIf="this.sharedUser" style>
+    <div *ngIf="!this.imageUrl && this.sharedUser">
       <label>Add a photo (optional)</label>
       <br>
       <ion-button size="small" style="justify-content: center;" (click)="uploadPhoto()">Upload</ion-button>

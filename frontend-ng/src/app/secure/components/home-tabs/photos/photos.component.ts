@@ -54,7 +54,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   // unsubscribe 
   ngOnDestroy() {
-    this.photoSubscription$.unsubscribe();
+    if(this.photoSubscription$ != null) {
+      this.photoSubscription$.unsubscribe();
+    }
   }
 
   // sort pictures by name, size or date
@@ -138,7 +140,4 @@ export class PhotosComponent implements OnInit, OnDestroy {
     let size: number = parseInt(bytes);
     return size / 1000000
   }
-
-
-
 }

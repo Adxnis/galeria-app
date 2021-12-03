@@ -11,7 +11,10 @@
   <div class="container">
 
     <label>Add an album name</label>
-    <ion-input formControlName="album_name"></ion-input>
+    <ion-input formControlName="album_name" placeholder="album name"></ion-input>
+    <div style="color:red" *ngIf="album_name.invalid && formSubmitted">
+      album name is required
+    </div>
     <br>
 
     <div *ngIf="this.imageURL">

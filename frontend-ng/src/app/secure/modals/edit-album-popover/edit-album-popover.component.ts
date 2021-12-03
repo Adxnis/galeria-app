@@ -10,7 +10,7 @@ import { RenameAlbumComponent } from '../rename-album/rename-album.component';
   templateUrl: './edit-album-popover.component.html',
   styleUrls: ['./edit-album-popover.component.scss'],
 })
-export class EditAlbumPopoverComponent implements OnInit, OnDestroy {
+export class EditAlbumPopoverComponent implements OnInit {
 
   // get album name
   @Input() album: Album;
@@ -26,13 +26,9 @@ export class EditAlbumPopoverComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  ngOnDestroy() {
-    this.albumSubscription$.unsubscribe();
-  }
-
   // delete album
   public async deleteAlbum() {
-    this.albumSubscription$ = this.albumService.delete(this.album.id).subscribe((res)=> {
+  this.albumService.delete(this.album.id).subscribe((res)=> {
       this.popover.dismiss();
     });
   }

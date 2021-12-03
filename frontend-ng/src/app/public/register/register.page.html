@@ -1,39 +1,64 @@
 <div id="body">
 	<div id="container">
-		<form (ngSubmit)="submit()">
+		<form [formGroup]="form" (ngSubmit)="submit()">
 			<div class="con">
 				<h3 style="width:100%">Galeria</h3>
 				<div class="field-set">
 
-					<ion-input class="form-input" id="txt-input" [(ngModel)]="username" name="username" type="text"
+					<ion-input class="form-input" id="txt-input" formControlName="username" name="username" type="text"
 						placeholder="username" required> </ion-input>
+					<div style="color:red" *ngIf="username.invalid && formSubmitted">
+						username is required
+					</div>
 					<br>
 
 					<!-- <div style="display: flex; flex-direction: row;"> -->
-					<ion-input [(ngModel)]="firstName" class="form-input" type="text" placeholder="first name" id="pwd"
-						name="first_name" required></ion-input>
+					<ion-input formControlName="first_name" class="form-input" type="text" placeholder="first name"
+						id="pwd" name="first_name" required></ion-input>
+					<div style="color:red" *ngIf="first_name.invalid && formSubmitted">
+						first name is required
+					</div>
 					<br>
 
-					<ion-input [(ngModel)]="lastName" class="form-input" type="text" placeholder="last name" id="pwd"
-						name="last_name" required></ion-input>
+					<ion-input formControlName="last_name" class="form-input" type="text" placeholder="last name"
+						id="pwd" name="last_name" required></ion-input>
+					<div style="color:red" *ngIf="last_name.invalid && formSubmitted">
+						last name is required
+					</div>
 					<!-- </div> -->
 					<br>
 
-					<ion-input [(ngModel)]="email" class="form-input" type="email" placeholder="email" id="pwd"
+					<ion-input formControlName="email" class="form-input" type="email" placeholder="email" id="pwd"
 						name="email" required></ion-input>
+					<div style="color:red" *ngIf="email.invalid && formSubmitted">
+						email is required
+					</div>
+					<div style="color:red" *ngIf="this.invalidEmailMessage">
+                        {{invalidEmailMessage}}
+                    </div>
 					<br>
 
-					<ion-input [(ngModel)]="password" class="form-input" type="password" placeholder="password" id="pwd"
-						name="password" required></ion-input>
+					<ion-input formControlName="password" class="form-input" type="password" placeholder="password"
+						id="pwd" name="password" required></ion-input>
+					<div style="color:red" *ngIf="password.invalid && formSubmitted">
+						password is required
+					</div>
 					<br>
 
-					<ion-input [(ngModel)]="passwordConfirm" class="form-input" type="password"
+					<ion-input formControlName="password_confirm" class="form-input" type="password"
 						placeholder="password confirmation" id="pwd" name="passwo	rd_confirm" required></ion-input>
+					<div style="color:red" *ngIf="password_confirm.invalid && formSubmitted">
+						password confirmation is required
+					</div>
+					<div style="color:red" *ngIf="error">
+                        {{errorMessage}}
+                    </div>
 					<br>
 
-					<button type="submit" style="padding: 5px;color: black; background: rgb(93, 168, 131);" class=" w3-btn w3-round-large"> Create </button>
+					<button type="submit" style="padding: 5px;color: black; background: rgb(93, 168, 131);"
+						class=" w3-btn w3-round-large"> Create </button>
 				</div>
-				
+
 				<div class="other" style="padding-top: 20px;">
 					<!-- <ion-button mode="ios" fill="outline" size="small" class="btn submits frgt-pass">Forgot Password
 					</ion-button> -->

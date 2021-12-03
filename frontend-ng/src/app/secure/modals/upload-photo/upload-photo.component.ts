@@ -34,7 +34,7 @@ export class UploadPhotoComponent implements OnInit {
       file_name: '',
       file_type: '',
       size: '',
-      isPublic: false,
+      isPublic: null,
       albums: []
     });
   }
@@ -106,7 +106,6 @@ export class UploadPhotoComponent implements OnInit {
   // Create photo
   submit() {
     this.formSubmitted = true;
-    console.log(this.form.status)
     if(this.form.status == "VALID") {
       this.photoService.create(this.form.getRawValue()).subscribe((res: any) => {
         this.closeModal(this.tags, res);
@@ -122,7 +121,7 @@ export class UploadPhotoComponent implements OnInit {
   // Create an alert box to warn and exit with no update upload form
   async cancel() {
     let title: any = document.getElementById('title');
-    if (title.value.length > 0) {
+    if (title?.value?.length > 0) {
       const alert = await this.alertCtrl.create({
         header: 'Warning',
         message: '<div>Change will not be saved. Are you sure you want to exit?</div>',

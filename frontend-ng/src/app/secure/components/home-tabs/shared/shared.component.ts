@@ -32,7 +32,9 @@ export class SharedComponent implements OnInit, OnDestroy {
 
   // unsubscribe
   ngOnDestroy() {
-    this.sharedAlbumSubscription$.unsubscribe();
+    if(this.sharedAlbumSubscription$ != null) { 
+      this.sharedAlbumSubscription$.unsubscribe(); 
+    }
   }
 
   // sort pictures by name, size or date

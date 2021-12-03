@@ -10,7 +10,7 @@
     </ion-toolbar>
   </ion-header>
   <div style="display: flex; flex-direction: column;margin: 25px 50px 30px">
-    <label>Send an invite to '{{title}}' Album</label>
+    <label>Send an invite to share {{albumName.value ? "'"+albumName.value+"'" : ''}} Album</label>
     <ion-input debounce="500" [(ngModel)]="username" (ionChange)="findUser()" ></ion-input>
     <section class="search-results" class="w3-border w3-border-indigo">
       <p *ngIf="users.length < 1 && hasQuery"> Sorry, no users found.</p>

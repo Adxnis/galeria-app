@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { Photo } from 'src/app/interfaces/photo';
 import { AlbumService } from 'src/app/services/album.service';
@@ -17,10 +17,12 @@ export class CreateNewAlbumComponent implements OnInit {
 
   // if false this modal is being activated from photos page
   @Input() albumPage: boolean;
-
+  // @Input() image: any;
   public imageURL: string;
   public photo: Photo;
 
+  // error checking
+  public formSubmitted = false;
 
   constructor(
     private modalController: ModalController, 
@@ -33,21 +35,26 @@ export class CreateNewAlbumComponent implements OnInit {
   ngOnInit() {
     // get input data from album name form field
     this.form = this.formBuilder.group({
-      album_name: '',
+      album_name: ['', Validators.required],
     });
 
     // get url from uploaded photo from upload photo modal
-    this.imageURL = this.navParams.data.imageURL
+    this.imageURL = this.navParams.data.image
   }
+
+  // form control value
+  get album_name(){return this.form.get('album_name');}
 
 
 
   // open create new album dialog 
   public createAlbum(): void {
-
-    this.albumService.create(this.form.getRawValue()).subscribe((res) => {
-      this.modalController.dismiss({album_id: res.id, photo: this.photo});
-    });
+    this.formSubmitted = true;
+    if(this.form.status == "VALID") {
+      this.albumService.create(this.form.getRawValue()).subscribe((res) => {
+        this.modalController.dismiss({album_id: res.id, photo: this.photo});
+      });
+    }
   }
 
   // open upload photo dialog 

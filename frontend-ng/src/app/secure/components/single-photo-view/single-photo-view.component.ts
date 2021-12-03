@@ -78,10 +78,21 @@ export class SinglePhotoViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSubscription$.unsubscribe();
-    this.likeSubscription$.unsubscribe();
-    this.photoSubcription$.unsubscribe();
-    this.commentSubscription$.unsubscribe();
+    if(this.authSubscription$ != null){
+      this.authSubscription$.unsubscribe();
+    }
+
+    if(this.likeSubscription$ != null) {
+      this.likeSubscription$.unsubscribe();
+    }
+
+    if(this.photoSubcription$ != null) {
+      this.photoSubcription$.unsubscribe();
+    }
+
+    if(this.commentSubscription$ != null) {
+      this.commentSubscription$.unsubscribe();
+    }
   }
 
   // Go to previous photo
